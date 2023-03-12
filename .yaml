@@ -1,22 +1,26 @@
 ---
 # Members of your group.
 group:
-  - name: Justin Hsu
-    netid: jah659
-  - name: Dexter Kozen
-    netid: dck10
+  - name: Isabella Wells
+    netid: imw25
+  - name: Akanksha Sarkar
+    netid: as2637
+  - name: Prakriti Tandon
+    netid: pt293
+  - name: Lauren Douglass 
+    netid: led94
 # Your PM.
 pm:
-  name: Florian Schneider
-  netid: fs47
+  name: Seth Norman
+  netid: san72
 # Set to false if you don't want your gallery entry to be public.
-publish: true
+publish: false
 # Pithy title
-title: "The Complete Caml Calculator (CCC)"
+title: "Cornopoly"
 # OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
-git-repo: "https://github.com/cs3110/textbook"
+git-repo: "https://github.coecis.cornell.edu/as2637/CS3110-Final-Project"
 # If you have no demo screencast, replace the url string with an empty string ""
-demo-video-url: "https://www.youtube.com/watch?v=eSBybJGZoCU"
+demo-video-url: ""
 # Write a short, attention-grabbing description of your project.
 desc: >
   Our project is an interactive calculator. It supports standard mathematical
