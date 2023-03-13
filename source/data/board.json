@@ -1,0 +1,255 @@
+{
+  "spaces": [
+    {
+      "space": 0,
+      "type": "go",
+      "info": {
+        "id": "Go",
+        "salary": 200
+      }
+    },
+    {
+      "space": 1,
+      "type": "property",
+      "info": {
+        "id": "Balch Hall",
+        "description": "Home to the women of Cornell's freshman class. And also lots of bugs.",
+        "price": 60,
+        "rent": 2,
+        "owner": ""
+      }
+    },
+    {
+      "space": 2,
+      "type": "property",
+      "info": {
+        "id": "Court-Kay-Bauer Hall",
+        "description": "Home to the luckiest Cornell students... until 2021.",
+        "price": 60,
+        "rent": 4,
+        "owner": ""
+      }
+    },
+    {
+      "space": 3,
+      "type": "property",
+      "info": {
+        "id": "Baker lab",
+        "description": "Home to some very sad chemistry students",
+        "price": 100,
+        "rent": 6,
+        "owner": ""
+      }
+    },
+    {
+      "space": 4,
+      "type": "property",
+      "info": {
+        "id": "Physical Sciences Building",
+        "description": "Home of the Goldie's chicken panini.",
+        "price": 100,
+        "rent": 6,
+        "owner": ""
+      }
+    },
+    {
+      "space": 5,
+      "type": "property",
+      "info": {
+        "id": "Rockefeller Hall",
+        "description": "Home to one very curious cat.",
+        "price": 120,
+        "rent": 8,
+        "owner": ""
+      }
+    },
+    {
+      "space": 6,
+      "type": "property",
+      "info": {
+        "id": "Duffield Hall",
+        "description": "THE place to pull an all-nighter",
+        "price": 140,
+        "rent": 10,
+        "owner": ""
+      }
+    },
+    {
+      "space": 7,
+      "type": "property",
+      "info": {
+        "id": "Rhodes Hall",
+        "description": "",
+        "price": 140,
+        "rent": 10,
+        "owner": ""
+      }
+    },
+    {
+      "space": 8,
+      "type": "property",
+      "info": {
+        "id": "Gates Hall",
+        "description": "",
+        "price": 160,
+        "rent": 12,
+        "owner": ""
+      }
+    },
+    {
+      "space": 9,
+      "type": "property",
+      "info": {
+        "id": "Goldwin Smith Hall",
+        "description": "Good luck finding a table at Zeus!",
+        "price": 180,
+        "rent": 14,
+        "owner": ""
+      }
+    },
+    {
+      "space": 10,
+      "type": "property",
+      "info": {
+        "id": "Clock tower",
+        "description": "Tearing up at the alma mater.",
+        "price": 180,
+        "rent": 14,
+        "owner": ""
+      }
+    },
+    {
+      "space": 11,
+      "type": "property",
+      "info": {
+        "id": "Johnson Museum",
+        "description": "Coolest ceiling on campus.",
+        "price": 200,
+        "rent": 16,
+        "owner": ""
+      }
+    },
+    {
+      "space": 12,
+      "type": "property",
+      "info": {
+        "id": "Pokelava",
+        "description": "Avocado's extra, is that okay?",
+        "price": 220,
+        "rent": 18,
+        "owner": ""
+      }
+    },
+    {
+      "space": 13,
+      "type": "property",
+      "info": {
+        "id": "Four Seasons",
+        "description": "Sake sake sake...",
+        "price": 220,
+        "rent": 18,
+        "owner": ""
+      }
+    },
+    {
+      "space": 14,
+      "type": "property",
+      "info": {
+        "id": "CTB",
+        "description": "",
+        "price": 240,
+        "rent": 20,
+        "owner": ""
+      }
+    },
+    {
+      "space": 15,
+      "type": "property",
+      "info": {
+        "id": "Terrace",
+        "description": "Burrito line out the door? Sure.",
+        "price": 260,
+        "rent": 22,
+        "owner": ""
+      }
+    },
+    {
+      "space": 16,
+      "type": "property",
+      "info": {
+        "id": "Macs",
+        "description": "More crowded than the slope on slope day.",
+        "price": 260,
+        "rent": 22,
+        "owner": ""
+      }
+    },
+    {
+      "space": 17,
+      "type": "property",
+      "info": {
+        "id": "Statler Hotel",
+        "description": "Quietest study spot on campus, for $200 a night!",
+        "price": 280,
+        "rent": 24,
+        "owner": ""
+      }
+    },
+    {
+      "space": 18,
+      "type": "property",
+      "info": {
+        "id": "Beebe Lake",
+        "description": "",
+        "price": 300,
+        "rent": 26,
+        "owner": ""
+      }
+    },
+    {
+      "space": 19,
+      "type": "property",
+      "info": {
+        "id": "Suspension Bridge",
+        "description": "",
+        "price": 300,
+        "rent": 26,
+        "owner": ""
+      }
+    },
+    {
+      "space": 20,
+      "type": "property",
+      "info": {
+        "id": "Cascadilla Trail",
+        "description": "",
+        "price": 320,
+        "rent": 28,
+        "owner": ""
+      }
+    },
+    {
+      "space": 21,
+      "type": "property",
+      "info": {
+        "id": "The Tunnels",
+        "description": "I heard they're out there...",
+        "price": 350,
+        "rent": 35,
+        "owner": ""
+      }
+    },
+    {
+      "space": 22,
+      "type": "property",
+      "info": {
+        "id": "Martha's Weather Machine",
+        "description": "It was under the football field all along!",
+        "price": 400,
+        "rent": 50,
+        "owner": ""
+      }
+    }
+  ],
+  "number_spaces": 23
+}
