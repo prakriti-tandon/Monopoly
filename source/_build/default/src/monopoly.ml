@@ -6,10 +6,7 @@ type property = {
 }
 
 type space_type =
-  | Go of {
-      id : string;
-      salary : int;
-    }
+  | Go of { salary : int }
   | Property of property
 
 type space = {

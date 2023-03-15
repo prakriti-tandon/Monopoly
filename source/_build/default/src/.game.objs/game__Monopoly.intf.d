@@ -1,0 +1,1 @@
+src/monopoly.mli: Yojson
