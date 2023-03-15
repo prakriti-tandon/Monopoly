@@ -19,6 +19,6 @@ val parse : string -> command
     - [parse "2"] is [Number_of_players 2]
 
     Requires: [str] contains only alphanumeric (A-Z, a-z, 0-9); no spaces, tabs
-    or newlines, etc.).
+    or newlines, etc. Input value for player name can't be an integer).
 
     Raises: [Empty] if [str] is the empty string. *)

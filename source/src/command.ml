@@ -7,4 +7,13 @@ type command =
 
 exception Empty
 
-let parse = raise (Failure "Unimplemented command.parse")
+let parse str =
+  match str with
+  | "" -> raise Empty
+  | "go" -> Go
+  | "yes" -> Yes
+  | "no" -> No
+  | t -> (
+      match int_of_string_opt t with
+      | Some i -> Number_of_players i
+      | None -> Player_name t)

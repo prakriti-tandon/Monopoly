@@ -53,7 +53,33 @@ let cmp_demo =
 let data_dir_prefix = "data" ^ Filename.dir_sep
 let board = Yojson.Basic.from_file (data_dir_prefix ^ "board.json")
 let monopoly_tests = []
-let command_tests = []
+
+(* [print_command command] is a string representation of [command] of type
+   command.*)
+let print_command command =
+  match command with
+  | Go -> "go"
+  | Yes -> "yes"
+  | No -> "no"
+  | Player_name t -> "player name" ^ t
+  | Number_of_players t -> "number of players" ^ string_of_int t
+
+let parse_test (name : string) (str : string) (expected_output : command) : test
+    =
+  name >:: fun _ ->
+  assert_equal expected_output (parse str) ~printer:print_command
+
+let command_tests =
+  [
+    parse_test "text input is go, result is Go" "go" Go;
+    parse_test "text input is yes, result is Yes" "yes" Yes;
+    parse_test "text input is no, result is No" "no" No;
+    parse_test "text input is Prakriti, result is Player_name Prakriti"
+      "Prakriti" (Player_name "Prakriti");
+    parse_test "text input is 5, result is Number_of_Players 5" "5"
+      (Number_of_players 5);
+  ]
+
 let state_tests = []
 
 let suite =
