@@ -56,7 +56,33 @@ let owner_test (name : string) (board : Monopoly.t) (space : int)
   name >:: fun _ -> assert_equal expected_output (Monopoly.owner board space)
 
 let monopoly_tests = [ owner_test "Owner of CTB is None" board 14 None ]
-let command_tests = []
+
+(* [print_command command] is a string representation of [command] of type
+   command.*)
+let print_command command =
+  match command with
+  | Go -> "go"
+  | Yes -> "yes"
+  | No -> "no"
+  | Player_name t -> "player name" ^ t
+  | Number_of_players t -> "number of players" ^ string_of_int t
+
+let parse_test (name : string) (str : string) (expected_output : command) : test
+    =
+  name >:: fun _ ->
+  assert_equal expected_output (parse str) ~printer:print_command
+
+let command_tests =
+  [
+    parse_test "text input is go, result is Go" "go" Go;
+    parse_test "text input is yes, result is Yes" "yes" Yes;
+    parse_test "text input is no, result is No" "no" No;
+    parse_test "text input is Prakriti, result is Player_name Prakriti"
+      "Prakriti" (Player_name "Prakriti");
+    parse_test "text input is 5, result is Number_of_Players 5" "5"
+      (Number_of_players 5);
+  ]
+
 let state_tests = []
 
 let suite =
