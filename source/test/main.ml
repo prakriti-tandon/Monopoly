@@ -48,13 +48,14 @@ let cmp_demo =
        ["foo"]); *);
   ]
 
+(**************************************************************)
 let board = Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
 
 let owner_test (name : string) (board : Monopoly.t) (space : int)
-    (expected_output : string) : test =
+    (expected_output : string option) : test =
   name >:: fun _ -> assert_equal expected_output (Monopoly.owner board space)
 
-let monopoly_tests = []
+let monopoly_tests = [ owner_test "Owner of CTB is None" board 14 None ]
 let command_tests = []
 let state_tests = []
 

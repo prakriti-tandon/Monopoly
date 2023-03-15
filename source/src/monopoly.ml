@@ -35,15 +35,16 @@ let property_of_json json =
     description = json |> member "description" |> to_string;
     price = json |> member "price" |> to_int;
     rent = json |> member "rent" |> to_int;
-    owner = json |> member "property" |> to_string;
+    owner = json |> member "owner" |> to_string;
   }
 
 let info_of_json json =
   let stype = json |> member "type" |> to_string in
+  let json = json |> member "info" in
   if stype = "go" then
     Go
       {
-        id = json |> member "name" |> to_string;
+        id = json |> member "id" |> to_string;
         salary = json |> member "salary" |> to_int;
       }
   else Property (property_of_json json)
