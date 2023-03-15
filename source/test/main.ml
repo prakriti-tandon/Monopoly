@@ -55,7 +55,14 @@ let owner_test (name : string) (board : Monopoly.t) (space : int)
     (expected_output : string option) : test =
   name >:: fun _ -> assert_equal expected_output (Monopoly.owner board space)
 
-let monopoly_tests = [ owner_test "Owner of CTB is None" board 14 None ]
+let monopoly_tests =
+  [
+    owner_test "Owner of CTB is None" board 14 None;
+    (* Tests set_owner *)
+    owner_test "Owner of CTB now Doug"
+      (set_owner board 14 "doug")
+      14 (Some "doug");
+  ]
 
 (* [print_command command] is a string representation of [command] of type
    command.*)

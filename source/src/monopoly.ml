@@ -68,8 +68,26 @@ let owner mon property =
   | Go a -> raise SpaceNotOwnable
   | Property b -> if b.owner = "" then None else Some b.owner
 
+let replace_space mon prop newspace =
+  let less_spaces = List.filter (fun x -> x.space_number < prop) mon.spaces in
+  let more_spaces = List.filter (fun x -> x.space_number > prop) mon.spaces in
+  {
+    spaces = less_spaces @ (newspace :: more_spaces);
+    num_spaces = mon.num_spaces;
+  }
+
 let set_owner mon property player =
-  raise (Failure "Unimplemented: Monopoly.set_owner")
+  match (find_space mon property).info with
+  | Go a -> raise SpaceNotOwnable
+  | Property b ->
+      let space_info = b in
+      let new_space =
+        {
+          space_number = property;
+          info = Property { space_info with owner = player };
+        }
+      in
+      replace_space mon property new_space
 
 let name mon property =
   match (find_space mon property).info with
