@@ -1,0 +1,189 @@
+2023-03-15T03:46:49+00:00 prakriti#00 I: Runner: processes
+2023-03-15T03:46:49+00:00 prakriti#00 I: Chooser: simple
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration suite_name = "test suite for final project"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration cache_filename = "/home/pt293/final/CS3110-Final-Project/source/_build/oUnit-$(suite_name).cache"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration run_gc_full_major = "true"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration display = "true"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration results_style_1_X = "false"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration testdata_dir = "/home/pt293/final/CS3110-Final-Project/source/data"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration health_check_interval = "1."
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration verbose = "false"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration chooser = "simple"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration output_html_dir = "none"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration processes_kill_period = "5."
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration runner = "processes"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration shards = "4"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration processes_grace_period = "5."
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration log_encoding = "utf-8"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration output_junit_file = "none"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration ci = "false"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Configuration output_file = "/home/pt293/final/CS3110-Final-Project/source/_build/oUnit-$(suite_name)-$(shard_id).log"
+2023-03-15T03:46:49+00:00 prakriti#00 I: Using 4 workers maximum.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Starting worker number prakriti#01.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Worker prakriti#01 started.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Starting worker number prakriti#02.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Worker prakriti#02 started.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Starting worker number prakriti#03.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Worker prakriti#03 started.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Starting worker number prakriti#04.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Worker prakriti#04 started.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug, test suite for final project:0:Owner of CTB is None.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Start test test suite for final project:0:Owner of CTB is None.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Start test test suite for final project:1:Owner of CTB now Doug.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Start test test suite for final project:2:Go has no owner.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug, test suite for final project:0:Owner of CTB is None.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Start test test suite for final project:3:Can't give Go an owner.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug, test suite for final project:0:Owner of CTB is None.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Test test suite for final project:0:Owner of CTB is None is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug, test suite for final project:0:Owner of CTB is None.
+2023-03-15T03:46:49+00:00 prakriti#01 I: End test test suite for final project:0:Owner of CTB is None.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug, test suite for final project:0:Owner of CTB is None.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:4:Space 0 named 'Go', test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Start test test suite for final project:4:Space 0 named 'Go'.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:4:Space 0 named 'Go', test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Test test suite for final project:1:Owner of CTB now Doug is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:4:Space 0 named 'Go', test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug.
+2023-03-15T03:46:49+00:00 prakriti#02 I: End test test suite for final project:1:Owner of CTB now Doug.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Test test suite for final project:2:Go has no owner is successful.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Test test suite for final project:3:Can't give Go an owner is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:4:Space 0 named 'Go', test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner, test suite for final project:1:Owner of CTB now Doug.
+2023-03-15T03:46:49+00:00 prakriti#03 I: End test test suite for final project:2:Go has no owner.
+2023-03-15T03:46:49+00:00 prakriti#04 I: End test test suite for final project:3:Can't give Go an owner.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:5:Space 1 named 'Balch Hall, test suite for final project:4:Space 0 named 'Go', test suite for final project:3:Can't give Go an owner, test suite for final project:2:Go has no owner.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Test test suite for final project:4:Space 0 named 'Go' is successful.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Start test test suite for final project:5:Space 1 named 'Balch Hall.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:7:Go has no desc., test suite for final project:6:Physical Sciences description, test suite for final project:5:Space 1 named 'Balch Hall, test suite for final project:4:Space 0 named 'Go'.
+2023-03-15T03:46:49+00:00 prakriti#01 I: End test test suite for final project:4:Space 0 named 'Go'.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:7:Go has no desc., test suite for final project:6:Physical Sciences description, test suite for final project:5:Space 1 named 'Balch Hall, test suite for final project:4:Space 0 named 'Go'.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Start test test suite for final project:6:Physical Sciences description.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Start test test suite for final project:7:Go has no desc..
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:8:Four seasons price 220, test suite for final project:7:Go has no desc., test suite for final project:6:Physical Sciences description, test suite for final project:5:Space 1 named 'Balch Hall.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Test test suite for final project:5:Space 1 named 'Balch Hall is successful.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Test test suite for final project:6:Physical Sciences description is successful.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Test test suite for final project:7:Go has no desc. is successful.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Start test test suite for final project:8:Four seasons price 220.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:8:Four seasons price 220, test suite for final project:7:Go has no desc., test suite for final project:6:Physical Sciences description, test suite for final project:5:Space 1 named 'Balch Hall.
+2023-03-15T03:46:49+00:00 prakriti#02 I: End test test suite for final project:5:Space 1 named 'Balch Hall.
+2023-03-15T03:46:49+00:00 prakriti#04 I: End test test suite for final project:6:Physical Sciences description.
+2023-03-15T03:46:49+00:00 prakriti#03 I: End test test suite for final project:7:Go has no desc..
+2023-03-15T03:46:49+00:00 prakriti#01 I: Test test suite for final project:8:Four seasons price 220 is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:8:Four seasons price 220, test suite for final project:7:Go has no desc., test suite for final project:6:Physical Sciences description, test suite for final project:5:Space 1 named 'Balch Hall.
+2023-03-15T03:46:49+00:00 prakriti#01 I: End test test suite for final project:8:Four seasons price 220.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:11:Go has no rent, test suite for final project:10:Susp. bridge rent 26, test suite for final project:9:Go has no price, test suite for final project:8:Four seasons price 220.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Start test test suite for final project:9:Go has no price.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:12:Go has salary 200, test suite for final project:11:Go has no rent, test suite for final project:10:Susp. bridge rent 26, test suite for final project:9:Go has no price.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Start test test suite for final project:10:Susp. bridge rent 26.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Start test test suite for final project:11:Go has no rent.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Start test test suite for final project:12:Go has salary 200.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:12:Go has salary 200, test suite for final project:11:Go has no rent, test suite for final project:10:Susp. bridge rent 26, test suite for final project:9:Go has no price.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Test test suite for final project:9:Go has no price is successful.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Test test suite for final project:10:Susp. bridge rent 26 is successful.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Test test suite for final project:11:Go has no rent is successful.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Test test suite for final project:12:Go has salary 200 is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:12:Go has salary 200, test suite for final project:11:Go has no rent, test suite for final project:10:Susp. bridge rent 26, test suite for final project:9:Go has no price.
+2023-03-15T03:46:49+00:00 prakriti#03 I: End test test suite for final project:9:Go has no price.
+2023-03-15T03:46:49+00:00 prakriti#04 I: End test test suite for final project:10:Susp. bridge rent 26.
+2023-03-15T03:46:49+00:00 prakriti#02 I: End test test suite for final project:11:Go has no rent.
+2023-03-15T03:46:49+00:00 prakriti#01 I: End test test suite for final project:12:Go has salary 200.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:12:Go has salary 200, test suite for final project:11:Go has no rent, test suite for final project:10:Susp. bridge rent 26, test suite for final project:9:Go has no price.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:16:board has 23 spaces, test suite for final project:15:Balch has type property, test suite for final project:14:Go has type go, test suite for final project:13:Balch has no salary.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Start test test suite for final project:13:Balch has no salary.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Start test test suite for final project:14:Go has type go.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Start test test suite for final project:16:board has 23 spaces.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:16:board has 23 spaces, test suite for final project:15:Balch has type property, test suite for final project:14:Go has type go, test suite for final project:13:Balch has no salary.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Start test test suite for final project:15:Balch has type property.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:16:board has 23 spaces, test suite for final project:15:Balch has type property, test suite for final project:14:Go has type go, test suite for final project:13:Balch has no salary.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Test test suite for final project:13:Balch has no salary is successful.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Test test suite for final project:14:Go has type go is successful.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Test test suite for final project:15:Balch has type property is successful.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Test test suite for final project:16:board has 23 spaces is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:16:board has 23 spaces, test suite for final project:15:Balch has type property, test suite for final project:14:Go has type go, test suite for final project:13:Balch has no salary.
+2023-03-15T03:46:49+00:00 prakriti#01 I: End test test suite for final project:13:Balch has no salary.
+2023-03-15T03:46:49+00:00 prakriti#02 I: End test test suite for final project:14:Go has type go.
+2023-03-15T03:46:49+00:00 prakriti#04 I: End test test suite for final project:15:Balch has type property.
+2023-03-15T03:46:49+00:00 prakriti#03 I: End test test suite for final project:16:board has 23 spaces.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:16:board has 23 spaces, test suite for final project:15:Balch has type property, test suite for final project:14:Go has type go, test suite for final project:13:Balch has no salary.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:20:text input is Prakriti, result is Player_name Prakriti, test suite for final project:19:text input is no, result is No, test suite for final project:18:text input is yes, result is Yes, test suite for final project:17:text input is go, result is Go.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Start test test suite for final project:17:text input is go, result is Go.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Start test test suite for final project:18:text input is yes, result is Yes.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Start test test suite for final project:19:text input is no, result is No.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:20:text input is Prakriti, result is Player_name Prakriti, test suite for final project:19:text input is no, result is No, test suite for final project:18:text input is yes, result is Yes, test suite for final project:17:text input is go, result is Go.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Test test suite for final project:17:text input is go, result is Go is successful.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Test test suite for final project:18:text input is yes, result is Yes is successful.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Start test test suite for final project:20:text input is Prakriti, result is Player_name Prakriti.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:20:text input is Prakriti, result is Player_name Prakriti, test suite for final project:19:text input is no, result is No, test suite for final project:18:text input is yes, result is Yes, test suite for final project:17:text input is go, result is Go.
+2023-03-15T03:46:49+00:00 prakriti#03 I: End test test suite for final project:17:text input is go, result is Go.
+2023-03-15T03:46:49+00:00 prakriti#04 I: End test test suite for final project:18:text input is yes, result is Yes.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:20:text input is Prakriti, result is Player_name Prakriti, test suite for final project:19:text input is no, result is No, test suite for final project:18:text input is yes, result is Yes, test suite for final project:17:text input is go, result is Go.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:22:name of state_one is Prakriti, test suite for final project:21:text input is 5, result is Number_of_Players 5, test suite for final project:20:text input is Prakriti, result is Player_name Prakriti, test suite for final project:19:text input is no, result is No.
+2023-03-15T03:46:49+00:00 prakriti#02 I: Test test suite for final project:19:text input is no, result is No is successful.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Test test suite for final project:20:text input is Prakriti, result is Player_name Prakriti is successful.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Start test test suite for final project:21:text input is 5, result is Number_of_Players 5.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Start test test suite for final project:22:name of state_one is Prakriti.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:22:name of state_one is Prakriti, test suite for final project:21:text input is 5, result is Number_of_Players 5, test suite for final project:20:text input is Prakriti, result is Player_name Prakriti, test suite for final project:19:text input is no, result is No.
+2023-03-15T03:46:49+00:00 prakriti#02 I: End test test suite for final project:19:text input is no, result is No.
+2023-03-15T03:46:49+00:00 prakriti#01 I: End test test suite for final project:20:text input is Prakriti, result is Player_name Prakriti.
+2023-03-15T03:46:49+00:00 prakriti#04 I: Test test suite for final project:21:text input is 5, result is Number_of_Players 5 is successful.
+2023-03-15T03:46:49+00:00 prakriti#03 I: Test test suite for final project:22:name of state_one is Prakriti is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 4 tests running: test suite for final project:22:name of state_one is Prakriti, test suite for final project:21:text input is 5, result is Number_of_Players 5, test suite for final project:20:text input is Prakriti, result is Player_name Prakriti, test suite for final project:19:text input is no, result is No.
+2023-03-15T03:46:49+00:00 prakriti#04 I: End test test suite for final project:21:text input is 5, result is Number_of_Players 5.
+2023-03-15T03:46:49+00:00 prakriti#03 I: End test test suite for final project:22:name of state_one is Prakriti.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Still 3 tests running : test suite for final project:23:current position of state_one is 0, test suite for final project:22:name of state_one is Prakriti, test suite for final project:21:text input is 5, result is Number_of_Players 5.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 3 tests running: test suite for final project:23:current position of state_one is 0, test suite for final project:22:name of state_one is Prakriti, test suite for final project:21:text input is 5, result is Number_of_Players 5.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Start test test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Still 1 tests running : test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 1 tests running: test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#01 I: Test test suite for final project:23:current position of state_one is 0 is successful.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Still 1 tests running : test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 1 tests running: test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#01 I: End test test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#00 I: Still 1 tests running : test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 1 tests running: test suite for final project:23:current position of state_one is 0.
+2023-03-15T03:46:49+00:00 prakriti#00 I: 0 tests running: .
+2023-03-15T03:46:49+00:00 prakriti#00 I: Worker prakriti#02 has ended.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Worker prakriti#04 has ended.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Worker prakriti#03 has ended.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Worker prakriti#01 has ended.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Used 4 worker during test execution.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Run 6 tests with shard prakriti#04.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Run 5 tests with shard prakriti#02.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Run 7 tests with shard prakriti#01.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Run 6 tests with shard prakriti#03.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Check health of shard prakriti#04, 4 times.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Check health of shard prakriti#02, 5 times.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Check health of shard prakriti#01, 1 times.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Check health of shard prakriti#03, 4 times.
+2023-03-15T03:46:50+00:00 prakriti#00 I: ==============
+2023-03-15T03:46:50+00:00 prakriti#00 I: Summary:
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:23:current position of state_one is 0 is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:22:name of state_one is Prakriti is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:21:text input is 5, result is Number_of_Players 5 is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:20:text input is Prakriti, result is Player_name Prakriti is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:19:text input is no, result is No is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:18:text input is yes, result is Yes is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:17:text input is go, result is Go is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:16:board has 23 spaces is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:15:Balch has type property is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:14:Go has type go is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:13:Balch has no salary is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:12:Go has salary 200 is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:11:Go has no rent is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:10:Susp. bridge rent 26 is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:9:Go has no price is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:8:Four seasons price 220 is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:7:Go has no desc. is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:6:Physical Sciences description is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:5:Space 1 named 'Balch Hall is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:4:Space 0 named 'Go' is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:3:Can't give Go an owner is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:2:Go has no owner is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:1:Owner of CTB now Doug is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Test test suite for final project:0:Owner of CTB is None is successful.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Ran: 24 tests in: 0.11 seconds.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Cases: 24.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Tried: 24.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Errors: 0.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Failures: 0.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Skip: 0.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Todo: 0.
+2023-03-15T03:46:50+00:00 prakriti#00 I: Timeout: 0.

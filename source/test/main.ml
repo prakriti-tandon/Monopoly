@@ -134,7 +134,22 @@ let command_tests =
       (Number_of_players 5);
   ]
 
-let state_tests = []
+let name_test (name : string) (t : State.t) (expected_output : string) : test =
+  name >:: fun _ ->
+  assert_equal expected_output (State.name t) ~printer:(fun s -> s)
+
+let current_pos_test (name : string) (t : State.t) (expected_output : int) :
+    test =
+  name >:: fun _ ->
+  assert_equal expected_output (State.current_pos t) ~printer:string_of_int
+
+let state_one = init_state "Prakriti"
+
+let state_tests =
+  [
+    name_test "name of state_one is Prakriti" state_one "Prakriti";
+    current_pos_test "current position of state_one is 0" state_one 0;
+  ]
 
 let suite =
   "test suite for final project"
