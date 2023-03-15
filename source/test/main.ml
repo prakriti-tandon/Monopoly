@@ -51,9 +51,37 @@ let cmp_demo =
 (**************************************************************)
 let board = Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
 
-let owner_test (name : string) (board : Monopoly.t) (space : int)
-    (expected_output : string option) : test =
-  name >:: fun _ -> assert_equal expected_output (Monopoly.owner board space)
+let test_maker funct name board space expected_output =
+  name >:: fun _ -> assert_equal expected_output (funct board space)
+
+let test_maker_exception funct excep name board space =
+  name >:: fun _ -> assert_raises excep (fun () -> funct board space)
+
+let owner_test = test_maker Monopoly.owner
+let owner_excep_test = test_maker_exception Monopoly.owner SpaceNotOwnable
+
+let set_owner_excep_test name board space player =
+  name >:: fun _ ->
+  assert_raises SpaceNotOwnable (fun () ->
+      Monopoly.set_owner board space player)
+
+let name_test = test_maker Monopoly.name
+let description_test = test_maker Monopoly.description
+
+let descrip_excep_test =
+  test_maker_exception Monopoly.description DescriptionNotAvailable
+
+let price_test = test_maker Monopoly.price
+let price_excep_test = test_maker_exception Monopoly.price SpaceNotOwnable
+let rent_test = test_maker Monopoly.rent
+let rent_excep_test = test_maker_exception Monopoly.rent SpaceNotOwnable
+let salary_test = test_maker Monopoly.salary
+let salary_excep_test = test_maker_exception Monopoly.salary NoSalary
+let space_type_test = test_maker Monopoly.space_type
+
+let num_spaces_test name board expected_output =
+  name >:: fun _ ->
+  assert_equal expected_output (Monopoly.number_of_spaces board)
 
 let monopoly_tests =
   [
@@ -62,6 +90,22 @@ let monopoly_tests =
     owner_test "Owner of CTB now Doug"
       (set_owner board 14 "doug")
       14 (Some "doug");
+    owner_excep_test "Go has no owner" board 0;
+    set_owner_excep_test "Can't give Go an owner" board 0 "doug";
+    name_test "Space 0 named 'Go'" board 0 "Go";
+    name_test "Space 1 named 'Balch Hall" board 1 "Balch Hall";
+    description_test "Physical Sciences description" board 4
+      "Home of the Goldie's chicken panini.";
+    descrip_excep_test "Go has no desc." board 0;
+    price_test "Four seasons price 220" board 13 220;
+    price_excep_test "Go has no price" board 0;
+    rent_test "Susp. bridge rent 26" board 19 26;
+    rent_excep_test "Go has no rent" board 0;
+    salary_test "Go has salary 200" board 0 200;
+    salary_excep_test "Balch has no salary" board 1;
+    space_type_test "Go has type go" board 0 "go";
+    space_type_test "Balch has type property" board 1 "property";
+    num_spaces_test "board has 23 spaces" board 23;
   ]
 
 (* [print_command command] is a string representation of [command] of type

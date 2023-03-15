@@ -3,6 +3,7 @@ open Yojson.Basic.Util
 exception UnknownSpace
 exception SpaceNotOwnable
 exception DescriptionNotAvailable
+exception NoSalary
 
 type property = {
   id : string;
@@ -108,6 +109,11 @@ let rent mon property =
   match (find_space mon property).info with
   | Go a -> raise SpaceNotOwnable
   | Property b -> b.rent
+
+let salary mon s =
+  match (find_space mon s).info with
+  | Go a -> a.salary
+  | _ -> raise NoSalary
 
 let space_type mon property =
   match (find_space mon property).info with
