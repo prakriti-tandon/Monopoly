@@ -39,5 +39,13 @@ let go (player : t) (game : Monopoly.t) =
     owns = player.owns;
   }
 
-let pay_rent player1 player2 game =
-  raise (Failure "Unimplemented state.pay_rent")
+let pay_rent play1 play2 game =
+  let rent = Monopoly.rent game (current_pos play1) in
+  if play1.money < rent then Illegal
+  else
+    Legal
+      {
+        player1 = { play1 with money = play1.money - rent };
+        player2 = { play2 with money = play2.money + rent };
+        game;
+      }
