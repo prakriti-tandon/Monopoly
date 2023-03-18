@@ -183,6 +183,21 @@ let owns_test (name : string) (player : State.t) (space : int)
     (game : Monopoly.t) (expected_output : bool) =
   name >:: fun _ -> assert_equal expected_output (State.owns player space game)
 
+(*checks whether the new player state created has an owns list with the property
+  added to its owns list. If there is an Illegal exception raised, use the
+  exception buy_property_exception function instead. *)
+let buy_property_test (name : string) (player : State.t) (space : int)
+    (game : Monopoly.t) (expected_player_owns_output : result) =
+  name >:: fun _ ->
+  assert_equal expected_player_owns_output
+    (State.buy_property player space game)
+
+(* checks whether the new game state created from buy_property has the owner of
+   the property just bought equal to the player who bought the property. If an
+   illegal exception was raised, check that the game wasn't affected.*)
+let check_game (name : string) (player : State.t) =
+  raise (Failure "Implement me")
+
 let game_board_one =
   Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
 
@@ -195,7 +210,7 @@ let state_two = change_owns 1 state_one
 
 (*reflects change where player state three has multiple properties (1,3,4,6,8)
   including the property at space 1*)
-let game_board_three =  Monopoly.set_owner game_board_one 2 "Prakriti"
+let game_board_three = Monopoly.set_owner game_board_one 2 "Prakriti"
 
 let state_tests =
   [
