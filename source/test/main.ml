@@ -179,7 +179,23 @@ let check_name (name : string) (t : State.t) (amt : int)
     (State.name (State.change_balance t amt))
     ~printer:Fun.id
 
+let owns_test (name : string) (player : State.t) (space : int)
+    (game : Monopoly.t) (expected_output : bool) =
+  name >:: fun _ -> assert_equal expected_output (State.owns player space game)
+
+let game_board_one =
+  Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
+
 let state_one = init_state "Prakriti"
+
+(*reflects change where player state two is the owner of the property at space
+  1*)
+let game_board_two = Monopoly.set_owner game_board_one 1 "Prakriti"
+let state_two = change_owns 1 state_one
+
+(*reflects change where player state three has multiple properties (1,3,4,6,8)
+  including the property at space 1*)
+let game_board_three =  Monopoly.set_owner game_board_one 2 "Prakriti"
 
 let state_tests =
   [
@@ -193,6 +209,19 @@ let state_tests =
     change_balance_test "add $200 to original balance: $500" state_one (-200)
       300;
     change_balance_test "add $0 to original balance: $500" state_one 0 500;
+    owns_test "check false when this player owns no properties" state_one 1
+      game_board_one false;
+    owns_test "check false when player owns no properties" state_one 1
+      game_board_one false;
+    owns_test "check true when player owns property at space 1" state_two 1
+      game_board_two true;
+    owns_test
+      "check false when player owns property but not property at space 2"
+      state_two 2 game_board_two false;
+    owns_test
+      "check true when player owns multiple spaces including property at space \
+       1"
+      state_two 1 game_board_two true;
   ]
 
 let suite =
