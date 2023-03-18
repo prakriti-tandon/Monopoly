@@ -30,7 +30,7 @@ val owner : t -> int -> string option
     [SpaceNotOwnable] if [s] is not a property. *)
 
 val set_owner : t -> int -> string -> t
-(** [owner m s u] is a the monopoly board [m] such that player [u] owns the
+(** [owner m s u] is a the monopoly board [m] such that player name [u] owns the
     property at space [s]. Raises [SpaceNotOwnable] if [s] is not a property. *)
 
 val name : t -> int -> string

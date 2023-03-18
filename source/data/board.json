@@ -79,7 +79,7 @@
       "type": "property",
       "info": {
         "id": "Rhodes Hall",
-        "description": "",
+        "description": "Maybe one day they'll let me steal a course staff shirt.",
         "price": 140,
         "rent": 10,
         "owner": ""
@@ -90,7 +90,7 @@
       "type": "property",
       "info": {
         "id": "Gates Hall",
-        "description": "",
+        "description": "A very nice backdrop for a headshot.",
         "price": 160,
         "rent": 12,
         "owner": ""
@@ -156,7 +156,7 @@
       "type": "property",
       "info": {
         "id": "CTB",
-        "description": "",
+        "description": "A great place to take the parents.",
         "price": 240,
         "rent": 20,
         "owner": ""
@@ -200,7 +200,7 @@
       "type": "property",
       "info": {
         "id": "Beebe Lake",
-        "description": "",
+        "description": "A classic freshman year activity.",
         "price": 300,
         "rent": 26,
         "owner": ""
@@ -211,7 +211,7 @@
       "type": "property",
       "info": {
         "id": "Suspension Bridge",
-        "description": "",
+        "description": "A beautiful place to watch the sunset.",
         "price": 300,
         "rent": 26,
         "owner": ""
@@ -222,7 +222,7 @@
       "type": "property",
       "info": {
         "id": "Cascadilla Trail",
-        "description": "",
+        "description": "Soooooo many stairs.",
         "price": 320,
         "rent": 28,
         "owner": ""
