@@ -36,7 +36,7 @@ val change_balance : t -> int -> t
    negative, that means money will be added to the current balance in state
    [player] by [amt]. *)
 
-val owns : t -> string -> Monopoly.t -> bool
+val owns : t -> int -> Monopoly.t -> bool
 (**[owns player s game] is whether the [player] owns the property located at
    space [s] in the [game]. Raises [SpaceNotOwnable] if [s] is not a valid
    property in the [game]. *)
