@@ -143,12 +143,56 @@ let current_pos_test (name : string) (t : State.t) (expected_output : int) :
   name >:: fun _ ->
   assert_equal expected_output (State.current_pos t) ~printer:string_of_int
 
+let current_balance_test (name : string) (t : State.t) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal expected_output (State.current_balance t) ~printer:string_of_int
+
+(*once implement owns function, add State.owns player for value of owns field *)
+let print_player_state (player : State.t) : string =
+  "{name = " ^ State.name player ^ "; current_pos = "
+  ^ string_of_int (State.current_pos player)
+  ^ "; money = "
+  ^ string_of_int (State.current_balance player)
+  ^ "; owns = [] }"
+
+let change_balance_test (name : string) (t : State.t) (amt : int)
+    (expected_balance_output : int)
+      (*(expected_name : string) (expected_cur_pos : int) (expected_owns : int
+        list)*) =
+  name >:: fun _ ->
+  (*assert_bool "The name field was accidentally changed and doesn't match what
+    it was \ before" (State.name (State.change_balance t amt) = expected_name);
+    assert_bool "The cur_pos field was accidentally changed and doesn't match
+    what it was \ before" State.current_pos (State.change_balance t amt) =
+    expected_cur_pos; (*TODO: implement owns function and write this assert_bool
+    statement: assert_bool "The owns field was accidentally changed and doesn't
+    match what it was \ before" (State.owns (State.change_balance t amt) =
+    expected_owns);*)*)
+  assert_equal expected_balance_output
+    (State.current_balance (State.change_balance t amt))
+    ~printer:string_of_int
+
+let check_name (name : string) (t : State.t) (amt : int)
+    (expected_balance_output : int) (expected_name_output : string) =
+  name >:: fun _ ->
+  assert_equal expected_name_output
+    (State.name (State.change_balance t amt))
+    ~printer:Fun.id
+
 let state_one = init_state "Prakriti"
 
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
     current_pos_test "current position of state_one is 0" state_one 0;
+    current_balance_test "current_balance is 500" state_one 500;
+    change_balance_test "deduct $200 from original balance: $500" state_one
+      (-200) 300;
+    check_name "deduct $200 from original balance: $500" state_one (-200) 300
+      "Prakriti";
+    change_balance_test "add $200 to original balance: $500" state_one (-200)
+      300;
+    change_balance_test "add $0 to original balance: $500" state_one 0 500;
   ]
 
 let suite =

@@ -18,6 +18,19 @@ type result =
 let init_state str = { name = str; current_pos = 0; money = 500; owns = [] }
 let name (player : t) = player.name
 let current_pos (player : t) = player.current_pos
+let current_balance (player : t) = player.money
+
+let change_balance (player : t) (amt : int) =
+  let new_amount = player.money + amt in
+  {
+    name = player.name;
+    current_pos = player.current_pos;
+    money = new_amount;
+    owns = player.owns;
+  }
+
+let owns (player : t) (space : int) (game : Monopoly.t) =
+  raise (Failure "Implement me")
 
 let change_owns (pos : int) (player : t) =
   {
@@ -49,3 +62,6 @@ let pay_rent play1 play2 game =
         player2 = { play2 with money = play2.money + rent };
         game;
       }
+
+let buy_property (player : t) (space : int) (game : Monopoly.t) =
+  raise (Failure "Implement me")
