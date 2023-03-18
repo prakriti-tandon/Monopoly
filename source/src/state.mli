@@ -5,9 +5,12 @@
 type t
 (** The abstract type of values representing the player state. *)
 
-type combined_state
-(**The abstract type of the combined state of player1, player2, and monopoly
-   game*)
+type combined_state = {
+  player1 : t;
+  player2 : t;
+  game : Monopoly.t;
+}
+(**The combined state of player1, player2, and monopoly game*)
 
 (**The type represents the result of a buy or pay_rent action*)
 type result =
@@ -15,8 +18,8 @@ type result =
   | Legal of combined_state
 
 val init_state : string -> t
-(**[init_state str] is the initial state of the player with name [str]. In that
-   state, the player's current position is the go position. They have 500
+(**[init_state str] creates the initial state of the player with name [str]. In
+   that state, the player's current position is the go position. They have 500
    dollars and no owned properties*)
 
 val name : t -> string
@@ -41,9 +44,10 @@ val owns : t -> int -> Monopoly.t -> bool
    space [s] in the [game]. Raises [SpaceNotOwnable] if [s] is not a valid
    property in the [game]. *)
 
-val change_owns : int -> t -> t
-(**[change_owns pos player] is the new state of state [player] after property
-   [pos] has been added to its set of owned properties*)
+val change_owns : int -> t -> t -> Monopoly.t -> result
+(**[change_owns pos play1 play2 game] is the new combined state of [play1],
+   [play2] and [game] after player [play1] has become the new owner of property
+   [pos]. [play1] and [game] have changed*)
 
 val go : t -> Monopoly.t -> t
 (**[go player] is the new state of the [player] after they have rolled the dice
