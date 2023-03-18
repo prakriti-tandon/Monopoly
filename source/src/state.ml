@@ -21,11 +21,11 @@ let current_pos (player : t) = player.current_pos
 let current_balance (player : t) = player.money
 
 let change_balance (player : t) (amt : int) =
-  let new_amount = player.money + amt in
+  let new_amt = player.money + amt in
   {
     name = player.name;
     current_pos = player.current_pos;
-    money = new_amount;
+    money = new_amt;
     owns = player.owns;
   }
 
