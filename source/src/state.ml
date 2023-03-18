@@ -30,7 +30,12 @@ let change_balance (player : t) (amt : int) =
   }
 
 let owns (player : t) (space : int) (game : Monopoly.t) =
-  raise (Failure "Implement me")
+  let owner = Monopoly.owner game space in
+  match owner with
+  | None -> false (*no one owns the property at space *)
+  | Some name ->
+      if name = player.name then true (*this player owns the property*)
+      else false (*a different player owns it*)
 
 let change_owns (pos : int) (player : t) =
   {
