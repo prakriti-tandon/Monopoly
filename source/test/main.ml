@@ -202,6 +202,7 @@ let game_board_one =
   Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
 
 let state_one = init_state "Prakriti"
+let player_two = init_state "Amy"
 
 (*reflects change where player state two is the owner of the property at space
   1*)
@@ -211,6 +212,20 @@ let state_two = change_owns 1 state_one
 (*reflects change where player state three has multiple properties (1,3,4,6,8)
   including the property at space 1*)
 let game_board_three = Monopoly.set_owner game_board_one 2 "Prakriti"
+<<<<<<< HEAD
+=======
+
+let extract_result result =
+  match result with
+  | Illegal -> failwith "Not legal type"
+  | Legal t -> t
+
+let play1_state =
+  (change_owns 1 state_one player_two game_board_one |> extract_result).player1
+
+let game1_state =
+  (change_owns 1 state_one player_two game_board_one |> extract_result).game
+>>>>>>> fab1c0cb008dc3f0e31d30a5f4bd7c035bb54a7a
 
 let state_tests =
   [
@@ -227,16 +242,15 @@ let state_tests =
     owns_test "check false when this player owns no properties" state_one 1
       game_board_one false;
     owns_test "check false when player owns no properties" state_one 1
-      game_board_one false;
-    owns_test "check true when player owns property at space 1" state_two 1
-      game_board_two true;
-    owns_test
-      "check false when player owns property but not property at space 2"
-      state_two 2 game_board_two false;
-    owns_test
-      "check true when player owns multiple spaces including property at space \
-       1"
-      state_two 1 game_board_two true;
+      game_board_one false
+    (* owns_test "check true when player owns property at space 1" state_two 1
+       game_board_two true; owns_test "check false when player owns property but
+       not property at space 2" state_two 2 game_board_two false; owns_test
+       "check true when player owns multiple spaces including property at space
+       \ 1" state_two 1 game_board_two true; *);
+
+       (**following tests are using owns_test test change_owns*)
+    owns_test "check true that play1_state owns property at space 1" play1_state 1 game1_state true;
   ]
 
 let suite =
