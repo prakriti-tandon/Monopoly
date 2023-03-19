@@ -181,8 +181,24 @@ let check_name (name : string) (t : State.t) (amt : int)
 
 let owns_test (name : string) (player : State.t) (space : int)
     (game : Monopoly.t) (expected_output : bool) =
-  name >:: fun _ -> assert_equal expected_output (State.owns player space game) ~printer: string_of_bool
+  name >:: fun _ -> assert_equal expected_output (State.owns player space game)
 
+(*checks whether the new player state created has an owns list with the property
+  added to its owns list. If there is an Illegal exception raised, use the
+  exception buy_property_exception function instead. *)
+let buy_property_test (name : string) (player1 : State.t) (player2: State.t) (space : int)
+    (game : Monopoly.t) (expected_player_owns_output : result) =
+  name >:: fun _ ->
+  assert_equal expected_player_owns_output
+    (State.buy_property player1 player2 space game)
+
+
+ 
+(* checks whether the new game state created from buy_property has the owner of
+   the property just bought equal to the player who bought the property. If an
+   illegal exception was raised, check that the game wasn't affected.*)
+let check_game (name : string) (player : State.t) =
+  raise (Failure "Implement me")
 
 let game_board_one =
   Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
@@ -204,11 +220,17 @@ let extract_result result =
   | Illegal -> failwith "Not legal type"
   | Legal t -> t
 
-let play1_state =
+let play1_state_owns =
   (change_owns 1 state_one player_two game_board_one |> extract_result).player1
 
-let game1_state =
+let game1_state_owns =
   (change_owns 1 state_one player_two game_board_one |> extract_result).game
+(*player1 buys prop at space 1. Below is the new player1 created and new game board created from*)
+let play1_state_buy =
+    (buy_property  state_one player_two 1  game_board_one |> extract_result).player1
+  
+let play1_game_buy =
+    (buy_property state_one player_two 1 game_board_one |> extract_result).game
  
 let go_state = go 2 state_one game_board_one 
 
@@ -235,7 +257,8 @@ let state_tests =
        \ 1" state_two 1 game_board_two true; *);
 
        (**following tests are using owns_test to test change_owns*)
-    owns_test "check true that play1_state owns property at space 1" play1_state 1 game1_state true;
+    owns_test "check true that play1_state owns property at space 1" play1_state_owns 1 game1_state_owns true;
+    owns_test "player 1 buys property at space 1" play1_state_buy 1 play1_game_buy true; 
     (**following tests use current_pos_test to test go*)
     current_pos_test "current pos of state_one after it has moved 2 steps is 2" go_state 2;
   ]

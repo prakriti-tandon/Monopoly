@@ -71,5 +71,14 @@ let pay_rent play1 play2 game =
         game;
       }
 
-let buy_property (player : t) (space : int) (game : Monopoly.t) =
-  raise (Failure "Implement me")
+let buy_property (player1 : t) (player2: t) (space : int) (game : Monopoly.t) =
+  let price_of_prop = Monopoly.price game space in 
+  if player1.money < price_of_prop then Illegal 
+  else 
+    let new_game = Monopoly.set_owner game space player1.name in 
+    let new_player1 = change_balance player1 (-price_of_prop) in 
+    Legal {
+    player1 =new_player1 (*{player1 with money= player1.money - price_of_prop }*);
+    player2 = player2;
+    game = new_game
+  }
