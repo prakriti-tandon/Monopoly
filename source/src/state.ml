@@ -37,12 +37,11 @@ let owns (player : t) (space : int) (game : Monopoly.t) =
       if name = player.name then true (*this player owns the property*)
       else false (*a different player owns it*)
 
-let change_owns (pos : int) (player : t) =
-  {
-    name = player.name;
-    current_pos = player.current_pos;
-    money = player.money;
-    owns = List.sort_uniq Int.compare (pos :: player.owns);
+let change_owns pos play1 play2 game =
+  Legal {
+    player1 = {play1 with owns = List.sort_uniq Int.compare (pos :: play1.owns)};
+    player2 = play2;
+    game = Monopoly.set_owner game pos (name play1);
   }
 
 let go (player : t) (game : Monopoly.t) =
@@ -50,7 +49,7 @@ let go (player : t) (game : Monopoly.t) =
   let result_position =
     (player.current_pos + dice_result) mod Monopoly.number_of_spaces game
   in
-  {
+  { (**extract dice outside so that testing is easier *)
     name = player.name;
     current_pos = result_position;
     money = player.money;
@@ -68,5 +67,14 @@ let pay_rent play1 play2 game =
         game;
       }
 
-let buy_property (player : t) (space : int) (game : Monopoly.t) =
-  raise (Failure "Implement me")
+let buy_property (player1 : t) (player2: t) (space : int) (game : Monopoly.t) =
+  let price_of_prop = Monopoly.price game space in 
+  if player1.money < price_of_prop then Illegal 
+  else 
+    let new_game = Monopoly.set_owner game space player1.name in 
+    let new_player1 = change_balance player1 (-price_of_prop) in 
+    Legal {
+    player1 =new_player1 (*{player1 with money= player1.money - price_of_prop }*);
+    player2 = player2;
+    game = new_game
+  }

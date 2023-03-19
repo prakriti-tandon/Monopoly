@@ -5,9 +5,14 @@
 type t
 (** The abstract type of values representing the player state. *)
 
-type combined_state
+type combined_state = {
+  player1 : t;
+  player2 : t;
+  game : Monopoly.t;
+}
 (**The abstract type of the combined state of player1, player2, and monopoly
    game*)
+(*type combined_state*)
 
 (**The type represents the result of a buy or pay_rent action*)
 type result =
@@ -41,7 +46,7 @@ val owns : t -> int -> Monopoly.t -> bool
    space [s] in the [game]. Raises [SpaceNotOwnable] if [s] is not a valid
    property in the [game]. *)
 
-val change_owns : int -> t -> t
+val change_owns : int -> t -> t -> Monopoly.t -> result
 (**[change_owns pos player] is the new state of state [player] after property
    [pos] has been added to its set of owned properties*)
 
@@ -58,7 +63,7 @@ val pay_rent : t -> t -> Monopoly.t -> result
    - Otherwise, result is a [Legal combined_result] with new player1' , new
      player2' and same game*)
 
-val buy_property : t -> int -> Monopoly.t -> result
+val buy_property : t -> t -> int -> Monopoly.t -> result
 (**[buy_property player space game] is the result of [player1] buying a property
    located at [space] in the current [game]. -If the [player1] has insufficient
    funds, result is [Illegal] -If the [space] is not a valid [space] in the

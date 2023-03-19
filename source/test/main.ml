@@ -183,10 +183,28 @@ let owns_test (name : string) (player : State.t) (space : int)
     (game : Monopoly.t) (expected_output : bool) =
   name >:: fun _ -> assert_equal expected_output (State.owns player space game)
 
+(*checks whether the new player state created has an owns list with the property
+  added to its owns list. If there is an Illegal exception raised, use the
+  exception buy_property_exception function instead. *)
+let buy_property_test (name : string) (player1 : State.t) (player2: State.t) (space : int)
+    (game : Monopoly.t) (expected_player_owns_output : result) =
+  name >:: fun _ ->
+  assert_equal expected_player_owns_output
+    (State.buy_property player1 player2 space game)
+
+
+ 
+(* checks whether the new game state created from buy_property has the owner of
+   the property just bought equal to the player who bought the property. If an
+   illegal exception was raised, check that the game wasn't affected.*)
+let check_game (name : string) (player : State.t) =
+  raise (Failure "Implement me")
+
 let game_board_one =
   Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
 
 let state_one = init_state "Prakriti"
+let player_two = init_state "Amy"
 
 (*reflects change where player state two is the owner of the property at space
   1*)
@@ -195,7 +213,24 @@ let state_two = change_owns 1 state_one
 
 (*reflects change where player state three has multiple properties (1,3,4,6,8)
   including the property at space 1*)
-let game_board_three =  Monopoly.set_owner game_board_one 2 "Prakriti"
+let game_board_three = Monopoly.set_owner game_board_one 2 "Prakriti"
+
+let extract_result result =
+  match result with
+  | Illegal -> failwith "Not legal type"
+  | Legal t -> t
+
+let play1_state_owns =
+  (change_owns 1 state_one player_two game_board_one |> extract_result).player1
+
+let game1_state_owns =
+  (change_owns 1 state_one player_two game_board_one |> extract_result).game
+(*player1 buys prop at space 1. Below is the new player1 created and new game board created from*)
+let play1_state_buy =
+    (buy_property  state_one player_two 1  game_board_one |> extract_result).player1
+  
+let play1_game_buy =
+    (buy_property state_one player_two 1 game_board_one |> extract_result).game
 
 let state_tests =
   [
@@ -212,16 +247,16 @@ let state_tests =
     owns_test "check false when this player owns no properties" state_one 1
       game_board_one false;
     owns_test "check false when player owns no properties" state_one 1
-      game_board_one false;
-    owns_test "check true when player owns property at space 1" state_two 1
-      game_board_two true;
-    owns_test
-      "check false when player owns property but not property at space 2"
-      state_two 2 game_board_two false;
-    owns_test
-      "check true when player owns multiple spaces including property at space \
-       1"
-      state_two 1 game_board_two true;
+      game_board_one false
+    (* owns_test "check true when player owns property at space 1" state_two 1
+       game_board_two true; owns_test "check false when player owns property but
+       not property at space 2" state_two 2 game_board_two false; owns_test
+       "check true when player owns multiple spaces including property at space
+       \ 1" state_two 1 game_board_two true; *);
+
+       (**following tests are using owns_test test change_owns*)
+    owns_test "check true that play1_state owns property at space 1" play1_state_owns 1 game1_state_owns true;
+    owns_test "player 1 buys property at space 1" play1_state_buy 1 play1_game_buy true; 
   ]
 
 let suite =
