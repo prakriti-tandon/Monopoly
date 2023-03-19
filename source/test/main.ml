@@ -181,7 +181,8 @@ let check_name (name : string) (t : State.t) (amt : int)
 
 let owns_test (name : string) (player : State.t) (space : int)
     (game : Monopoly.t) (expected_output : bool) =
-  name >:: fun _ -> assert_equal expected_output (State.owns player space game)
+  name >:: fun _ -> assert_equal expected_output (State.owns player space game) ~printer: string_of_bool
+
 
 let game_board_one =
   Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
@@ -208,6 +209,8 @@ let play1_state =
 
 let game1_state =
   (change_owns 1 state_one player_two game_board_one |> extract_result).game
+ 
+let go_state = go 2 state_one game_board_one 
 
 let state_tests =
   [
@@ -231,8 +234,10 @@ let state_tests =
        "check true when player owns multiple spaces including property at space
        \ 1" state_two 1 game_board_two true; *);
 
-       (**following tests are using owns_test test change_owns*)
+       (**following tests are using owns_test to test change_owns*)
     owns_test "check true that play1_state owns property at space 1" play1_state 1 game1_state true;
+    (**following tests use current_pos_test to test go*)
+    current_pos_test "current pos of state_one after it has moved 2 steps is 2" go_state 2;
   ]
 
 let suite =

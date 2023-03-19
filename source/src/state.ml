@@ -38,18 +38,22 @@ let owns (player : t) (space : int) (game : Monopoly.t) =
       else false (*a different player owns it*)
 
 let change_owns pos play1 play2 game =
-  Legal {
-    player1 = {play1 with owns = List.sort_uniq Int.compare (pos :: play1.owns)};
-    player2 = play2;
-    game = Monopoly.set_owner game pos (name play1);
-  }
+  Legal
+    {
+      player1 =
+        { play1 with owns = List.sort_uniq Int.compare (pos :: play1.owns) };
+      player2 = play2;
+      game = Monopoly.set_owner game pos (name play1);
+    }
 
-let go (player : t) (game : Monopoly.t) =
-  let dice_result = Random.int 7 in
+let dice = Random.int 7
+
+let go (dice : int) (player : t) (game : Monopoly.t) =
+  let dice_result = dice in
   let result_position =
     (player.current_pos + dice_result) mod Monopoly.number_of_spaces game
   in
-  { (**extract dice outside so that testing is easier *)
+  {
     name = player.name;
     current_pos = result_position;
     money = player.money;

@@ -49,15 +49,20 @@ val change_owns : int -> t -> t -> Monopoly.t -> result
    [play2] and [game] after player [play1] has become the new owner of property
    [pos]. [play1] and [game] have changed*)
 
-val go : t -> Monopoly.t -> t
-(**[go player] is the new state of the [player] after they have rolled the dice
-   and moved ahead in the game. [go player] only affects the current position of
+val go : int -> t -> Monopoly.t -> t
+(**[go dice player] is the new state of the [player] after they have moved ahead
+   [dice] chances in the game. [go player] only affects the current position of
    the [player] *)
+
+val dice : int
+(** [dice] is a random integer generated between 0 and 6 (both inclusive). It is
+    the result of a dice roll*)
 
 val pay_rent : t -> t -> Monopoly.t -> result
 (**[pay_rent player1 player2 game] is the result of [player1] paying rent to
    [player2] in the Monopoly [game]
 
+   - Requires: [player2] owns the current position of [player1]
    - If [player1] has insufficient balance, result is [Illegal]
    - Otherwise, result is a [Legal combined_result] with new player1' , new
      player2' and same game*)
