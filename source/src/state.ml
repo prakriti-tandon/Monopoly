@@ -46,7 +46,9 @@ let change_owns pos play1 play2 game =
       game = Monopoly.set_owner game pos (name play1);
     }
 
-let dice = Random.int 7
+let rec dice () =
+  let n = Random.int 7 in
+  if n != 0 then n else dice ()
 
 let go (dice : int) (player : t) (game : Monopoly.t) =
   let dice_result = dice in
@@ -71,14 +73,16 @@ let pay_rent play1 play2 game =
         game;
       }
 
-let buy_property (player1 : t) (player2: t) (space : int) (game : Monopoly.t) =
-  let price_of_prop = Monopoly.price game space in 
-  if player1.money < price_of_prop then Illegal 
-  else 
-    let new_game = Monopoly.set_owner game space player1.name in 
-    let new_player1 = change_balance player1 (-price_of_prop) in 
-    Legal {
-    player1 =new_player1 (*{player1 with money= player1.money - price_of_prop }*);
-    player2 = player2;
-    game = new_game
-  }
+let buy_property (player1 : t) (player2 : t) (space : int) (game : Monopoly.t) =
+  let price_of_prop = Monopoly.price game space in
+  if player1.money < price_of_prop then Illegal
+  else
+    let new_game = Monopoly.set_owner game space player1.name in
+    let new_player1 = change_balance player1 (-price_of_prop) in
+    Legal
+      {
+        player1 =
+          new_player1 (*{player1 with money= player1.money - price_of_prop }*);
+        player2;
+        game = new_game;
+      }

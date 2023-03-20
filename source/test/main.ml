@@ -234,6 +234,12 @@ let play1_game_buy =
  
 let go_state = go 2 state_one game_board_one 
 
+let go_state_one = go 1 state_one game_board_one
+
+(**go_state_one has paid rent to play1_state_buy for position 1 whose rent is 2. *)
+let rent_play1 = (pay_rent go_state_one play1_state_buy game_board_one |> extract_result).player1
+let rent_play2 = (pay_rent go_state_one play1_state_buy game_board_one |> extract_result).player2
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -261,6 +267,11 @@ let state_tests =
     owns_test "player 1 buys property at space 1" play1_state_buy 1 play1_game_buy true; 
     (**following tests use current_pos_test to test go*)
     current_pos_test "current pos of state_one after it has moved 2 steps is 2" go_state 2;
+    (**following tests use current_balance_test to test pay_rent*)
+    current_balance_test "current balance of go_state_one is 500" go_state_one 500;
+    current_pos_test "current position of go_state_one is 1" go_state_one 1;
+    current_balance_test "current balance of rent_play1 is 498" rent_play1 498;
+    current_balance_test "current balance of rent_play2 is 442" rent_play2 442;
   ]
 
 let suite =
