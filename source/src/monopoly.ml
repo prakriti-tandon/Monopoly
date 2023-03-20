@@ -10,7 +10,6 @@ type property = {
   description : string;
   price : int;
   rent : int;
-  owner : string;
 }
 
 type space_type =
@@ -36,7 +35,6 @@ let property_of_json json =
     description = json |> member "description" |> to_string;
     price = json |> member "price" |> to_int;
     rent = json |> member "rent" |> to_int;
-    owner = json |> member "owner" |> to_string;
   }
 
 let info_of_json json =
@@ -63,32 +61,6 @@ let find_space mon property =
   match List.filter (fun x -> x.space_number = property) mon.spaces with
   | [ sp ] -> sp
   | _ -> raise UnknownSpace
-
-let owner mon property =
-  match (find_space mon property).info with
-  | Go a -> raise SpaceNotOwnable
-  | Property b -> if b.owner = "" then None else Some b.owner
-
-let replace_space mon prop newspace =
-  let less_spaces = List.filter (fun x -> x.space_number < prop) mon.spaces in
-  let more_spaces = List.filter (fun x -> x.space_number > prop) mon.spaces in
-  {
-    spaces = less_spaces @ (newspace :: more_spaces);
-    num_spaces = mon.num_spaces;
-  }
-
-let set_owner mon property player =
-  match (find_space mon property).info with
-  | Go a -> raise SpaceNotOwnable
-  | Property b ->
-      let space_info = b in
-      let new_space =
-        {
-          space_number = property;
-          info = Property { space_info with owner = player };
-        }
-      in
-      replace_space mon property new_space
 
 let name mon property =
   match (find_space mon property).info with
