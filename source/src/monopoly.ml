@@ -71,7 +71,7 @@ let name mon property =
 
 let description mon property =
   match (find_space mon property).info with
-  | Go a -> raise DescriptionNotAvailable
+  | Go a -> a.description
   | Property b -> b.description
 
 let price mon property =
