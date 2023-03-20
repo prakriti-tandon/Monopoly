@@ -4,36 +4,68 @@ open Command
 open State
 open Monopoly
 
-(*pay rent illegal -> termination*)
-(*CHANGE: Needs to take in the name of the player that wins and show that as the game gets over *)
-let terminate() = 
-print_endline "Game over";
+(*ends the game and shows the name of the player that won*)
+let terminate str = 
+print_endline (str ^ " has won!");
 exit 0
 
 let rec roll_die() = 
   let n = Random.int (7) in 
   if n!=0 then n else roll_die()
 
+(*both helpers need to return a tupple of s1 and st2 where the first *)
+  let trans st1 st2 board =     
+    try let comb_state = State.pay_rent (st1) (st2) (board) in (comb_state.player1, comb_state.player2)
+    with
+|   InsufficientFunds -> terminate (State.name st2)
 
-  let trans st1 st2 board = raise (Failure "unimp")
-  let prompt_buy st1 st2 board =raise (Failure "unimp")
+  (*recursive function that loops through and annoys the user till they return either y or n as a value*)
+  let rec get_command() =  
+  match read_line() with 
+  | "y" -> "y"
+  | "n" -> "n"
+  | _ -> 
+    print_endline ("Oh no thats not a valid command type y for yes and n for no"); 
+    print_endline("> ");
+    get_command() 
+  
+  let prompt_buy st1 st2 board = 
+    try let st_new = State.buy_property (st1) (current_pos st1) (board) in (st_new,st2)
+  with
+  | InsufficientFunds -> terminate (State.name st2)
 
 (*runs through one player turn which involves changing states, paying rent etc*)
 let player_run st1 st2 board= 
 (*printing the name of the player whose turn it is currently*)
 print_endline ("It is player "^ State.name st1^"'s turn");
-print_endline (">");
-(st1, st2)
-
+(*throw die to get a number and then move player 1 that many blocks*)
+let st1_go = State.go (roll_die())(st1) board in
+(*check if current spot is a property*)
+let curr_pos = current_pos st1_go in 
+(*print description of the property and check for owner *)
+print_endline (State.name st1^ " landed on "^ description board curr_pos );
+match (State.owns st2 curr_pos board) with 
+| true -> 
+  (*here the first argument is the player who is paying and second arg is the one who is receiving*)
+  trans st1_go st2 board
+| false -> 
+  print_endline ("Buy? [y/n]");
+  print_endline (">");
+  let str =  get_command() in
+  begin
+  match str with 
+  | "y" -> prompt_buy st1_go st2 board 
+  | "n" -> (st1_go, st2)
+  | _ -> (st1_go, st2)
+  end 
 
 (*main game loop*)
 let rec game_loop st1 st2 board= 
-  (*check termination state which is only when either of the players have negative amount of money*)
-  if current_balance st1 <= 0 || current_balance st2 <= 0 then terminate()
-  else
+  (*note-to-self: termination is handled in the transaction functions not here -> hard to deal with the exceptions in the main loop*)
     (*the first argument put into player_run is the player whose turn it is right now*)
     let state_after1 = player_run st1 st2 board in 
     match state_after1 with 
+    (*deals with player 2's turn and then recursively calls game_loop thereby starting player 1's turn again*)
     | (x,y) -> let state_after_2 = player_run y x board in game_loop (snd state_after_2) (fst state_after_2) board
 
 
@@ -75,5 +107,5 @@ let main () =
 (* Execute the game engine. *)
 let () = main ()
 
-(*NOTES/CONCERS*)
-(*Prak -> random int 7*)
+(*NOTES/COMMENTS/CONCERNS*)
+(*Print enline new line what to do?*)
