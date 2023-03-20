@@ -12,11 +12,6 @@ type combined_state = {
 (**The abstract type of the combined state of player1, and player2*)
 (*type combined_state*)
 
-(**The type represents the result of a buy or pay_rent action*)
-type result =
-  | Illegal
-  | Legal of combined_state
-
 exception InsufficientFunds
 (**Following exception is raised when the player has insufficient funds to buy
    property or pay rent*)
@@ -60,14 +55,13 @@ val dice : int
 (** [dice] is a random integer generated between 1 and 6 (both inclusive). It is
     the result of a dice roll*)
 
-val pay_rent : t -> t -> Monopoly.t -> result
+val pay_rent : t -> t -> Monopoly.t -> combined_state
 (**[pay_rent player1 player2 game] is the result of [player1] paying rent to
    [player2] in the Monopoly [game].
 
    - Requires: [player2] owns the current position of [player1]
    - If [player1] has insufficient balance, [InsufficientFunds] is raised
-   - Otherwise, result is a [Legal combined_result] with new player1' , new
-     player2'*)
+   - Otherwise, result is a [combined_result] with new player1' , new player2'*)
 
 val buy_property : t -> int -> Monopoly.t -> t
 (**[buy_property player space game] is the result of [player1] buying a property
