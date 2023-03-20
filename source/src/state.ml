@@ -26,13 +26,11 @@ let change_balance (player : t) (amt : int) =
     owns = player.owns;
   }
 
-let owns (player : t) (space : int) (game : Monopoly.t) =
-  let owner = Monopoly.owner game space in
-  match owner with
-  | None -> false (*no one owns the property at space *)
-  | Some name ->
-      if name = player.name then true (*this player owns the property*)
-      else false (*a different player owns it*)
+let rec owns (player : t) (space : int) (game : Monopoly.t) =
+  match player.owns with
+  | [] -> false
+  | h :: t ->
+      if h = space then true else owns { player with owns = t } space game
 
 let change_owns pos play1 =
   { play1 with owns = List.sort_uniq Int.compare (pos :: play1.owns) }

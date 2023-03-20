@@ -187,6 +187,11 @@ let check_game (name : string) (player : State.t) =
 
 let game_board = Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
 let state_one = init_state "Prakriti"
+let state_two = buy_property state_one 1 game_board
+
+let make_owns_test (name : string) (player1 : State.t) (space : int)
+    (game : Monopoly.t) (expected_output : bool) =
+  name >:: fun _ -> assert_equal expected_output (State.owns player1 space game)
 
 let state_tests =
   [
@@ -200,6 +205,12 @@ let state_tests =
     change_balance_test "add $200 to original balance: $500" state_one (-200)
       300;
     change_balance_test "add $0 to original balance: $500" state_one 0 500;
+    make_owns_test "player with no properties, space 1, game" state_one 1
+      game_board false;
+    make_owns_test "player with owns = [1], space 1, game" state_two 1
+      game_board true;
+    make_owns_test "player with owns=[1], space 2, game" state_two 2 game_board
+      false;
   ]
 
 let suite =
