@@ -57,14 +57,6 @@ let test_maker funct name board space expected_output =
 let test_maker_exception funct excep name board space =
   name >:: fun _ -> assert_raises excep (fun () -> funct board space)
 
-let owner_test = test_maker Monopoly.owner
-let owner_excep_test = test_maker_exception Monopoly.owner SpaceNotOwnable
-
-let set_owner_excep_test name board space player =
-  name >:: fun _ ->
-  assert_raises SpaceNotOwnable (fun () ->
-      Monopoly.set_owner board space player)
-
 let name_test = test_maker Monopoly.name
 let description_test = test_maker Monopoly.description
 
@@ -85,13 +77,6 @@ let num_spaces_test name board expected_output =
 
 let monopoly_tests =
   [
-    owner_test "Owner of CTB is None" board 14 None;
-    (* Tests set_owner *)
-    owner_test "Owner of CTB now Doug"
-      (set_owner board 14 "doug")
-      14 (Some "doug");
-    owner_excep_test "Go has no owner" board 0;
-    set_owner_excep_test "Can't give Go an owner" board 0 "doug";
     name_test "Space 0 named 'Go'" board 0 "Go";
     name_test "Space 1 named 'Balch Hall" board 1 "Balch Hall";
     description_test "Physical Sciences description" board 4
@@ -186,14 +171,12 @@ let owns_test (name : string) (player : State.t) (space : int)
 (*checks whether the new player state created has an owns list with the property
   added to its owns list. If there is an Illegal exception raised, use the
   exception buy_property_exception function instead. *)
-let buy_property_test (name : string) (player1 : State.t) (player2: State.t) (space : int)
-    (game : Monopoly.t) (expected_player_owns_output : result) =
+let buy_property_test (name : string) (player1 : State.t) (player2 : State.t)
+    (space : int) (game : Monopoly.t) (expected_player_owns_output : result) =
   name >:: fun _ ->
   assert_equal expected_player_owns_output
     (State.buy_property player1 player2 space game)
 
-
- 
 (* checks whether the new game state created from buy_property has the owner of
    the property just bought equal to the player who bought the property. If an
    illegal exception was raised, check that the game wasn't affected.*)
@@ -225,14 +208,16 @@ let play1_state_owns =
 
 let game1_state_owns =
   (change_owns 1 state_one player_two game_board_one |> extract_result).game
-(*player1 buys prop at space 1. Below is the new player1 created and new game board created from*)
+
+(*player1 buys prop at space 1. Below is the new player1 created and new game
+  board created from*)
 let play1_state_buy =
-    (buy_property  state_one player_two 1  game_board_one |> extract_result).player1
-  
+  (buy_property state_one player_two 1 game_board_one |> extract_result).player1
+
 let play1_game_buy =
-    (buy_property state_one player_two 1 game_board_one |> extract_result).game
- 
-let go_state = go 2 state_one game_board_one 
+  (buy_property state_one player_two 1 game_board_one |> extract_result).game
+
+let go_state = go 2 state_one game_board_one
 
 let state_tests =
   [
@@ -255,12 +240,14 @@ let state_tests =
        not property at space 2" state_two 2 game_board_two false; owns_test
        "check true when player owns multiple spaces including property at space
        \ 1" state_two 1 game_board_two true; *);
-
-       (**following tests are using owns_test to test change_owns*)
-    owns_test "check true that play1_state owns property at space 1" play1_state_owns 1 game1_state_owns true;
-    owns_test "player 1 buys property at space 1" play1_state_buy 1 play1_game_buy true; 
-    (**following tests use current_pos_test to test go*)
-    current_pos_test "current pos of state_one after it has moved 2 steps is 2" go_state 2;
+    (*following tests are using owns_test to test change_owns*)
+    owns_test "check true that play1_state owns property at space 1"
+      play1_state_owns 1 game1_state_owns true;
+    owns_test "player 1 buys property at space 1" play1_state_buy 1
+      play1_game_buy true;
+    (*following tests use current_pos_test to test go*)
+    current_pos_test "current pos of state_one after it has moved 2 steps is 2"
+      go_state 2;
   ]
 
 let suite =
