@@ -23,11 +23,12 @@ git-repo: "https://github.coecis.cornell.edu/as2637/CS3110-Final-Project"
 demo-video-url: ""
 # Write a short, attention-grabbing description of your project.
 desc: >
-  Our project is an interactive calculator. It supports standard mathematical
-  operations like addition, multiplication, negation, and division on both
-  integers and floating-point numbers. The interface is completely
-  programmable--new functions can easily be defined and assigned to new "keys"
-  in the visual interface.
+  Our project is a Cornell-themed Monopoly game that can be played in the 
+  terminal. At the moment the game supports two players and has functionality 
+  to support buying properties and paying rent to property owners. Players use
+  a simple text interface in the terminal that shows them what spot they land 
+  on after rolling the dice and enables them to choose whether to buy a 
+  property if it is not owned. The game ends when one player runs out of money!
 
-  Standard visual I/O is supported, but the calculator can also emit sound. By
-  pressing down a special key, it can play a little melody.
+  You can launch the game from terminal by navigating to the source folder and
+  running "make play".
