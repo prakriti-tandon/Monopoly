@@ -1,9 +1,8 @@
 (*Open statements*)
 open Game
-open Command 
+open Command
 open State
 open Monopoly
-
 
 (*pay rent illegal -> termination*)
 (*CHANGE: Needs to take in the name of the player that wins and show that as the game gets over *)
@@ -55,15 +54,19 @@ let rec initialise_game lst =
     | exception End_of_file -> ()
     | str -> get_name str
 
-(*main() and initialise_game helper which parses through the string given by the player and initialises the game *)
-and get_name str = 
-  let lst = String.split_on_char ' ' str in initialise_game lst
+(*main() and initialise_game helper which parses through the string given by the
+  player and initialises the game *)
+and get_name str =
+  let lst = String.split_on_char ' ' str in
+  initialise_game lst
 
 (*[main ()] prompts for the game to play, then starts it. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
-    "\nWelcome to cornopoly: Game for cornellians by cornellians\n";
-  print_endline "Please enter the name of first player followed by space and then the name of the second player";
+    "\nWelcome message to cornopoly\n";
+  print_endline
+    "Please enter the name of first player followed by space and then the name \
+     of the second player";
   print_string "> ";
   match read_line () with
   | str -> get_name str
