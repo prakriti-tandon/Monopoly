@@ -185,10 +185,8 @@ let check_name (name : string) (t : State.t) (amt : int)
 let check_game (name : string) (player : State.t) =
   raise (Failure "Implement me")
 
-let game_board_one =
-  Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
-
-let state_one = init_state "Prakriti"
+let game_board = Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
+let player_one = init_state "Prakriti"
 
 let state_tests =
   [

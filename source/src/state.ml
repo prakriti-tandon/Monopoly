@@ -60,10 +60,9 @@ let pay_rent play1 play2 game =
       player2 = { play2 with money = play2.money + rent };
     }
 
-let buy_property (player1 : t) (player2 : t) (space : int) (game : Monopoly.t) =
-  let space_of_prop = player1.current_pos in
-  let new_funds = player1.money - Monopoly.price game space_of_prop in
-  let new_owns = player1.owns @ [ space_of_prop ] in
+let buy_property (player1 : t) (space : int) (game : Monopoly.t) =
+  let new_funds = player1.money - Monopoly.price game space in
+  let new_owns = player1.owns @ [ space ] in
 
   {
     name = player1.name;
