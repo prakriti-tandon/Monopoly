@@ -43,7 +43,7 @@ val owns : t -> int -> Monopoly.t -> bool
 (**[owns player s game] is whether the [player] owns the property located at
    space [s] in the [game]. *)
 
-val change_owns : int -> t -> t -> Monopoly.t -> t
+val change_owns : int -> t -> t
 (**[change_owns pos player] is the new state of state [player] after property
    [pos] has been added to its set of owned properties*)
 
