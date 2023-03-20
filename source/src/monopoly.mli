@@ -14,9 +14,6 @@ exception UnknownSpace
 exception SpaceNotOwnable
 (** Raised when non-property spaces are queried for property-like attributes. *)
 
-exception DescriptionNotAvailable
-(** Raised when a user queries for a description of a space that has none. *)
-
 exception NoSalary
 (** Raised when a user queries for the salary of a space that does not provide
     one.*)
@@ -24,23 +21,12 @@ exception NoSalary
 val from_json : Yojson.Basic.t -> t
 (** [from_json j] initializes the monopoly board from file [j]. *)
 
-val owner : t -> int -> string option
-(** [owner m s] is Some name of the player that owns the property at space [s]
-    or None if no player owns space [s] on monopoly board [m]. Raises
-    [SpaceNotOwnable] if [s] is not a property. *)
-
-val set_owner : t -> int -> string -> t
-(** [owner m s u] is a the monopoly board [m] such that player name [u] owns the
-    property at space [s]. Raises [SpaceNotOwnable] if [s] is not a property. *)
-
 val name : t -> int -> string
 (** [name m s] is the name of the property or other space at space [s] in
     monopoly board [m]. *)
 
 val description : t -> int -> string
-(** [description m s] is the description of the property at space [s] in
-    monopoly board [m]. Raises [DescriptionNotAvailable] if space [s] has no
-    description. *)
+(** [description m s] is the description of space [s] in monopoly board [m]. *)
 
 val price : t -> int -> int
 (** [price m s] is the price to purchase the property at space [s] in monopoly

@@ -3,6 +3,7 @@
     {
       "space": 0,
       "type": "go",
+      "description": "You're back at the start of the board.",
       "info": {
         "id": "Go",
         "salary": 200
