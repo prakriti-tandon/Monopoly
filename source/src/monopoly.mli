@@ -24,6 +24,15 @@ exception NoSalary
 val from_json : Yojson.Basic.t -> t
 (** [from_json j] initializes the monopoly board from file [j]. *)
 
+val owner : t -> int -> string option
+(** [owner m s] is Some name of the player that owns the property at space [s]
+    or None if no player owns space [s] on monopoly board [m]. Raises
+    [SpaceNotOwnable] if [s] is not a property. *)
+
+val set_owner : t -> int -> string -> t
+(** [owner m s u] is a the monopoly board [m] such that player name [u] owns the
+    property at space [s]. Raises [SpaceNotOwnable] if [s] is not a property. *)
+
 val name : t -> int -> string
 (** [name m s] is the name of the property or other space at space [s] in
     monopoly board [m]. *)

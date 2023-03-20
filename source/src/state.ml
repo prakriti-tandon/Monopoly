@@ -37,9 +37,7 @@ let owns (player : t) (space : int) (game : Monopoly.t) =
 let change_owns pos play1 =
   { play1 with owns = List.sort_uniq Int.compare (pos :: play1.owns) }
 
-let rec dice () =
-  let n = Random.int 7 in
-  if n != 0 then n else dice ()
+let dice = Random.int 7
 
 let go (dice : int) (player : t) (game : Monopoly.t) =
   let dice_result = dice in

@@ -57,6 +57,14 @@ let test_maker funct name board space expected_output =
 let test_maker_exception funct excep name board space =
   name >:: fun _ -> assert_raises excep (fun () -> funct board space)
 
+let owner_test = test_maker Monopoly.owner
+let owner_excep_test = test_maker_exception Monopoly.owner SpaceNotOwnable
+
+let set_owner_excep_test name board space player =
+  name >:: fun _ ->
+  assert_raises SpaceNotOwnable (fun () ->
+      Monopoly.set_owner board space player)
+
 let name_test = test_maker Monopoly.name
 let description_test = test_maker Monopoly.description
 
@@ -77,6 +85,13 @@ let num_spaces_test name board expected_output =
 
 let monopoly_tests =
   [
+    owner_test "Owner of CTB is None" board 14 None;
+    (* Tests set_owner *)
+    owner_test "Owner of CTB now Doug"
+      (set_owner board 14 "doug")
+      14 (Some "doug");
+    owner_excep_test "Go has no owner" board 0;
+    set_owner_excep_test "Can't give Go an owner" board 0 "doug";
     name_test "Space 0 named 'Go'" board 0 "Go";
     name_test "Space 1 named 'Balch Hall" board 1 "Balch Hall";
     description_test "Physical Sciences description" board 4

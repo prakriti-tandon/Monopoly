@@ -23,13 +23,7 @@ let player_run st1 st2 board=
 (*printing the name of the player whose turn it is currently*)
 print_endline ("It is player "^ State.name st1^"'s turn");
 print_endline (">");
-(*move player to new block*)
-let st_go = State.go st1 board in 
-let curr_pos = current_pos st_go in 
-(*check if block is owned or not -> if owned then pay rent otherwise prompt buying*)
-match owner board curr_pos with 
-| Some s -> let lst = trans st1 st2 in 
-| None -> prompt_buy st1 st2 board
+(st1, st2)
 
 
 (*main game loop*)
@@ -37,8 +31,14 @@ let rec game_loop st1 st2 board=
   (*check termination state which is only when either of the players have negative amount of money*)
   if current_balance st1 <= 0 || current_balance st2 <= 0 then terminate()
   else
-    let st1_new = player_run st1 st2 board in
-    let st2_new = player_run st2 st1 board in game_loop st1_new st2_new board
+    (*the first argument put into player_run is the player whose turn it is right now*)
+    let state_after1 = player_run st1 st2 board in 
+    match state_after1 with 
+    | (x,y) -> let state_after_2 = player_run y x board in game_loop (snd state_after_2) (fst state_after_2) board
+
+
+    (*let st1_new = player_run st1 st2 board in
+    let st2_new = player_run st2 st1 board in game_loop st1_new st2_new board*)
 
 (*Gets the list of names and initialises the game and then calls start game*)
 let rec initialise_game lst = 
