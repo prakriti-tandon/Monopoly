@@ -1,0 +1,15 @@
+How to install Cornopoly:
+
+1. You will need to install ANSITerminal. To do this, open your
+terminal, and run:
+
+$ opam update (this command ensures that OPAM is up to date)
+$ opam upgrade (you may be prompted to run this after updating OPAM)
+$ opam install ANSITerminal
+
+2. To launch the game, in your terminal, cd to the directory containing
+our project files. Then, cd to the "source" folder. Next, run "make play". 
+You should see a message that says "Welcome to cornopoly."
+
+
+
