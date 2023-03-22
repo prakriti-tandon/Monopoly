@@ -36,7 +36,7 @@ val change_balance : t -> int -> t
 (**[change_balance player amt] is the new state of player's state [player] after
    their balance is changed by [amt]. If [amt] is negative, money will be
    deducted from the current balance in state [player] by [amt]. If [amt] is
-   negative, that means money will be added to the current balance in state
+   positive, that means money will be added to the current balance in state
    [player] by [amt]. *)
 
 val owns : t -> int -> Monopoly.t -> bool
@@ -66,5 +66,7 @@ val pay_rent : t -> t -> Monopoly.t -> combined_state
 
 val buy_property : t -> int -> Monopoly.t -> t
 (**[buy_property player space game] is the result of [player1] buying a property
-   located at [space] in the current [game]. -If the [player1] has insufficient
-   funds, result is [InsufficientFunds] -Otherwise, the result is new player'*)
+   located at [space] in the current [game].
+
+   -If the [player1] has insufficient funds, result is [InsufficientFunds]
+   \-Otherwise, the result is new player'*)
