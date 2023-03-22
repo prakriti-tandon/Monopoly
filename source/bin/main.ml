@@ -12,7 +12,8 @@ exit 0
 (*calls once and returns a function*)
 let rec roll_die = let _ = Random.self_init () in fun() -> 
   let n = Random.int (7) in 
-  if n!=0 then n else roll_die()
+  if n!=0 then n
+  else roll_die()
 
 (*both helpers need to return a tupple of s1 and st2 where the first *)
   let trans st1 st2 board =     
@@ -37,15 +38,18 @@ let rec roll_die = let _ = Random.self_init () in fun() ->
 
 (*runs through one player turn which involves changing states, paying rent etc*)
 let player_run st1 st2 board= 
-(*printing the name of the player whose turn it is currently*)
 print_endline ("It is player "^ State.name st1^"'s turn");
-(*throw die to get a number and then move player 1 that many blocks*)
-let st1_go = State.go (roll_die())(st1) board in
+let n = roll_die() in
+let st1_go = State.go (n)(st1) board in
+print_endline("you got "^ string_of_int n);
 (*check if current spot is a property*)
 let curr_pos = current_pos st1_go in 
-(*print description of the property and check for owner *)
-print_endline (State.name st1^ " landed on "^ description board curr_pos );
-print_endline( "your current balance is "^ string_of_int(State.current_balance st1));
+(*print description and name of the property and check for owner *)
+print_endline (State.name st1^ " landed on "^ name board curr_pos );
+print_endline ( description board curr_pos );
+ANSITerminal.print_string [ ANSITerminal.red ]
+("your current balance is "^ string_of_int(State.current_balance st1));
+print_endline(" ");
 (*do all the matching only if the state is property otherwise just return (st1_go, st2)*)
 if space_type (board) (State.current_pos st1_go) = "property"then 
   match (State.owns st2 curr_pos board) with 
@@ -53,16 +57,15 @@ if space_type (board) (State.current_pos st1_go) = "property"then
     (*here the first argument is the player who is paying and second arg is the one who is receiving*)
     trans st1_go st2 board
   | false -> 
-   (* if (State.owns st1_go curr_pos board)=false then*) 
-      print_endline ("Buy? [y/n]");
-      print_string (">");
-      let str =  get_command() in
-      begin
-      match str with 
-      | "y" -> prompt_buy st1_go st2 board 
-      | "n" -> (st1_go, st2)
-      | _ -> (st1_go, st2)
-      end 
+        print_endline ("Buy? [y/n]");
+        print_string (">");
+        let str =  get_command() in
+        begin
+        match str with 
+        | "y" -> prompt_buy st1_go st2 board 
+        | "n" -> (st1_go, st2)
+        | _ -> (st1_go, st2)
+        end 
 else 
   (st1_go, st2)
 
@@ -114,10 +117,5 @@ let main () =
 let () = main ()
 
 (*NOTES/COMMENTS/CONCERNS*)
-(*Print enline new line what to do?*)
-(*Problems with randomising the dice outcomes
-   deal with the situation when player 1 owns it 
+   (*deal with the situation when player 1 owns it 
 *)
-
-(*TO DO : print current balance and the price and rent *)
-(*show number on dice roll*)
