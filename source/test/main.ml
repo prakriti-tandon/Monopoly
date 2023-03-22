@@ -179,10 +179,14 @@ let player_two = buy_property (init_state "Amy") 2 game_board
 let rent_play1 = (pay_rent go_state player_two game_board).player1
 let rent_play2 = (pay_rent go_state player_two game_board).player2
 
+let player_two_insuf_funds= (buy_property player_two 22 game_board) 
 
 let make_owns_test (name : string) (player1 : State.t) (space : int)
     (game : Monopoly.t) (expected_output : bool) =
   name >:: fun _ -> assert_equal expected_output (State.owns player1 space game)
+
+let buy_property_exception_test (name :string) (player1: State.t) (space:int) (game: Monopoly.t) = 
+  name >:: (fun _ -> assert_raises (InsufficientFunds) (fun () -> buy_property player1 space game))
 
 let state_tests =
   [
@@ -198,8 +202,10 @@ let state_tests =
     change_balance_test "add $0 to original balance: $500" state_one 0 500;
     make_owns_test "player with no properties, space 1, game" state_one 1
       game_board false;
+      (*following test checks buy_property*)
     make_owns_test "player with owns = [1], space 1, game" state_two 1
       game_board true;
+      (*following test checks buy_property*)
     make_owns_test "player with owns=[1], space 2, game" state_two 2 game_board
       false;
     (*following test checks change_owns*)
@@ -209,6 +215,8 @@ let state_tests =
     (**following tests check pay_rent*)
     current_balance_test "current balance of rent_play1 is 496" rent_play1 496; 
     current_balance_test "current balance of rent_play2 is 444" rent_play2 444;
+    current_balance_test "current balance of player_two is 440" player_two_insuf_funds 40;
+    buy_property_exception_test "insufficient funds to buy property" player_two_insuf_funds 1 game_board
   ]
 
 let suite =
