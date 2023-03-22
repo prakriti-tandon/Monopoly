@@ -9,7 +9,8 @@ let terminate str =
 print_endline (str ^ " has won!");
 exit 0
 
-let rec roll_die() = 
+(*calls once and returns a function*)
+let rec roll_die = let _ = Random.self_init () in fun() -> 
   let n = Random.int (7) in 
   if n!=0 then n else roll_die()
 
@@ -26,7 +27,7 @@ let rec roll_die() =
   | "n" -> "n"
   | _ -> 
     print_endline ("Oh no thats not a valid command type y for yes and n for no"); 
-    print_endline("> ");
+    print_string("> ");
     get_command() 
   
   let prompt_buy st1 st2 board = 
@@ -44,20 +45,26 @@ let st1_go = State.go (roll_die())(st1) board in
 let curr_pos = current_pos st1_go in 
 (*print description of the property and check for owner *)
 print_endline (State.name st1^ " landed on "^ description board curr_pos );
-match (State.owns st2 curr_pos board) with 
-| true -> 
-  (*here the first argument is the player who is paying and second arg is the one who is receiving*)
-  trans st1_go st2 board
-| false -> 
-  print_endline ("Buy? [y/n]");
-  print_endline (">");
-  let str =  get_command() in
-  begin
-  match str with 
-  | "y" -> prompt_buy st1_go st2 board 
-  | "n" -> (st1_go, st2)
-  | _ -> (st1_go, st2)
-  end 
+print_endline( "your current balance is "^ string_of_int(State.current_balance st1));
+(*do all the matching only if the state is property otherwise just return (st1_go, st2)*)
+if space_type (board) (State.current_pos st1_go) = "property"then 
+  match (State.owns st2 curr_pos board) with 
+  | true -> 
+    (*here the first argument is the player who is paying and second arg is the one who is receiving*)
+    trans st1_go st2 board
+  | false -> 
+   (* if (State.owns st1_go curr_pos board)=false then*) 
+      print_endline ("Buy? [y/n]");
+      print_string (">");
+      let str =  get_command() in
+      begin
+      match str with 
+      | "y" -> prompt_buy st1_go st2 board 
+      | "n" -> (st1_go, st2)
+      | _ -> (st1_go, st2)
+      end 
+else 
+  (st1_go, st2)
 
 (*main game loop*)
 let rec game_loop st1 st2 board= 
@@ -67,7 +74,6 @@ let rec game_loop st1 st2 board=
     match state_after1 with 
     (*deals with player 2's turn and then recursively calls game_loop thereby starting player 1's turn again*)
     | (x,y) -> let state_after_2 = player_run y x board in game_loop (snd state_after_2) (fst state_after_2) board
-
 
     (*let st1_new = player_run st1 st2 board in
     let st2_new = player_run st2 st1 board in game_loop st1_new st2_new board*)
@@ -109,3 +115,9 @@ let () = main ()
 
 (*NOTES/COMMENTS/CONCERNS*)
 (*Print enline new line what to do?*)
+(*Problems with randomising the dice outcomes
+   deal with the situation when player 1 owns it 
+*)
+
+(*TO DO : print current balance and the price and rent *)
+(*show number on dice roll*)
