@@ -60,11 +60,13 @@ let pay_rent play1 play2 game =
 
 let buy_property (player1 : t) (space : int) (game : Monopoly.t) =
   let new_funds = player1.money - Monopoly.price game space in
-  let new_owns = player1.owns @ [ space ] in
+  if new_funds < 0 then raise InsufficientFunds
+  else
+    let new_owns = player1.owns @ [ space ] in
 
-  {
-    name = player1.name;
-    current_pos = player1.current_pos;
-    money = new_funds;
-    owns = new_owns;
-  }
+    {
+      name = player1.name;
+      current_pos = player1.current_pos;
+      money = new_funds;
+      owns = new_owns;
+    }
