@@ -5,6 +5,12 @@ type t = {
   owns : int list;
 }
 
+type property = {
+  space : int;
+  num_houses : int;
+  num_hotels : int;
+}
+
 type combined_state = {
   player1 : t;
   player2 : t;
@@ -15,6 +21,14 @@ exception InsufficientFunds
 let init_state str = { name = str; current_pos = 0; money = 500; owns = [] }
 let name (player : t) = player.name
 let current_pos (player : t) = player.current_pos
+let owns_list (player : t) = failwith "unimplemented"
+let num_houses (player : t) (space : int) = failwith "unimplemented"
+let num_hotels (player : t) (space : int) = failwith "unimplemented"
+let owes (player : t) = failwith "unimplemented"
+let change_owes (player : t) = failwith "unimplemneted"
+let jail (player : t) = failwith "unimplemented"
+let put_in_jail (player : t) = failwith "unimplemented"
+let get_out_of_jail (player : t) = failwith "unimplemented"
 let current_balance (player : t) = player.money
 
 let change_balance (player : t) (amt : int) =
