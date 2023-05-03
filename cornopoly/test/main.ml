@@ -171,7 +171,7 @@ let check_game (name : string) (player : State.t) =
 
 let game_board = Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
 let state_one = init_state "Prakriti"
-let state_two = buy_property state_one 1 game_board
+let state_two = State.buy_property state_one 1 game_board
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
 let player_two = buy_property (init_state "Amy") 2 game_board
@@ -188,6 +188,8 @@ let make_owns_test (name : string) (player1 : State.t) (space : int)
 let buy_property_exception_test (name :string) (player1: State.t) (space:int) (game: Monopoly.t) = 
   name >:: (fun _ -> assert_raises (InsufficientFunds) (fun () -> buy_property player1 space game))
 
+let make_num_houses_test (name: string) (player1 :State.t) (space: int) (expected_output:int)= 
+name >:: fun _ -> assert_equal expected_output (State.num_houses player1 space)
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
