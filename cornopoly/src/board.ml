@@ -12,6 +12,11 @@ type property = {
   rent : int;
 }
 
+type other = {
+  id : string;
+  description : string;
+}
+
 type space_type =
   | Go of {
       id : string;
@@ -19,6 +24,9 @@ type space_type =
       description : string;
     }
   | Property of property
+  | CommChest of other
+  | Chance of other
+  | Jail of other
 
 type space = {
   space_number : int;
@@ -38,17 +46,28 @@ let property_of_json json =
     rent = json |> member "rent" |> to_int;
   }
 
+let other_of_json json =
+  {
+    id = json |> member "id" |> to_string;
+    description = json |> member "description" |> to_string;
+  }
+
 let info_of_json json =
   let stype = json |> member "type" |> to_string in
   let json = json |> member "info" in
-  if stype = "go" then
-    Go
-      {
-        id = json |> member "id" |> to_string;
-        salary = json |> member "salary" |> to_int;
-        description = json |> member "description" |> to_string;
-      }
-  else Property (property_of_json json)
+  match stype with
+  | "go" ->
+      Go
+        {
+          id = json |> member "id" |> to_string;
+          salary = json |> member "salary" |> to_int;
+          description = json |> member "description" |> to_string;
+        }
+  | "property" -> Property (property_of_json json)
+  | "comm-chest" -> CommChest (other_of_json json)
+  | "chance" -> Chance (other_of_json json)
+  | "jail" -> Jail (other_of_json json)
+  | _ -> failwith "Not a valid space type in json"
 
 let space_of_json json =
   { space_number = json |> member "space" |> to_int; info = info_of_json json }
@@ -67,22 +86,28 @@ let find_space mon property =
 let name mon property =
   match (find_space mon property).info with
   | Go a -> a.id
-  | Property b -> b.id
+  | Property a -> a.id
+  | Chance a -> a.id
+  | CommChest a -> a.id
+  | Jail a -> a.id
 
 let description mon property =
   match (find_space mon property).info with
   | Go a -> a.description
-  | Property b -> b.description
+  | Property a -> a.description
+  | Chance a -> a.description
+  | CommChest a -> a.description
+  | Jail a -> a.description
 
 let price mon property =
   match (find_space mon property).info with
-  | Go a -> raise SpaceNotOwnable
   | Property b -> b.price
+  | _ -> raise SpaceNotOwnable
 
 let rent mon property =
   match (find_space mon property).info with
-  | Go a -> raise SpaceNotOwnable
   | Property b -> b.rent
+  | _ -> raise SpaceNotOwnable
 
 let salary mon s =
   match (find_space mon s).info with
@@ -93,5 +118,8 @@ let space_type mon property =
   match (find_space mon property).info with
   | Go a -> "go"
   | Property b -> "property"
+  | Chance c -> "chance"
+  | CommChest d -> "comm-chest"
+  | Jail e -> "jail"
 
 let number_of_spaces game = game.num_spaces

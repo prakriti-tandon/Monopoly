@@ -2,7 +2,7 @@
 open Game
 open Command
 open State
-open Monopoly
+open Board
 
 (*ends the game and shows the name of the player that won*)
 let terminate str =
