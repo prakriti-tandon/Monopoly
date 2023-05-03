@@ -1,6 +1,6 @@
 open OUnit2
 open Game
-open Monopoly
+open Board
 open Command
 open State
 open Yojson
@@ -49,7 +49,7 @@ let cmp_demo =
   ]
 
 (**************************************************************)
-let board = Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
+let board = Board.from_json (Yojson.Basic.from_file "data/board.json")
 
 let test_maker funct name board space expected_output =
   name >:: fun _ -> assert_equal expected_output (funct board space)
@@ -57,30 +57,27 @@ let test_maker funct name board space expected_output =
 let test_maker_exception funct excep name board space =
   name >:: fun _ -> assert_raises excep (fun () -> funct board space)
 
-
-let name_test = test_maker Monopoly.name
-let description_test = test_maker Monopoly.description
-
-let price_test = test_maker Monopoly.price
-let price_excep_test = test_maker_exception Monopoly.price SpaceNotOwnable
-let rent_test = test_maker Monopoly.rent
-let rent_excep_test = test_maker_exception Monopoly.rent SpaceNotOwnable
-let salary_test = test_maker Monopoly.salary
-let salary_excep_test = test_maker_exception Monopoly.salary NoSalary
-let space_type_test = test_maker Monopoly.space_type
+let name_test = test_maker Board.name
+let description_test = test_maker Board.description
+let price_test = test_maker Board.price
+let price_excep_test = test_maker_exception Board.price SpaceNotOwnable
+let rent_test = test_maker Board.rent
+let rent_excep_test = test_maker_exception Board.rent SpaceNotOwnable
+let salary_test = test_maker Board.salary
+let salary_excep_test = test_maker_exception Board.salary NoSalary
+let space_type_test = test_maker Board.space_type
 
 let num_spaces_test name board expected_output =
-  name >:: fun _ ->
-  assert_equal expected_output (Monopoly.number_of_spaces board)
+  name >:: fun _ -> assert_equal expected_output (Board.number_of_spaces board)
 
 let monopoly_tests =
   [
-    
     name_test "Space 0 named 'Go'" board 0 "Go";
     name_test "Space 1 named 'Balch Hall" board 1 "Balch Hall";
     description_test "Physical Sciences description" board 4
       "Home of the Goldie's chicken panini.";
-    description_test "Go description" board 0 "You're back at the start of the board.";
+    description_test "Go description" board 0
+      "You're back at the start of the board.";
     price_test "Four seasons price 220" board 13 220;
     price_excep_test "Go has no price" board 0;
     rent_test "Susp. bridge rent 26" board 19 26;
@@ -169,24 +166,24 @@ let check_name (name : string) (t : State.t) (amt : int)
 let check_game (name : string) (player : State.t) =
   raise (Failure "Implement me")
 
-let game_board = Monopoly.from_json (Yojson.Basic.from_file "data/board.json")
+let game_board = Board.from_json (Yojson.Basic.from_file "data/board.json")
 let state_one = init_state "Prakriti"
 let state_two = buy_property state_one 1 game_board
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
 let player_two = buy_property (init_state "Amy") 2 game_board
-
 let rent_play1 = (pay_rent go_state player_two game_board).player1
 let rent_play2 = (pay_rent go_state player_two game_board).player2
-
-let player_two_insuf_funds= (buy_property player_two 22 game_board) 
+let player_two_insuf_funds = buy_property player_two 22 game_board
 
 let make_owns_test (name : string) (player1 : State.t) (space : int)
-    (game : Monopoly.t) (expected_output : bool) =
+    (game : Board.t) (expected_output : bool) =
   name >:: fun _ -> assert_equal expected_output (State.owns player1 space game)
 
-let buy_property_exception_test (name :string) (player1: State.t) (space:int) (game: Monopoly.t) = 
-  name >:: (fun _ -> assert_raises (InsufficientFunds) (fun () -> buy_property player1 space game))
+let buy_property_exception_test (name : string) (player1 : State.t)
+    (space : int) (game : Board.t) =
+  name >:: fun _ ->
+  assert_raises InsufficientFunds (fun () -> buy_property player1 space game)
 
 let state_tests =
   [
@@ -202,21 +199,24 @@ let state_tests =
     change_balance_test "add $0 to original balance: $500" state_one 0 500;
     make_owns_test "player with no properties, space 1, game" state_one 1
       game_board false;
-      (*following test checks buy_property*)
+    (*following test checks buy_property*)
     make_owns_test "player with owns = [1], space 1, game" state_two 1
       game_board true;
-      (*following test checks buy_property*)
+    (*following test checks buy_property*)
     make_owns_test "player with owns=[1], space 2, game" state_two 2 game_board
       false;
     (*following test checks change_owns*)
     make_owns_test "player with owns = [1]" state_three 1 game_board true;
-    (**following test checks go*)
-    current_pos_test "current pos of state_one after it has moved 2 steps is 2" go_state 2;
-    (**following tests check pay_rent*)
-    current_balance_test "current balance of rent_play1 is 496" rent_play1 496; 
+    (*following test checks go*)
+    current_pos_test "current pos of state_one after it has moved 2 steps is 2"
+      go_state 2;
+    (*following tests check pay_rent*)
+    current_balance_test "current balance of rent_play1 is 496" rent_play1 496;
     current_balance_test "current balance of rent_play2 is 444" rent_play2 444;
-    current_balance_test "current balance of player_two is 440" player_two_insuf_funds 40;
-    buy_property_exception_test "insufficient funds to buy property" player_two_insuf_funds 1 game_board
+    current_balance_test "current balance of player_two is 440"
+      player_two_insuf_funds 40;
+    buy_property_exception_test "insufficient funds to buy property"
+      player_two_insuf_funds 1 game_board;
   ]
 
 let suite =

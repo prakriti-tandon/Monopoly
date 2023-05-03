@@ -31,6 +31,14 @@
     },
     {
       "space": 3,
+      "type": "comm-chest",
+      "info": {
+        "id": "Community Chest",
+        "description": "You can draw a community chest card."
+      }
+    },
+    {
+      "space": 4,
       "type": "property",
       "info": {
         "id": "Baker lab",
@@ -40,7 +48,7 @@
       }
     },
     {
-      "space": 4,
+      "space": 5,
       "type": "property",
       "info": {
         "id": "Physical Sciences Building",
@@ -50,7 +58,7 @@
       }
     },
     {
-      "space": 5,
+      "space": 6,
       "type": "property",
       "info": {
         "id": "Rockefeller Hall",
@@ -60,7 +68,15 @@
       }
     },
     {
-      "space": 6,
+      "space": 7,
+      "type": "chance",
+      "info": {
+        "id": "Chance",
+        "description": "You can draw a chance card."
+      }
+    },
+    {
+      "space": 8,
       "type": "property",
       "info": {
         "id": "Duffield Hall",
@@ -70,7 +86,7 @@
       }
     },
     {
-      "space": 7,
+      "space": 9,
       "type": "property",
       "info": {
         "id": "Rhodes Hall",
@@ -80,7 +96,7 @@
       }
     },
     {
-      "space": 8,
+      "space": 10,
       "type": "property",
       "info": {
         "id": "Gates Hall",
@@ -90,7 +106,15 @@
       }
     },
     {
-      "space": 9,
+      "space": 11,
+      "type": "comm-chest",
+      "info": {
+        "id": "Community Chest",
+        "description": "You can draw a community chest card."
+      }
+    },
+    {
+      "space": 12,
       "type": "property",
       "info": {
         "id": "Goldwin Smith Hall",
@@ -100,7 +124,7 @@
       }
     },
     {
-      "space": 10,
+      "space": 13,
       "type": "property",
       "info": {
         "id": "Clock tower",
@@ -110,7 +134,7 @@
       }
     },
     {
-      "space": 11,
+      "space": 14,
       "type": "property",
       "info": {
         "id": "Johnson Museum",
@@ -120,17 +144,25 @@
       }
     },
     {
-      "space": 12,
+      "space": 15,
+      "type": "jail",
+      "info": {
+        "id": "Jail",
+        "description": "CUPD got you. You're in jail."
+      }
+    },
+    {
+      "space": 16,
       "type": "property",
       "info": {
-        "id": "Pokelava",
-        "description": "Avocado's extra, is that okay?",
+        "id": "Level B",
+        "description": "The only club in the world where it's illegal to enter if you're 21.",
         "price": 220,
         "rent": 18
       }
     },
     {
-      "space": 13,
+      "space": 17,
       "type": "property",
       "info": {
         "id": "Four Seasons",
@@ -140,7 +172,7 @@
       }
     },
     {
-      "space": 14,
+      "space": 18,
       "type": "property",
       "info": {
         "id": "CTB",
@@ -150,7 +182,15 @@
       }
     },
     {
-      "space": 15,
+      "space": 19,
+      "type": "comm-chest",
+      "info": {
+        "id": "Community Chest",
+        "description": "You can draw a community chest card."
+      }
+    },
+    {
+      "space": 20,
       "type": "property",
       "info": {
         "id": "Terrace",
@@ -160,7 +200,7 @@
       }
     },
     {
-      "space": 16,
+      "space": 21,
       "type": "property",
       "info": {
         "id": "Macs",
@@ -170,7 +210,7 @@
       }
     },
     {
-      "space": 17,
+      "space": 22,
       "type": "property",
       "info": {
         "id": "Statler Hotel",
@@ -180,7 +220,15 @@
       }
     },
     {
-      "space": 18,
+      "space": 23,
+      "type": "chance",
+      "info": {
+        "id": "Chance",
+        "description": "You can draw a chance card."
+      }
+    },
+    {
+      "space": 24,
       "type": "property",
       "info": {
         "id": "Beebe Lake",
@@ -190,7 +238,7 @@
       }
     },
     {
-      "space": 19,
+      "space": 25,
       "type": "property",
       "info": {
         "id": "Suspension Bridge",
@@ -200,7 +248,7 @@
       }
     },
     {
-      "space": 20,
+      "space": 26,
       "type": "property",
       "info": {
         "id": "Cascadilla Trail",
@@ -210,7 +258,15 @@
       }
     },
     {
-      "space": 21,
+      "space": 27,
+      "type": "comm-chest",
+      "info": {
+        "id": "Community Chest",
+        "description": "You can draw a community chest card."
+      }
+    },
+    {
+      "space": 28,
       "type": "property",
       "info": {
         "id": "The Tunnels",
@@ -220,7 +276,7 @@
       }
     },
     {
-      "space": 22,
+      "space": 29,
       "type": "property",
       "info": {
         "id": "Martha's Weather Machine",
@@ -230,5 +286,5 @@
       }
     }
   ],
-  "number_spaces": 23
+  "number_spaces": 30
 }

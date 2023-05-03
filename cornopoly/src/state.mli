@@ -39,7 +39,7 @@ val change_balance : t -> int -> t
    positive, that means money will be added to the current balance in state
    [player] by [amt]. *)
 
-val owns : t -> int -> Monopoly.t -> bool
+val owns : t -> int -> Board.t -> bool
 (**[owns player s game] is whether the [player] owns the property located at
    space [s] in the [game]. *)
 
@@ -47,7 +47,7 @@ val change_owns : int -> t -> t
 (**[change_owns pos player] is the new state of state [player] after property
    [pos] has been added to its set of owned properties*)
 
-val go : int -> t -> Monopoly.t -> t
+val go : int -> t -> Board.t -> t
 (**[go dice player] is the new state of the [player] after they have moved ahead
    [dice] chances in the game. [go player] only affects the current position of
    the [player] *)
@@ -56,7 +56,7 @@ val dice : int
 (** [dice] is a random integer generated between 0 and 6 (both inclusive). It is
     the result of a dice roll*)
 
-val pay_rent : t -> t -> Monopoly.t -> combined_state
+val pay_rent : t -> t -> Board.t -> combined_state
 (**[pay_rent player1 player2 game] is the result of [player1] paying rent to
    [player2] in the Monopoly [game]
 
@@ -64,7 +64,7 @@ val pay_rent : t -> t -> Monopoly.t -> combined_state
    - If [player1] has insufficient balance, [InsufficientFunds] is raised
    - Otherwise, result is a [combined_result] with new player1' , new player2'*)
 
-val buy_property : t -> int -> Monopoly.t -> t
+val buy_property : t -> int -> Board.t -> t
 (**[buy_property player space game] is the result of [player1] buying a property
    located at [space] in the current [game].
 

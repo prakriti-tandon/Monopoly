@@ -41,8 +41,8 @@ val salary : t -> int -> int
     [NoSalary] if space [s] does not give the player a salary.*)
 
 val space_type : t -> int -> string
-(** [space_type m s] is the type of space p in monopoly board [s]. As of MS1,
-    this can either be "property" or "go". *)
+(** [space_type m s] is the type of space p in monopoly board [s]. May evaluate
+    to "go", "property", "chance", "comm-chest", or "jail". *)
 
 val number_of_spaces : t -> int
 (**[number_of_spaces m] is the number of spaces in board [m]*)
