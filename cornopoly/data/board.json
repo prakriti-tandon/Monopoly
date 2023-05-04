@@ -16,7 +16,9 @@
         "id": "Balch Hall",
         "description": "Home to the women of Cornell's freshman class. And also lots of bugs.",
         "price": 60,
-        "rent": 2
+        "rent": 2,
+        "rph": 10,
+        "pph": 50
       }
     },
     {
@@ -26,7 +28,9 @@
         "id": "Court-Kay-Bauer Hall",
         "description": "Home to the luckiest Cornell students... until 2021.",
         "price": 60,
-        "rent": 4
+        "rent": 4,
+        "rph": 20,
+        "pph": 50
       }
     },
     {
@@ -44,7 +48,9 @@
         "id": "Baker lab",
         "description": "Home to some very sad chemistry students",
         "price": 100,
-        "rent": 6
+        "rent": 6,
+        "rph": 30,
+        "pph": 50
       }
     },
     {
@@ -54,7 +60,9 @@
         "id": "Physical Sciences Building",
         "description": "Home of the Goldie's chicken panini.",
         "price": 100,
-        "rent": 6
+        "rent": 6,
+        "rph": 30,
+        "pph": 50
       }
     },
     {
@@ -64,7 +72,9 @@
         "id": "Rockefeller Hall",
         "description": "Home to one very curious cat.",
         "price": 120,
-        "rent": 8
+        "rent": 8,
+        "rph": 40,
+        "pph": 50
       }
     },
     {
@@ -82,7 +92,9 @@
         "id": "Duffield Hall",
         "description": "THE place to pull an all-nighter",
         "price": 140,
-        "rent": 10
+        "rent": 10,
+        "rph": 50,
+        "pph": 100
       }
     },
     {
@@ -92,7 +104,9 @@
         "id": "Rhodes Hall",
         "description": "Maybe one day they'll let me steal a course staff shirt.",
         "price": 140,
-        "rent": 10
+        "rent": 10,
+        "rph": 50,
+        "pph": 100
       }
     },
     {
@@ -102,7 +116,9 @@
         "id": "Gates Hall",
         "description": "A very nice backdrop for a headshot.",
         "price": 160,
-        "rent": 12
+        "rent": 12,
+        "rph": 60,
+        "pph": 100
       }
     },
     {
@@ -120,7 +136,9 @@
         "id": "Goldwin Smith Hall",
         "description": "Good luck finding a table at Zeus!",
         "price": 180,
-        "rent": 14
+        "rent": 14,
+        "rph": 70,
+        "pph": 100
       }
     },
     {
@@ -130,7 +148,9 @@
         "id": "Clock tower",
         "description": "Tearing up at the alma mater.",
         "price": 180,
-        "rent": 14
+        "rent": 14,
+        "rph": 70,
+        "pph": 100
       }
     },
     {
@@ -140,7 +160,9 @@
         "id": "Johnson Museum",
         "description": "Coolest ceiling on campus.",
         "price": 200,
-        "rent": 16
+        "rent": 16,
+        "rph": 80,
+        "pph": 100
       }
     },
     {
@@ -158,7 +180,9 @@
         "id": "Level B",
         "description": "The only club in the world where it's illegal to enter if you're 21.",
         "price": 220,
-        "rent": 18
+        "rent": 18,
+        "rph": 90,
+        "pph": 150
       }
     },
     {
@@ -168,7 +192,9 @@
         "id": "Four Seasons",
         "description": "Sake sake sake...",
         "price": 220,
-        "rent": 18
+        "rent": 18,
+        "rph": 90,
+        "pph": 150
       }
     },
     {
@@ -178,7 +204,9 @@
         "id": "CTB",
         "description": "A great place to take the parents.",
         "price": 240,
-        "rent": 20
+        "rent": 20,
+        "rph": 100,
+        "pph": 150
       }
     },
     {
@@ -196,7 +224,9 @@
         "id": "Terrace",
         "description": "Burrito line out the door? Sure.",
         "price": 260,
-        "rent": 22
+        "rent": 22,
+        "rph": 110,
+        "pph": 150
       }
     },
     {
@@ -206,7 +236,9 @@
         "id": "Macs",
         "description": "More crowded than the slope on slope day.",
         "price": 260,
-        "rent": 22
+        "rent": 22,
+        "rph": 110,
+        "pph": 150
       }
     },
     {
@@ -216,7 +248,9 @@
         "id": "Statler Hotel",
         "description": "Quietest study spot on campus, for $200 a night!",
         "price": 280,
-        "rent": 24
+        "rent": 24,
+        "rph": 120,
+        "pph": 150
       }
     },
     {
@@ -234,7 +268,9 @@
         "id": "Beebe Lake",
         "description": "A classic freshman year activity.",
         "price": 300,
-        "rent": 26
+        "rent": 26,
+        "rph": 130,
+        "pph": 200
       }
     },
     {
@@ -244,7 +280,9 @@
         "id": "Suspension Bridge",
         "description": "A beautiful place to watch the sunset.",
         "price": 300,
-        "rent": 26
+        "rent": 26,
+        "rph": 130,
+        "pph": 200
       }
     },
     {
@@ -254,7 +292,9 @@
         "id": "Cascadilla Trail",
         "description": "Soooooo many stairs.",
         "price": 320,
-        "rent": 28
+        "rent": 28,
+        "rph": 150,
+        "pph": 200
       }
     },
     {
@@ -272,7 +312,9 @@
         "id": "The Tunnels",
         "description": "I heard they're out there...",
         "price": 350,
-        "rent": 35
+        "rent": 35,
+        "rph": 175,
+        "pph": 200
       }
     },
     {
@@ -282,7 +324,9 @@
         "id": "Martha's Weather Machine",
         "description": "It was under the football field all along!",
         "price": 400,
-        "rent": 50
+        "rent": 50,
+        "rph": 200,
+        "pph": 200
       }
     }
   ],
