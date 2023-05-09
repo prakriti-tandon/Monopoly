@@ -151,3 +151,4 @@ let space_type mon property =
   | Jail e -> "jail"
 
 let number_of_spaces game = game.num_spaces
+let rent_per_hotel = raise (Failure "Unimplemented")
