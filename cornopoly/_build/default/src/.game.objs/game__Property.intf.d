@@ -1,1 +1,1 @@
-src/property.mli: State
+src/property.mli: Board State

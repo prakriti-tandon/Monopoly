@@ -3,52 +3,121 @@ type status =
   | NotOwned
   | OwnedByThisPlayer
 
-(*player_list represents the list of all players*)
 type player_list = State.t array
 
-(*type combined_state is the type for a value that shows the combined state of
-  the bank and a player *)
-type combined_state = {
-  player : State.t;
-  bank : Bank.t;
-}
-
 exception InsufficientFunds
+exception SpaceNotOwnable
 
-(*[propert_status pls property] determined the status of the property space
-  [property] with the players [pls]*)
-let property_status = raise (Failure "Unimp")
+let property_status (pls : player_list) (curr_pl : State.t) (board : Board.t) :
+    status =
+  let curr_pos = State.current_pos curr_pl in
+  let check_owns (player : State.t) = State.owns player curr_pos board in
+  match Array.find_opt check_owns pls with
+  | None -> NotOwned
+  | Some player ->
+      if State.name player = State.name curr_pl then OwnedByThisPlayer
+      else OwnedByOtherPlayer player
 
-(*[determine_rent owner property board] determines the rent payable for
-  [property] from the [board] and depending on the number of houses owned by
-  [owner] of [property]. Precondition: [owner] owns [property]*)
-let determine_rent = raise (Failure "Unimp")
+let determine_rent (owner : State.t) (property : int) (board : Board.t) : int =
+  let base_rent =
+    try Board.rent board property
+    with Board.SpaceNotOwnable -> raise SpaceNotOwnable
+  in
+  let num_houses = State.num_houses owner property in
+  let num_hotels = State.num_hotels owner property in
+  let rent_per_hotel = Board.rent_per_hotel board property in
+  let rent_per_house = Board.rent_per_house board property in
+  match (num_houses, num_hotels) with
+  | 0, 0 -> base_rent
+  | 0, 1 -> base_rent + rent_per_hotel
+  | 0, 2 -> base_rent + (2 * rent_per_hotel)
+  | 1, 0 -> base_rent + rent_per_house
+  | 1, 1 -> base_rent + rent_per_hotel + rent_per_house
+  | 1, 2 -> base_rent + (2 * rent_per_hotel) + rent_per_house
+  | 2, 0 -> base_rent + (2 * rent_per_house)
+  | 2, 1 -> base_rent + rent_per_hotel + (2 * rent_per_house)
+  | 2, 2 -> base_rent + (2 * rent_per_hotel) + (2 * rent_per_house)
+  | 3, 0 -> base_rent + (3 * rent_per_house)
+  | 3, 1 -> base_rent + rent_per_hotel + (3 * rent_per_house)
+  | 3, 2 -> base_rent + (2 * rent_per_hotel) + (3 * rent_per_house)
+  | 4, 0 -> base_rent + (4 * rent_per_house)
+  | 4, 1 -> base_rent + rent_per_hotel + (4 * rent_per_house)
+  | 4, 2 -> base_rent + (2 * rent_per_hotel) + (4 * rent_per_house)
+  | _ -> failwith "impossible"
 
-(*[determine_price owner property board] determines the total cost of [property]
-  from the [board] and depending on the number of houses owned by [owner] of
-  [property]. Precondition: [owner] owns [property]*)
-let determine_price = raise (Failure "Unimp")
+let determine_price (owner : State.t) (property : int) (board : Board.t) =
+  let base_price =
+    try Board.price board property
+    with Board.SpaceNotOwnable -> raise SpaceNotOwnable
+  in
+  let num_houses = State.num_houses owner property in
+  let num_hotels = State.num_hotels owner property in
+  let price_per_hotel = Board.price_per_hotel board property in
+  let price_per_house = Board.price_per_house board property in
+  match (num_houses, num_hotels) with
+  | 0, 0 -> base_price
+  | 0, 1 -> base_price + price_per_hotel
+  | 0, 2 -> base_price + (2 * price_per_hotel)
+  | 1, 0 -> base_price + price_per_house
+  | 1, 1 -> base_price + price_per_hotel + price_per_house
+  | 1, 2 -> base_price + (2 * price_per_hotel) + price_per_house
+  | 2, 0 -> base_price + (2 * price_per_house)
+  | 2, 1 -> base_price + price_per_hotel + (2 * price_per_house)
+  | 2, 2 -> base_price + (2 * price_per_hotel) + (2 * price_per_house)
+  | 3, 0 -> base_price + (3 * price_per_house)
+  | 3, 1 -> base_price + price_per_hotel + (3 * price_per_house)
+  | 3, 2 -> base_price + (2 * price_per_hotel) + (3 * price_per_house)
+  | 4, 0 -> base_price + (4 * price_per_house)
+  | 4, 1 -> base_price + price_per_hotel + (4 * price_per_house)
+  | 4, 2 -> base_price + (2 * price_per_hotel) + (4 * price_per_house)
+  | _ -> failwith "impossible"
 
-(*[pay_rent pls curr_pl board] finds out the current position of [curr_pl],
-  checks if a player in [player_list] owns it, conducts the transaction between
-  the two players, and gives the new list of players with updated balances. If
-  nobody owns the property, it gives the same [pls] list of players.
-  InsufficientFunds] if the player does not have money.*)
-let pay_rent = raise (Failure "Unimp")
+(*[find_index name pls] finds the index of the player in [pls] with the same
+  name as [name]*)
+let find_index (name : string) (pls : player_list) : int =
+  let res = ref 0 in
+  let size = Array.length pls in
+  for x = 0 to size - 1 do
+    let player = pls.(x) in
+    if State.name player = name then res := x else ()
+  done;
+  !res
 
-(*[buy_property curr_pl board bank] makes the [curr_pl] buy its current
-  position, and deposit the money in [bank]. It gives the combined resulting
-  state of the [curr_pl] and [bank].T hrows InsufficientFunds] if the player
-  does not have money.*)
-let buy_property = raise (Failure "Unimp")
+let pay_rent (pls : player_list) (curr_pl : State.t) (board : Board.t) : unit =
+  match property_status pls curr_pl board with
+  | NotOwned -> ()
+  | OwnedByThisPlayer -> ()
+  | OwnedByOtherPlayer owner ->
+      let rent = determine_rent owner (State.current_pos curr_pl) board in
+      if rent > State.current_balance curr_pl then raise InsufficientFunds
+      else
+        let new_pl = State.change_balance curr_pl (-rent) in
+        let new_owner = State.change_balance owner rent in
+        let curr_pl_index = find_index (State.name curr_pl) pls in
+        let owner_index = find_index (State.name owner) pls in
+        pls.(curr_pl_index) <- new_pl;
+        pls.(owner_index) <- new_owner
 
-(*[build_house curr_pl board bank] build a house at the current position of
-  [curr_pl] and conducts the appropriate transaction from the [curr_pl] to bank.
-  It gives the combined resulting state of the [curr_pl] and [bank]. Throws
-  [InsufficientFunds] if the player does not have money. *)
-let build_house = raise (Failure "Unimp")
+let buy_property_from_player (pls : player_list) (curr_pl : State.t)
+    (board : Board.t) =
+  match property_status pls curr_pl board with
+  | NotOwned -> ()
+  | OwnedByThisPlayer -> ()
+  | OwnedByOtherPlayer owner ->
+      let property = State.current_pos curr_pl in
+      let price = determine_price owner property board in
+      if price > State.current_balance curr_pl then raise InsufficientFunds
+      else
+        let new_pl =
+          State.change_balance curr_pl (-price)
+          |> State.change_owns property (*build houses and hotels*)
+        in
 
-(*[sell_property curr_pl property board bank] allows [curr_pl] to sell property
-  [property] to the [bank] and take the money equal to the price of the
-  [property]*)
-let sell_property = raise (Failure "Unimp")
+        let new_owner =
+          State.change_balance owner
+            price (*change owns, number of houses, hotels*)
+        in
+        let curr_pl_index = find_index (State.name curr_pl) pls in
+        let owner_index = find_index (State.name owner) pls in
+        pls.(curr_pl_index) <- new_pl;
+        pls.(owner_index) <- new_owner

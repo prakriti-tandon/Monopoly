@@ -19,8 +19,9 @@ let rec roll_die =
 (*both helpers need to return a tupple of s1 and st2 where the first *)
 let trans st1 st2 board =
   try
-    let comb_state = State.pay_rent st1 st2 board in
-    (comb_state.player1, comb_state.player2)
+    (* let comb_state = State.pay_rent st1 st2 board in *)
+    (* (comb_state.player1, comb_state.player2) *)
+    (State.init_state "a", State.init_state "b")
   with InsufficientFunds -> terminate (State.name st2)
 
 (*recursive function that loops through and annoys the user till they return

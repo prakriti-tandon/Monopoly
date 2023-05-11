@@ -10,6 +10,10 @@ type property = {
   description : string;
   price : int;
   rent : int;
+  price_per_house : int;
+  rent_per_house : int;
+  price_per_hotel : int;
+  rent_per_hotel : int;
 }
 
 type other = {
@@ -44,6 +48,10 @@ let property_of_json json =
     description = json |> member "description" |> to_string;
     price = json |> member "price" |> to_int;
     rent = json |> member "rent" |> to_int;
+    price_per_house = json |> member "pph" |> to_int;
+    rent_per_house = json |> member "rph" |> to_int;
+    price_per_hotel = json |> member "pphot" |> to_int;
+    rent_per_hotel = json |> member "rphot" |> to_int;
   }
 
 let other_of_json json =
@@ -104,9 +112,29 @@ let price mon property =
   | Property b -> b.price
   | _ -> raise SpaceNotOwnable
 
+let price_per_house mon property =
+  match (find_space mon property).info with
+  | Property b -> b.price_per_house
+  | _ -> raise SpaceNotOwnable
+
+let price_per_hotel mon property =
+  match (find_space mon property).info with
+  | Property b -> b.price_per_hotel
+  | _ -> raise SpaceNotOwnable
+
 let rent mon property =
   match (find_space mon property).info with
   | Property b -> b.rent
+  | _ -> raise SpaceNotOwnable
+
+let rent_per_house mon property =
+  match (find_space mon property).info with
+  | Property b -> b.rent_per_house
+  | _ -> raise SpaceNotOwnable
+
+let rent_per_house mon property =
+  match (find_space mon property).info with
+  | Property b -> b.rent_per_hotel
   | _ -> raise SpaceNotOwnable
 
 let salary mon s =
@@ -123,3 +151,4 @@ let space_type mon property =
   | Jail e -> "jail"
 
 let number_of_spaces game = game.num_spaces
+let rent_per_hotel = raise (Failure "Unimplemented")

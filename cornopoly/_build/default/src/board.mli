@@ -32,9 +32,29 @@ val price : t -> int -> int
 (** [price m s] is the price to purchase the property at space [s] in monopoly
     board [m]. Raises [SpaceNotOwnable] if [s] is not a property. *)
 
+val price_per_house : t -> int -> int
+(** [price_per_house m s] is the price to purchase a house for the property at
+    space [s] in monopoly board [m]. Raises [SpaceNotOwnable] if [s] is not a
+    property. *)
+
+val price_per_hotel : t -> int -> int
+(** [price_per_hotel m s] is the price to purchase a hotel for the property at
+    space [s] in monopoly board [m]. Raises [SpaceNotOwnable] if [s] is not a
+    property. *)
+
 val rent : t -> int -> int
 (** [rent m s] is the rent price for the property at space [s] in monopoly board
     [m]. Raises [SpaceNotOwnable] if [s] is not a property. *)
+
+val rent_per_house : t -> int -> int
+(** [rent_per_house m s] is the rent price per house for the property at space
+    [s] in monopoly board [m]. Raises [SpaceNotOwnable] if [s] is not a
+    property. *)
+
+val rent_per_hotel : t -> int -> int
+(** [rent_per_hotel m s] is the rent price per hotel for the property at space
+    [s] in monopoly board [m]. Raises [SpaceNotOwnable] if [s] is not a
+    property. *)
 
 val salary : t -> int -> int
 (** [salary m s] is the salary players acquire by passing space [s] Raises
