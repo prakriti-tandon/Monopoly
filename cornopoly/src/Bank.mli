@@ -8,6 +8,7 @@ type t
 exception InsufBankFunds
 
 (*create a bank*)
+val init_state : int -> t
 val init_bank : int -> t
 
 (*[add_funds bank a] adds [a] amount of funds to [bank]. This function is used
