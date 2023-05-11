@@ -16,6 +16,16 @@ exception InsufficientFunds
 (**Following exception is raised when the player has insufficient funds to buy
    property or pay rent*)
 
+exception ExceededHouseLimit
+(**Following excpeiton is raised when the [player1] is trying to buy too many
+   houses (>=4) or buying a num of houses that will cause them to exceed the
+   limit of 4,*)
+
+exception ExceededHotelLimit
+(**Following excpetion is raised when the [player1] is trying to buy too many
+   hotels (>=2) or buying a num of hotels that will cause them to exceed the
+   limit of 2 *)
+
 val init_state : string -> t
 (**[init_state str] is the initial state of the player with name [str]. In that
    state, the player's current position is the go position. They have 500
@@ -89,17 +99,40 @@ val dice : int
 (** [dice] is a random integer generated between 0 and 6 (both inclusive). It is
     the result of a dice roll*)
 
-val pay_rent : t -> t -> Board.t -> combined_state
-(**[pay_rent player1 player2 game] is the result of [player1] paying rent to
-   [player2] in the Monopoly [game]
-
-   - Requires: [player2] owns the current position of [player1]
-   - If [player1] has insufficient balance, [InsufficientFunds] is raised
-   - Otherwise, result is a [combined_result] with new player1' , new player2'*)
-
-val buy_property : t -> int -> Board.t -> t
+val buy_property : t -> int -> Board.t -> Bank.t -> t
 (**[buy_property player space game] is the result of [player1] buying a property
    located at [space] in the current [game].
 
    -If the [player1] has insufficient funds, result is [InsufficientFunds]
    \-Otherwise, the result is new player'*)
+
+val buy_house : t -> int -> Board.t -> int -> Bank.t -> t
+(**[buy_house player space game x bank] is the result of [player1] buying [x]
+   number of houses (<=4) located at [space] in the current [game]. The maximum
+   number of houses a given player can have is 4.
+
+   -If the [player1] has insufficient funds, result is [InsufficientFunds] -If
+   the [player1] is trying to buy too many houses (>=4) or buying a num of
+   houses that will cause them to exceed the limit of 4, result is
+   [ExceededHouseLimit] -Otherwise, the result is new player'*)
+
+val buy_hotel : t -> int -> Board.t -> int -> Bank.t -> t
+(**[buy_hotel player space game x bank] is the result of [player1] buying [x]
+   number of hotels (<=2) located at [space] in the current [game]. The maximum
+   number of houses a given player can have is 2.
+
+   -If the [player1] has insufficient funds, result is [InsufficientFunds] -If
+   the [player1] is trying to buy too many hotels (>=2) or buying a num of
+   hotels that will cause them to exceed the limit of 2, result is
+   [ExceededHotelLimit] -Otherwise, the result is new player'*)
+
+val sell_property : t -> int -> Board.t -> Bank.t -> t
+(**[sell_property player space game x bank] is the result of [player1] selling a
+   property located at [space] in the current [game]. *)
+
+   val sell_house : t -> int -> Board.t -> Bank.t -> t
+(**[sell_house player space game x bank] is the result of [player1] selling a
+   house located at [space] in the current [game]. *)
+   val sell_hotel : t -> int -> Board.t -> Bank.t -> t
+   (**[sell_hotel player space game x bank] is the result of [player1] selling a
+      hotel located at [space] in the current [game]. *)

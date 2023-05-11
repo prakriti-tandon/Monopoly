@@ -249,6 +249,16 @@ let property_status_test (name : string) (pls : Property.player_list)
   name >:: fun _ ->
   assert_equal (property_status pls curr_pl board) expected_ouptut
 
+let determine_rent_test (name : string) (owner : State.t) (property : int)
+    (board : Board.t) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal (determine_rent owner property board) expected_output
+
+let determine_price_test (name : string) (owner : State.t) (property : int)
+    (board : Board.t) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal (determine_price owner property board) expected_output
+
 let property_tests =
   [ property_status_test "owned by no one" pls player1 board NotOwned ]
 

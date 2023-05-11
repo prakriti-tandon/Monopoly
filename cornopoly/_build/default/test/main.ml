@@ -4,6 +4,7 @@ open Board
 open Command
 open State
 open Yojson
+open Property
 
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether they are
     equivalent set-like lists. That means checking two things. First, they must
@@ -238,8 +239,22 @@ let state_tests =
   Property.ml tests
   ******************************************************************************)
 
+let player1 = State.go 1 (init_state "A") board
+let player2 = State.go 1 (init_state "B") board
+let player3 = State.go 1 (init_state "C") board
+let pls = [| player1; player2; player3 |]
+
+let property_status_test (name : string) (pls : Property.player_list)
+    (curr_pl : State.t) (board : Board.t) (expected_ouptut : Property.status) =
+  name >:: fun _ ->
+  assert_equal (property_status pls curr_pl board) expected_ouptut
+
+let property_tests =
+  [ property_status_test "owned by no one" pls player1 board NotOwned ]
+
 let suite =
   "test suite for final project"
-  >::: List.flatten [ monopoly_tests; command_tests; state_tests ]
+  >::: List.flatten
+         [ monopoly_tests; command_tests; state_tests; property_tests ]
 
 let _ = run_test_tt_main suite

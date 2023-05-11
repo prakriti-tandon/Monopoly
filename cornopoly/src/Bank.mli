@@ -8,7 +8,7 @@ type t
 exception InsufBankFunds
 
 (*create a bank*)
-val init_state : int -> int ref
+val init_bank : int -> t
 
 (*[add_funds bank a] adds [a] amount of funds to [bank]. This function is used
   when buying a property, or repaying a loan, or any action that increases the
