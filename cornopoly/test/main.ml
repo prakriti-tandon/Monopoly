@@ -176,10 +176,9 @@ let state_two = State.buy_property state_one 1 game_board
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
 let player_two = buy_property (init_state "Amy") 2 game_board
-(* let rent_play1 = (pay_rent go_state player_two game_board).player1 let
-   rent_play2 = (pay_rent go_state player_two game_board).player2 *)
 
-(*COMMENT TEST*)
+(*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
+  rent_play2 = (pay_rent go_state player_two game_board).player2*)
 let player_two_insuf_funds = buy_property player_two 22 game_board
 
 let make_owns_test (name : string) (player1 : State.t) (space : int)
@@ -222,10 +221,9 @@ let state_tests =
     current_pos_test "current pos of state_one after it has moved 2 steps is 2"
       go_state 2;
     (*following tests check pay_rent*)
-    (* current_balance_test "current balance of rent_play1 is 496" rent_play1
-       496;( current_balance_test "current balance of rent_play2 is 444"
-       rent_play2 444; *)
-    (*COMMENT TEST*)
+    (*current_balance_test "current balance of rent_play1 is 496" rent_play1
+      496; current_balance_test "current balance of rent_play2 is 444"
+      rent_play2 444;*)
     current_balance_test "current balance of player_two is 440"
       player_two_insuf_funds 40;
     buy_property_exception_test "insufficient funds to buy property"

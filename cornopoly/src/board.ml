@@ -132,7 +132,7 @@ let rent_per_house mon property =
   | Property b -> b.rent_per_house
   | _ -> raise SpaceNotOwnable
 
-let rent_per_house mon property =
+let rent_per_hotel mon property =
   match (find_space mon property).info with
   | Property b -> b.rent_per_hotel
   | _ -> raise SpaceNotOwnable
@@ -151,4 +151,6 @@ let space_type mon property =
   | Jail e -> "jail"
 
 let number_of_spaces game = game.num_spaces
-let rent_per_hotel = raise (Failure "Unimplemented")
+
+let between_spaces m sp1 sp2 =
+  if sp2 > sp1 then sp2 - sp1 else m.num_spaces - sp1 + sp2
