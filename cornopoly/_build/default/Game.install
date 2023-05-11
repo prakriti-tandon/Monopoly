@@ -1,4 +1,6 @@
 lib: [
+  "_build/install/default/lib/Game/Bank.ml"
+  "_build/install/default/lib/Game/Bank.mli"
   "_build/install/default/lib/Game/META"
   "_build/install/default/lib/Game/board.ml"
   "_build/install/default/lib/Game/board.mli"
@@ -18,6 +20,10 @@ lib: [
   "_build/install/default/lib/Game/game.cmx"
   "_build/install/default/lib/Game/game.cmxa"
   "_build/install/default/lib/Game/game.ml"
+  "_build/install/default/lib/Game/game__Bank.cmi"
+  "_build/install/default/lib/Game/game__Bank.cmt"
+  "_build/install/default/lib/Game/game__Bank.cmti"
+  "_build/install/default/lib/Game/game__Bank.cmx"
   "_build/install/default/lib/Game/game__Board.cmi"
   "_build/install/default/lib/Game/game__Board.cmt"
   "_build/install/default/lib/Game/game__Board.cmti"

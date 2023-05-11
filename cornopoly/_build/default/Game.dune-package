@@ -1,4 +1,4 @@
-(lang dune 3.7)
+(lang dune 3.6)
 (name Game)
 (sections (lib .) (libexec .) (doc ../../doc/Game))
 (files
@@ -74,56 +74,36 @@
  (modes byte native)
  (modules
   (wrapped
-   (group
-    (alias
-     (obj_name game)
+   (main_module_name Game)
+   (modules
+    ((name Bank) (obj_name game__Bank) (visibility public) (impl) (intf))
+    ((name Board) (obj_name game__Board) (visibility public) (impl) (intf))
+    ((name Card_deck)
+     (obj_name game__Card_deck)
      (visibility public)
-     (kind alias)
-     (source (path Game) (impl (path game.ml-gen))))
+     (impl)
+     (intf))
+    ((name Chance) (obj_name game__Chance) (visibility public) (impl) (intf))
+    ((name Comm_chest)
+     (obj_name game__Comm_chest)
+     (visibility public)
+     (impl)
+     (intf))
+    ((name Command)
+     (obj_name game__Command)
+     (visibility public)
+     (impl)
+     (intf))
+    ((name Property)
+     (obj_name game__Property)
+     (visibility public)
+     (impl)
+     (intf))
+    ((name State) (obj_name game__State) (visibility public) (impl) (intf)))
+   (alias_module
     (name Game)
-    (modules
-     (module
-      (obj_name game__Bank)
-      (visibility public)
-      (source (path Bank) (intf (path Bank.mli)) (impl (path Bank.ml))))
-     (module
-      (obj_name game__Board)
-      (visibility public)
-      (source (path Board) (intf (path board.mli)) (impl (path board.ml))))
-     (module
-      (obj_name game__Card_deck)
-      (visibility public)
-      (source
-       (path Card_deck)
-       (intf (path card_deck.mli))
-       (impl (path card_deck.ml))))
-     (module
-      (obj_name game__Chance)
-      (visibility public)
-      (source (path Chance) (intf (path chance.mli)) (impl (path chance.ml))))
-     (module
-      (obj_name game__Comm_chest)
-      (visibility public)
-      (source
-       (path Comm_chest)
-       (intf (path comm_chest.mli))
-       (impl (path comm_chest.ml))))
-     (module
-      (obj_name game__Command)
-      (visibility public)
-      (source
-       (path Command)
-       (intf (path command.mli))
-       (impl (path command.ml))))
-     (module
-      (obj_name game__Property)
-      (visibility public)
-      (source
-       (path Property)
-       (intf (path property.mli))
-       (impl (path property.ml))))
-     (module
-      (obj_name game__State)
-      (visibility public)
-      (source (path State) (intf (path state.mli)) (impl (path state.ml))))))
+    (obj_name game)
+    (visibility public)
+    (kind alias)
+    (impl))
    (wrapped true))))

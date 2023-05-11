@@ -66,3 +66,8 @@ val space_type : t -> int -> string
 
 val number_of_spaces : t -> int
 (**[number_of_spaces m] is the number of spaces in board [m]*)
+
+val between_spaces : t -> int -> int -> int
+(** [between_spaces m sp1 sp2] is the number of spaces a player must travel
+    forward to land on space [sp2] when they are currently on [sp1] in monopoly
+    board [m].*)

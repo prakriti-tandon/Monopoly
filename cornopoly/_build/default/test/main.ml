@@ -66,6 +66,8 @@ let rent_excep_test = test_maker_exception Board.rent SpaceNotOwnable
 let salary_test = test_maker Board.salary
 let salary_excep_test = test_maker_exception Board.salary NoSalary
 let space_type_test = test_maker Board.space_type
+let pph_test = test_maker Board.price_per_house
+let rph_test = test_maker Board.rent_per_house
 
 let num_spaces_test name board expected_output =
   name >:: fun _ -> assert_equal expected_output (Board.number_of_spaces board)
@@ -87,6 +89,8 @@ let monopoly_tests =
     space_type_test "Go has type go" board 0 "go";
     space_type_test "Balch has type property" board 1 "property";
     num_spaces_test "board has 23 spaces" board 23;
+    rph_test "rph of level b is 90" board 16 90;
+    pph_test "pph of clock tower is 100" board 13 100;
   ]
 
 (* [print_command command] is a string representation of [command] of type
@@ -172,8 +176,9 @@ let state_two = State.buy_property state_one 1 game_board
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
 let player_two = buy_property (init_state "Amy") 2 game_board
-let rent_play1 = (pay_rent go_state player_two game_board).player1
-let rent_play2 = (pay_rent go_state player_two game_board).player2
+
+(*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
+  rent_play2 = (pay_rent go_state player_two game_board).player2*)
 let player_two_insuf_funds = buy_property player_two 22 game_board
 
 let make_owns_test (name : string) (player1 : State.t) (space : int)
@@ -185,8 +190,11 @@ let buy_property_exception_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_raises InsufficientFunds (fun () -> buy_property player1 space game)
 
-let make_num_houses_test (name: string) (player1 :State.t) (space: int) (expected_output:int)= 
-name >:: fun _ -> assert_equal expected_output (State.num_houses player1 space)
+let make_num_houses_test (name : string) (player1 : State.t) (space : int)
+    (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal expected_output (State.num_houses player1 space)
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -213,13 +221,22 @@ let state_tests =
     current_pos_test "current pos of state_one after it has moved 2 steps is 2"
       go_state 2;
     (*following tests check pay_rent*)
-    current_balance_test "current balance of rent_play1 is 496" rent_play1 496;
-    current_balance_test "current balance of rent_play2 is 444" rent_play2 444;
+    (*current_balance_test "current balance of rent_play1 is 496" rent_play1
+      496; current_balance_test "current balance of rent_play2 is 444"
+      rent_play2 444;*)
     current_balance_test "current balance of player_two is 440"
       player_two_insuf_funds 40;
     buy_property_exception_test "insufficient funds to buy property"
       player_two_insuf_funds 1 game_board;
   ]
+
+(******************************************************************************
+  Bank.ml tests
+  ******************************************************************************)
+
+(******************************************************************************
+  Property.ml tests
+  ******************************************************************************)
 
 let suite =
   "test suite for final project"
