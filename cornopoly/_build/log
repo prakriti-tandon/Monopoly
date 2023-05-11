@@ -1,0 +1,176 @@
+# dune build
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Workspace root:
+# /Users/prakrititandon/finalproject/CS3110-Final-Project/cornopoly
+# Auto-detected concurrency: 8
+$ /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/5h/wdtl7gmx7l9fp2qj4xxgv5040000gn/T/dune_b5f23a_output
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; for_host = None
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; toplevel_path =
+#      Some External "/Users/prakrititandon/.opam/cs3110-2023sp/lib/toplevel"
+#  ; ocaml_bin = External "/Users/prakrititandon/.opam/cs3110-2023sp/bin"
+#  ; ocaml = Ok External "/Users/prakrititandon/.opam/cs3110-2023sp/bin/ocaml"
+#  ; ocamlc =
+#      External "/Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt"
+#  ; ocamlopt =
+#      Ok External "/Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt"
+#  ; ocamldep =
+#      Ok External "/Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt"
+#  ; ocamlmklib =
+#      Ok
+#        External
+#          "/Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlmklib.opt"
+#  ; env =
+#      map
+#        { "DUNE_OCAML_HARDCODED" :
+#            "/Users/prakrititandon/.opam/cs3110-2023sp/lib"
+#        ; "DUNE_OCAML_STDLIB" :
+#            "/Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" :
+#            "/Users/prakrititandon/finalproject/CS3110-Final-Project/cornopoly"
+#        ; "INSIDE_DUNE" :
+#            "/Users/prakrititandon/finalproject/CS3110-Final-Project/cornopoly/_build/default"
+#        ; "OCAMLFIND_IGNORE_DUPS_IN" :
+#            "/Users/prakrititandon/finalproject/CS3110-Final-Project/cornopoly/_build/install/default/lib"
+#        ; "OCAMLPATH" :
+#            "/Users/prakrititandon/finalproject/CS3110-Final-Project/cornopoly/_build/install/default/lib"
+#        ; "OCAMLTOP_INCLUDE_PATH" :
+#            "/Users/prakrititandon/finalproject/CS3110-Final-Project/cornopoly/_build/install/default/lib/toplevel"
+#        ; "OCAML_COLOR" : "always"
+#        ; "OPAMCOLOR" : "always"
+#        }
+#  ; findlib_paths =
+#      [ External "/Users/prakrititandon/.opam/cs3110-2023sp/lib" ]
+#  ; arch_sixtyfour = true
+#  ; natdynlink_supported = true
+#  ; supports_shared_libraries = true
+#  ; ocaml_config =
+#      { version = "4.14.0"
+#      ; standard_library_default =
+#          "/Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml"
+#      ; standard_library =
+#          "/Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml"
+#      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
+#      ; ccomp_type = "cc"
+#      ; c_compiler = "cc"
+#      ; ocamlc_cflags =
+#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-pthread" ]
+#      ; ocamlc_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#      ; ocamlopt_cflags =
+#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-pthread" ]
+#      ; ocamlopt_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#      ; bytecomp_c_compiler =
+#          [ "cc"
+#          ; "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-D_FILE_OFFSET_BITS=64"
+#          ]
+#      ; bytecomp_c_libraries = [ "-lm"; "-lpthread" ]
+#      ; native_c_compiler =
+#          [ "cc"
+#          ; "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-D_FILE_OFFSET_BITS=64"
+#          ]
+#      ; native_c_libraries = [ "-lm" ]
+#      ; native_pack_linker = [ "ld"; "-r"; "-o" ]
+#      ; cc_profile = []
+#      ; architecture = "arm64"
+#      ; model = "default"
+#      ; int_size = 63
+#      ; word_size = 64
+#      ; system = "macosx"
+#      ; asm = [ "cc"; "-c"; "-Wno-trigraphs" ]
+#      ; asm_cfi_supported = true
+#      ; with_frame_pointers = false
+#      ; ext_exe = ""
+#      ; ext_obj = ".o"
+#      ; ext_asm = ".s"
+#      ; ext_lib = ".a"
+#      ; ext_dll = ".so"
+#      ; os_type = "Unix"
+#      ; default_executable_name = "a.out"
+#      ; systhread_supported = true
+#      ; host = "aarch64-apple-darwin21.6.0"
+#      ; target = "aarch64-apple-darwin21.6.0"
+#      ; profiling = false
+#      ; flambda = false
+#      ; spacetime = false
+#      ; safe_string = true
+#      ; exec_magic_number = "Caml1999X031"
+#      ; cmi_magic_number = "Caml1999I031"
+#      ; cmo_magic_number = "Caml1999O031"
+#      ; cma_magic_number = "Caml1999A031"
+#      ; cmx_magic_number = "Caml1999Y031"
+#      ; cmxa_magic_number = "Caml1999Z031"
+#      ; ast_impl_magic_number = "Caml1999M031"
+#      ; ast_intf_magic_number = "Caml1999N031"
+#      ; cmxs_magic_number = "Caml1999D031"
+#      ; cmt_magic_number = "Caml1999T031"
+#      ; natdynlink_supported = true
+#      ; supports_shared_libraries = true
+#      ; windows_unicode = false
+#      }
+#  }
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -bin-annot -I src/.game.objs/byte -no-alias-deps -opaque -o src/.game.objs/byte/game.cmo -c -impl src/game.ml-gen)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/card_deck.mli) > _build/default/src/.game.objs/game__Card_deck.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/Bank.ml) > _build/default/src/.game.objs/game__Bank.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/board.ml) > _build/default/src/.game.objs/game__Board.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/state.ml) > _build/default/src/.game.objs/game__State.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/board.mli) > _build/default/src/.game.objs/game__Board.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/Bank.mli) > _build/default/src/.game.objs/game__Bank.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/card_deck.ml) > _build/default/src/.game.objs/game__Card_deck.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/chance.mli) > _build/default/src/.game.objs/game__Chance.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/chance.ml) > _build/default/src/.game.objs/game__Chance.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/comm_chest.mli) > _build/default/src/.game.objs/game__Comm_chest.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/comm_chest.ml) > _build/default/src/.game.objs/game__Comm_chest.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/command.mli) > _build/default/src/.game.objs/game__Command.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/command.ml) > _build/default/src/.game.objs/game__Command.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/property.mli) > _build/default/src/.game.objs/game__Property.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/property.ml) > _build/default/src/.game.objs/game__Property.impl.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/state.mli) > _build/default/src/.game.objs/game__State.intf.d
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Card_deck.cmi -c -intf src/card_deck.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Board.cmi -c -intf src/board.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Bank.cmi -c -intf src/Bank.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Chance.cmi -c -intf src/chance.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Comm_chest.cmi -c -intf src/comm_chest.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Command.cmi -c -intf src/command.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Card_deck.cmo -c -impl src/card_deck.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__State.cmi -c -intf src/state.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Board.cmo -c -impl src/board.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Bank.cmo -c -impl src/Bank.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Chance.cmo -c -impl src/chance.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Comm_chest.cmo -c -impl src/comm_chest.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Command.cmo -c -impl src/command.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__State.cmo -c -impl src/state.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml-gen -no-alias-deps -opaque -o src/.game.objs/native/game.cmx -c -impl src/game.ml-gen)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Chance.cmx -c -impl src/chance.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Command.cmx -c -impl src/command.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Bank.cmx -c -impl src/Bank.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Card_deck.cmx -c -impl src/card_deck.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__State.cmx -c -impl src/state.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Comm_chest.cmx -c -impl src/comm_chest.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Board.cmx -c -impl src/board.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Property.cmi -c -intf src/property.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I bin/.main.eobjs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -no-alias-deps -opaque -o bin/.main.eobjs/byte/dune__exe__Main.cmi -c -intf bin/main.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I test/.main.eobjs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ounit2 -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ounit2/advanced -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/stdlib-shims -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmi -c -intf test/main.mli)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Property.cmo -c -impl src/property.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -a -o src/game.cma src/.game.objs/byte/game.cmo src/.game.objs/byte/game__Board.cmo src/.game.objs/byte/game__State.cmo src/.game.objs/byte/game__Property.cmo src/.game.objs/byte/game__Command.cmo src/.game.objs/byte/game__Comm_chest.cmo src/.game.objs/byte/game__Chance.cmo src/.game.objs/byte/game__Card_deck.cmo src/.game.objs/byte/game__Bank.cmo)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Property.cmx -c -impl src/property.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ounit2 -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ounit2/advanced -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/seq -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/stdlib-shims -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -a -o src/game.cmxa src/.game.objs/native/game.cmx src/.game.objs/native/game__Board.cmx src/.game.objs/native/game__State.cmx src/.game.objs/native/game__Property.cmx src/.game.objs/native/game__Command.cmx src/.game.objs/native/game__Comm_chest.cmx src/.game.objs/native/game__Chance.cmx src/.game.objs/native/game__Card_deck.cmx src/.game.objs/native/game__Bank.cmx)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -shared -linkall -I src -o src/game.cmxs src/game.cmxa)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -o bin/main.exe /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson/yojson.cmxa /Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml/unix.cmxa -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal/ANSITerminal.cmxa -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal src/game.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
+$ (cd _build/default && /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -o test/main.exe /Users/prakrititandon/.opam/cs3110-2023sp/lib/yojson/yojson.cmxa /Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml/unix.cmxa -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ocaml /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal/ANSITerminal.cmxa -I /Users/prakrititandon/.opam/cs3110-2023sp/lib/ANSITerminal src/game.cmxa /Users/prakrititandon/.opam/cs3110-2023sp/lib/stdlib-shims/stdlib_shims.cmxa /Users/prakrititandon/.opam/cs3110-2023sp/lib/ounit2/advanced/oUnitAdvanced.cmxa /Users/prakrititandon/.opam/cs3110-2023sp/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)

@@ -2,7 +2,6 @@ type t = int ref
 
 exception InsufBankFunds
 
-let init_state x = ref x
 let add_funds bank x = bank := !bank + x
 
 let deduct_funds bank x =
