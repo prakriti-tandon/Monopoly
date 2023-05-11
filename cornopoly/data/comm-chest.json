@@ -1,0 +1,64 @@
+{
+  "cards": [
+    {
+      "card-id": 0,
+      "name": "Happy birthday!",
+      "description": "Today is your birthday. You collect $10 from each player."
+    },
+    {
+      "card-id": 1,
+      "name": "Sunny Day",
+      "description": "Finally, a sunny day at Cornell! Have a free $5. Maybe you can buy a matcha latte from Libe with it."
+    },
+    {
+      "card-id": 2,
+      "name": "Ithaca Drivers",
+      "description": "You got into a car accident. Pay $50 to fix your car."
+    },
+    {
+      "card-id": 3,
+      "name": "Big Spender",
+      "description": "You got really hungry and spent all of your BRBs on chili at Trillium. Pay $100."
+    },
+    {
+      "card-id": 4,
+      "name": "Financial Aid",
+      "description": "Financial aid packages are released today! Take $100."
+    },
+    {
+      "card-id": 5,
+      "name": "Generous Donor",
+      "description": "You're in a good mood and decide to buy boba for everyone. Give $10 to each player."
+    },
+    {
+      "card-id": 6,
+      "name": "Why isn't there parking on this campus??",
+      "description": "You got caught in an illegal parking spot. Womp Womp. Pay $100 to the powers that be."
+    },
+    {
+      "card-id": 7,
+      "name": "Slope Day Pregame",
+      "description": "Someone had the bright idea to drag everyone to a slope day pregame concert. All players pay $90."
+    },
+    {
+      "card-id": 8,
+      "name": "Summer Class",
+      "description": "You enrolled in a summer class. Pay $200."
+    },
+    {
+      "card-id": 9,
+      "name": "Cornell Pay Day",
+      "description": "It's Thursday! You collect your TA paycheck of $150."
+    },
+    {
+      "card-id": 10,
+      "name": "First Apartment",
+      "description": "You moved into your first apartment! Pick another player to be your roommate, and each pay $15 for Ithaca trash tags."
+    },
+    {
+      "card-id": 11,
+      "name": "SAFC",
+      "description": "The SAFC finally refunded your club expenses. Take $50."
+    }
+  ]
+}
