@@ -174,14 +174,14 @@ let check_game (name : string) (player : State.t) =
 
 let game_board = Board.from_json (Yojson.Basic.from_file "data/board.json")
 let state_one = State.init_state "Prakriti"
-let state_two = State.buy_property state_one 1 game_board (Bank.init_state 5000)
+let state_two = State.buy_property state_one 1 game_board (Bank.init_bank 5000)
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
 
 let player_two =
-  buy_property (State.init_state "Amy") 2 game_board (Bank.init_state 5000)
+  buy_property (State.init_state "Amy") 2 game_board (Bank.init_bank 5000)
 
-let bank1 = Bank.init_state 5000
+let bank1 = Bank.init_bank 5000
 
 (*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
   rent_play2 = (pay_rent go_state player_two game_board).player2*)

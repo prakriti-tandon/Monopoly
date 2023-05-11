@@ -17,6 +17,8 @@ type combined_state = {
 }
 
 exception InsufficientFunds
+exception ExceededHouseLimit
+exception ExceededHotelLimit
 
 let init_state str = { name = str; current_pos = 0; money = 500; owns = [] }
 let name (player : t) = player.name
@@ -72,15 +74,27 @@ let pay_rent play1 play2 game =
       player2 = { play2 with money = play2.money + rent };
     }
 
-let buy_property (player1 : t) (space : int) (game : Board.t) =
-  let new_funds = player1.money - Board.price game space in
-  if new_funds < 0 then raise InsufficientFunds
-  else
-    let new_owns = player1.owns @ [ space ] in
+let buy_property (player1 : t) (space : int) (game : Board.t) (bank : Bank.t) =
+  failwith "Unimplemented"
+(*let new_funds = player1.money - Board.price game space in if new_funds < 0
+  then raise InsufficientFunds else let new_owns = player1.owns @ [ space ] in
 
-    {
-      name = player1.name;
-      current_pos = player1.current_pos;
-      money = new_funds;
-      owns = new_owns;
-    }
+  { name = player1.name; current_pos = player1.current_pos; money = new_funds;
+  owns = new_owns; }*)
+
+let buy_house (player1 : t) (space : int) (game : Board.t) (num_houses : int)
+    (bank : Bank.t) : t =
+  failwith "unimplemented"
+
+let buy_hotel (player1 : t) (space : int) (game : Board.t) (num_hotels : int)
+    (bank : Bank.t) =
+  failwith "unimplemented"
+
+let sell_property (player : t) (space : int) (game : Board.t) =
+  failwith "unimplemented"
+
+let sell_house (player : t) (space : int) (game : Board.t) =
+  failwith "unimplemented"
+
+let sell_hotel (player : t) (space : int) (game : Board.t) =
+  failwith "unimplemented"

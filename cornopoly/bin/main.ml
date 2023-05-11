@@ -36,7 +36,7 @@ let rec get_command () =
 let prompt_buy st1 st2 board =
   try
     let st_new =
-      State.buy_property st1 (current_pos st1) board (Bank.init_state 5000)
+      State.buy_property st1 (current_pos st1) board (Bank.init_bank 5000)
     in
     (st_new, st2)
   with InsufficientFunds -> terminate (State.name st2)
