@@ -47,14 +47,23 @@ let change_balance (player : t) (amt : int) =
     owes_to_bank = player.owes_to_bank;
   }
 
+let compare_property (property1 : property) (property2 : property) : int =
+  let diff = property1.space - property2.space in
+  if diff > 0 then 1 else if diff = 0 then 0 else -1
+
 let rec owns (player : t) (space : int) (game : Board.t) =
   match player.owns with
   | [] -> false
   | h :: t ->
-      if fst h = space then true else owns { player with owns = t } space game
+      if h.space = space then true else owns { player with owns = t } space game
 
 let change_owns pos play1 =
-  { play1 with owns = List.sort_uniq Int.compare (pos :: play1.owns) }
+  {
+    play1 with
+    owns =
+      List.sort_uniq compare_property
+        ({ space = pos; num_houses = 0; num_hotels = 0 } :: play1.owns);
+  }
 
 let dice = Random.int 7
 
@@ -70,15 +79,6 @@ let go (dice : int) (player : t) (game : Board.t) =
     owns = player.owns;
     owes_to_bank = player.owes_to_bank;
   }
-
-let pay_rent play1 play2 game =
-  let rent = Board.rent game (current_pos play1) in
-  if play1.money < rent then raise InsufficientFunds
-  else
-    {
-      player1 = { play1 with money = play1.money - rent };
-      player2 = { play2 with money = play2.money + rent };
-    }
 
 let buy_property (player1 : t) (space : int) (game : Board.t) (bank : Bank.t) =
   failwith "Unimplemented"
