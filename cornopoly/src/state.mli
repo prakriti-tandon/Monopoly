@@ -5,9 +5,6 @@
 type t
 (** The abstract type of values representing the player state. *)
 
-type combined_state
-(*will delete this soon, ignore it.*)
-
 type property
 (** The abstract type representing a property owned by the player and the number
     of houses and hotels the player owns at the property. *)
@@ -82,6 +79,9 @@ val change_balance : t -> int -> t
    positive, that means money will be added to the current balance in state
    [player] by [amt]. *)
 
+val compare_property : property-> property -> int 
+(**[compare_property x y] compares the space numbers at property [x] and property [y]. Returns 1 if property [x]'s space number > property [y]'s space number. Returns -1 if property [x]'s space number < property [y] 's space number. Returns 0 if equal. This function is like Stdlib.compare but specific for dealing with properties. *)
+    
 val owns : t -> int -> Board.t -> bool
 (**[owns player s game] is whether the [player] owns the property located at
    space [s] in the [game]. *)
