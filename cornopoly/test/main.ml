@@ -208,6 +208,11 @@ let make_num_houses_test (name : string) (player1 : State.t) (space : int)
   name >:: fun _ ->
   assert_equal expected_output (State.num_houses player1 space)
 
+let make_num_houses_exception_test (name : string) (player1 : State.t)
+    (space : int) =
+  name >:: fun _ ->
+  assert_raises DoesntOwnProperty (fun () -> num_houses player1 space)
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -215,6 +220,9 @@ let state_tests =
     current_balance_test "current_balance is 500" state_one 500;
     change_balance_test "deduct $200 from original balance: $500" state_one
       (-200) 300;
+    current_balance_test "current_balance is 300"
+      (State.change_balance state_one (-200))
+      300;
     check_name "deduct $200 from original balance: $500" state_one (-200) 300
       "Prakriti";
     change_balance_test "add $200 to original balance: $500" state_one (-200)
@@ -231,6 +239,9 @@ let state_tests =
     (*-------------------following test checks go--------------------------*)
     current_pos_test "current pos of state_one after it has moved 2 steps is 2"
       go_state 2;
+    (*----------following test checks num_houses-----------*)
+    make_num_houses_exception_test "no properties" state_one 1;
+    make_num_houses_test "owns prop at space 1, 0 houses" state_one 1 0;
   ]
 
 (******************************************************************************
