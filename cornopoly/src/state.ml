@@ -15,6 +15,7 @@ type t = {
 exception InsufficientFunds
 exception ExceededHouseLimit
 exception ExceededHotelLimit
+exception DoesntOwnProperty
 
 let init_state str =
   {
