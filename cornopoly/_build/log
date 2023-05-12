@@ -1,10 +1,10 @@
-# dune build
+# dune exec test/main.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Workspace root:
 # /Users/prakrititandon/finalproject/CS3110-Final-Project/cornopoly
 # Auto-detected concurrency: 8
-$ /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/5h/wdtl7gmx7l9fp2qj4xxgv5040000gn/T/dune_822e64_output
+$ /Users/prakrititandon/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /var/folders/5h/wdtl7gmx7l9fp2qj4xxgv5040000gn/T/dune_4c0316_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"

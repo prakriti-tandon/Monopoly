@@ -375,8 +375,24 @@ let buy_property_from_player_test_balance (name : string) (pls : player_list)
     (pls.(find_index (State.name curr_pl) pls) |> current_balance)
     expected_output
 
+(*checks that the player state has been updated by comparing the current
+  balance*)
+let update_player_test (name : string) (pls : player_list) (old_pl : State.t)
+    (new_pl : State.t) (expected_output : int) =
+  name >:: fun _ ->
+  update_player pls old_pl new_pl;
+  assert_equal
+    (pls.(find_index (State.name new_pl) pls) |> current_balance)
+    expected_output
+
 let property_tests =
-  [ property_status_test "owned by no one" pls player1 board NotOwned ]
+  [
+    (*----------------following test checks update_player-----------------*)
+    update_player_test "old player had 500, new player has 505" pls player1
+      (change_balance player1 5) 505;
+    (*----------------following test checks property_status-----------------*)
+    property_status_test "owned by no one" pls player1 board NotOwned;
+  ]
 
 let suite =
   "test suite for final project"

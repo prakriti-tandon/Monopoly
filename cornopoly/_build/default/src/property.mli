@@ -55,3 +55,8 @@ val pay_rent : player_list -> State.t -> Board.t -> unit
   states. If nobody owns the property [pls] remains the same. Throws
   [InsuffcientFunds] if the player does have money to buy it *)
 val buy_property_from_player : player_list -> State.t -> Board.t -> unit
+
+(*[update_player pls old new] updates the state of the old player [old] with its
+  new state [new]. Precondition: [old] and [new] have the same name (i.e. same
+  players but with different states)*)
+val update_player : player_list -> State.t -> State.t -> unit

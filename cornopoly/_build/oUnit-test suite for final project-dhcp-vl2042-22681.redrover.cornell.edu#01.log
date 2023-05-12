@@ -1,0 +1,95 @@
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:0:Space 0 named 'Go'.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:0:Space 0 named 'Go' is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:0:Space 0 named 'Go'.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:2:Physical Sciences description.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:2:Physical Sciences description is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:2:Physical Sciences description.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:4:Four seasons price 220.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:4:Four seasons price 220 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:4:Four seasons price 220.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:6:Susp. bridge rent 26.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:6:Susp. bridge rent 26 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:6:Susp. bridge rent 26.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:8:Go has salary 200.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:8:Go has salary 200 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:8:Go has salary 200.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:10:Go has type go.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:10:Go has type go is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:10:Go has type go.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:12:23 is a Chance.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:12:23 is a Chance is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:12:23 is a Chance.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:14:3 is a community chest.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:14:3 is a community chest is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:14:3 is a community chest.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:16:rph of level b is 90.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:16:rph of level b is 90 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:16:rph of level b is 90.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:18:Go has no rent per house.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:18:Go has no rent per house is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:18:Go has no rent per house.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:20:rent per hotel of slope is 200.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:20:rent per hotel of slope is 200 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:20:rent per hotel of slope is 200.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:21:price per hotel of Beebe lake is 400.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:21:price per hotel of Beebe lake is 400 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:21:price per hotel of Beebe lake is 400.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:23:Chance has no price per hotel.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:23:Chance has no price per hotel is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:23:Chance has no price per hotel.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:26:0 spaces from 8 to 8.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:26:0 spaces from 8 to 8 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:26:0 spaces from 8 to 8.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:28:Comm chest card 14 called 'Finance Bro'.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:28:Comm chest card 14 called 'Finance Bro' is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:28:Comm chest card 14 called 'Finance Bro'.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:30:Comm chest card 4 desc fin. aid.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:30:Comm chest card 4 desc fin. aid is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:30:Comm chest card 4 desc fin. aid.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:32:17 cards in comm deck.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:32:17 cards in comm deck is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:32:17 cards in comm deck.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:34:comm chest card no new space.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:34:comm chest card no new space is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:34:comm chest card no new space.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:36:Card 16 type other.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:36:Card 16 type other is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:36:Card 16 type other.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:38:Card 12 pay 10.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:38:Card 12 pay 10 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:38:Card 12 pay 10.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:40:text input is go, result is Go.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:40:text input is go, result is Go is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:40:text input is go, result is Go.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:42:text input is no, result is No.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:42:text input is no, result is No is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:42:text input is no, result is No.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:44:text input is 5, result is Number_of_Players 5.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:44:text input is 5, result is Number_of_Players 5 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:44:text input is 5, result is Number_of_Players 5.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:46:current position of state_one is 0.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:46:current position of state_one is 0 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:46:current position of state_one is 0.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:48:deduct $200 from original balance: $500.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:48:deduct $200 from original balance: $500 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:48:deduct $200 from original balance: $500.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:50:deduct $200 from original balance: $500.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:50:deduct $200 from original balance: $500 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:50:deduct $200 from original balance: $500.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:53:player with no properties, space 1, game.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:53:player with no properties, space 1, game is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:53:player with no properties, space 1, game.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:54:player with owns = [1].
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:54:player with owns = [1] is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:54:player with owns = [1].
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:57:owns prop at space 1, 0 houses.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 E: Test test suite for final project:57:owns prop at space 1, 0 houses exited with an error.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 E: Failure("unimplemented") in test test suite for final project:57:owns prop at space 1, 0 houses.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 E: Called from Dune__exe__Main.make_num_houses_test.(fun) in file "test/main.ml", line 258, characters 31-63
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 E: 
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:57:owns prop at space 1, 0 houses.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Start test test suite for final project:58:old player had 500, new player has 505.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: Test test suite for final project:58:old player had 500, new player has 505 is successful.
+2023-05-12T22:37:30+00:00 dhcp-vl2042-22681.redrover.cornell.edu#01 I: End test test suite for final project:58:old player had 500, new player has 505.

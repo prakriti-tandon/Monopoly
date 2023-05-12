@@ -134,3 +134,7 @@ let buy_property_from_player (pls : player_list) (curr_pl : State.t)
         let owner_index = find_index (State.name owner) pls in
         pls.(curr_pl_index) <- new_pl;
         pls.(owner_index) <- new_owner
+
+let update_player pls old_pl new_pl =
+  let i = find_index (State.name old_pl) pls in
+  pls.(i) <- new_pl
