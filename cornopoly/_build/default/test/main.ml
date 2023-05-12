@@ -316,61 +316,15 @@ let determine_rent_test (name : string) (owner : State.t) (property : int)
   name >:: fun _ ->
   assert_equal (determine_rent owner property board) expected_output
 
-let find_index_test (name : string) (pls : player_list) (pl_name : string)
-    (expected_output : int) =
-  name >:: fun _ -> assert_equal (find_index pl_name pls) expected_output
-
 let determine_price_test (name : string) (owner : State.t) (property : int)
     (board : Board.t) (expected_output : int) =
   name >:: fun _ ->
   assert_equal (determine_price owner property board) expected_output
 
-(*checks the balance of the player who pays the rent*)
 let pay_rent_test_payer (name : string) (pls : player_list) (curr_pl : State.t)
     (board : Board.t) (expected_output : int) =
   name >:: fun _ ->
   pay_rent pls curr_pl board;
-  assert_equal
-    (pls.(find_index (State.name curr_pl) pls) |> current_balance)
-    expected_output
-
-let get_owner pls curr_pl board =
-  match property_status pls curr_pl board with
-  | OwnedByOtherPlayer pl -> pl
-  | _ -> failwith "impossible"
-
-let get_same_owner pls curr_pl board =
-  match property_status pls curr_pl board with
-  | OwnedByThisPlayer -> State.name curr_pl
-  | _ -> failwith "precondition violated"
-
-(*check the new balance of the person who owns the property*)
-let pay_rent_test_owner (name : string) (pls : player_list) (curr_pl : State.t)
-    (board : Board.t) (expected_output : int) =
-  name >:: fun _ ->
-  pay_rent pls curr_pl board;
-  assert_equal (get_owner pls curr_pl board |> current_balance) expected_output
-
-(*checks the account balance of the original owner of property who gained
-  money*)
-let buy_property_from_player_test_owner (name : string) (pls : player_list)
-    (curr_pl : State.t) (board : Board.t) (expected_output : int) =
-  name >:: fun _ ->
-  buy_property_from_player pls curr_pl board;
-  assert_equal (get_owner pls curr_pl board |> current_balance) expected_output
-
-(*checks the new ownership of the player who bought the property*)
-let buy_property_from_player_test_payer (name : string) (pls : player_list)
-    (curr_pl : State.t) (board : Board.t) (expected_output : string) =
-  name >:: fun _ ->
-  buy_property_from_player pls curr_pl board;
-  assert_equal (get_same_owner pls curr_pl board) expected_output
-
-(* checks the new balance of the player who bought the property*)
-let buy_property_from_player_test_balance (name : string) (pls : player_list)
-    (curr_pl : State.t) (board : Board.t) (expected_output : int) =
-  name >:: fun _ ->
-  buy_property_from_player pls curr_pl board;
   assert_equal
     (pls.(find_index (State.name curr_pl) pls) |> current_balance)
     expected_output
