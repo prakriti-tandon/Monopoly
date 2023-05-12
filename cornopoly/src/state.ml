@@ -9,13 +9,22 @@ type t = {
   current_pos : int;
   money : int;
   owns : property list;
+  owes_to_bank : int option * int;
 }
 
 exception InsufficientFunds
 exception ExceededHouseLimit
 exception ExceededHotelLimit
 
-let init_state str = { name = str; current_pos = 0; money = 500; owns = [] }
+let init_state str =
+  {
+    name = str;
+    current_pos = 0;
+    money = 500;
+    owns = [];
+    owes_to_bank = (None, 0);
+  }
+
 let name (player : t) = player.name
 let current_pos (player : t) = player.current_pos
 let owns_list (player : t) = failwith "unimplemented"
@@ -35,6 +44,7 @@ let change_balance (player : t) (amt : int) =
     current_pos = player.current_pos;
     money = new_amt;
     owns = player.owns;
+    owes_to_bank = player.owes_to_bank;
   }
 
 let rec owns (player : t) (space : int) (game : Board.t) =
@@ -58,6 +68,7 @@ let go (dice : int) (player : t) (game : Board.t) =
     current_pos = result_position;
     money = player.money;
     owns = player.owns;
+    owes_to_bank = player.owes_to_bank;
   }
 
 let pay_rent play1 play2 game =
