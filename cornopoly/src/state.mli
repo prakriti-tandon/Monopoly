@@ -48,7 +48,7 @@ val current_balance : t -> int
 (**[current_balance player] is the balance/amount of money in the player's bank
    account in their current state [player] *)
 
-val owes : t -> int option * int
+val owes_to_bank : t -> int option * int
 (**[owes player] is a tuple (x,y) where x is amount of money the player owes the
    bank and y is the number of times they can pass go before they need to repay
    the loan. *)
