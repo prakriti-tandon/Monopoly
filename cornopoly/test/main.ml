@@ -121,6 +121,10 @@ let command_tests =
       (Number_of_players 5);
   ]
 
+(******************************************************************************
+  state.ml tests
+  ******************************************************************************)
+
 let name_test (name : string) (t : State.t) (expected_output : string) : test =
   name >:: fun _ ->
   assert_equal expected_output (State.name t) ~printer:(fun s -> s)
@@ -218,22 +222,15 @@ let state_tests =
     change_balance_test "add $0 to original balance: $500" state_one 0 500;
     make_owns_test "player with no properties, space 1, game" state_one 1
       game_board false;
-    (*following test checks buy_property*)
+    (*--------------------following test checks buy_property-----------------*)
     (* make_owns_test "player with owns = [1], space 1, game" state_two 1
        game_board true; (*following test checks buy_property*) make_owns_test
        "player with owns=[1], space 2, game" state_two 2 game_board false;*)
-    (*following test checks change_owns*)
+    (*---------------------following test checks change_owns------------------*)
     make_owns_test "player with owns = [1]" state_three 1 game_board true;
-    (*following test checks go*)
+    (*-------------------following test checks go--------------------------*)
     current_pos_test "current pos of state_one after it has moved 2 steps is 2"
-      go_state 2
-    (*following tests check pay_rent*)
-    (*current_balance_test "current balance of rent_play1 is 496" rent_play1
-      496; current_balance_test "current balance of rent_play2 is 444"
-      rent_play2 444;*)
-    (*current_balance_test "current balance of player_two is 440"
-      player_two_insuf_funds 40; buy_property_exception_test "insufficient funds
-      to buy property" player_two_insuf_funds 1 game_board;*);
+      go_state 2;
   ]
 
 (******************************************************************************
