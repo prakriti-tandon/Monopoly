@@ -1,1 +1,1 @@
-src/state.ml: Board Int List Random
+src/state.ml: Bank Board Int List Random

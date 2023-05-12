@@ -174,14 +174,14 @@ let check_game (name : string) (player : State.t) =
 
 let game_board = Board.from_json (Yojson.Basic.from_file "data/board.json")
 let state_one = State.init_state "Prakriti"
-let state_two = State.buy_property state_one 1 game_board (Bank.init_state 5000)
+let state_two = State.buy_property state_one 1 game_board (Bank.init_bank 5000)
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
 
 let player_two =
-  buy_property (State.init_state "Amy") 2 game_board (Bank.init_state 5000)
+  buy_property (State.init_state "Amy") 2 game_board (Bank.init_bank 5000)
 
-let bank1 = Bank.init_state 5000
+let bank1 = Bank.init_bank 5000
 
 (*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
   rent_play2 = (pay_rent go_state player_two game_board).player2*)
@@ -253,6 +253,16 @@ let property_status_test (name : string) (pls : Property.player_list)
     (curr_pl : State.t) (board : Board.t) (expected_ouptut : Property.status) =
   name >:: fun _ ->
   assert_equal (property_status pls curr_pl board) expected_ouptut
+
+let determine_rent_test (name : string) (owner : State.t) (property : int)
+    (board : Board.t) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal (determine_rent owner property board) expected_output
+
+let determine_price_test (name : string) (owner : State.t) (property : int)
+    (board : Board.t) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal (determine_price owner property board) expected_output
 
 let property_tests =
   [ property_status_test "owned by no one" pls player1 board NotOwned ]

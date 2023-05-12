@@ -1,1 +1,1 @@
-src/state.mli: Board
+src/state.mli: Bank Board

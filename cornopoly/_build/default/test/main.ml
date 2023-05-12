@@ -4,6 +4,8 @@ open Board
 open Command
 open State
 open Yojson
+open Property
+open Bank
 
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether they are
     equivalent set-like lists. That means checking two things. First, they must
@@ -171,15 +173,19 @@ let check_game (name : string) (player : State.t) =
   raise (Failure "Implement me")
 
 let game_board = Board.from_json (Yojson.Basic.from_file "data/board.json")
-let state_one = init_state "Prakriti"
-let state_two = State.buy_property state_one 1 game_board
+let state_one = State.init_state "Prakriti"
+let state_two = State.buy_property state_one 1 game_board (Bank.init_bank 5000)
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
-let player_two = buy_property (init_state "Amy") 2 game_board
+
+let player_two =
+  buy_property (State.init_state "Amy") 2 game_board (Bank.init_bank 5000)
+
+let bank1 = Bank.init_bank 5000
 
 (*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
   rent_play2 = (pay_rent go_state player_two game_board).player2*)
-let player_two_insuf_funds = buy_property player_two 22 game_board
+let player_two_insuf_funds = State.buy_property player_two 22 game_board bank1
 
 let make_owns_test (name : string) (player1 : State.t) (space : int)
     (game : Board.t) (expected_output : bool) =
@@ -238,8 +244,32 @@ let state_tests =
   Property.ml tests
   ******************************************************************************)
 
+let player1 = State.go 1 (State.init_state "A") board
+let player2 = State.go 1 (State.init_state "B") board
+let player3 = State.go 1 (State.init_state "C") board
+let pls = [| player1; player2; player3 |]
+
+let property_status_test (name : string) (pls : Property.player_list)
+    (curr_pl : State.t) (board : Board.t) (expected_ouptut : Property.status) =
+  name >:: fun _ ->
+  assert_equal (property_status pls curr_pl board) expected_ouptut
+
+let determine_rent_test (name : string) (owner : State.t) (property : int)
+    (board : Board.t) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal (determine_rent owner property board) expected_output
+
+let determine_price_test (name : string) (owner : State.t) (property : int)
+    (board : Board.t) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal (determine_price owner property board) expected_output
+
+let property_tests =
+  [ property_status_test "owned by no one" pls player1 board NotOwned ]
+
 let suite =
   "test suite for final project"
-  >::: List.flatten [ monopoly_tests; command_tests; state_tests ]
+  >::: List.flatten
+         [ monopoly_tests; command_tests; state_tests; property_tests ]
 
 let _ = run_test_tt_main suite
