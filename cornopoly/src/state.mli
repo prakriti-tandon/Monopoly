@@ -26,7 +26,7 @@ exception ExceededHotelLimit
 val init_state : string -> t
 (**[init_state str] is the initial state of the player with name [str]. In that
    state, the player's current position is the go position. They have 500
-   dollars and no owned properties*)
+   dollars, no owned properties, and no debt to bank.*)
 
 val name : t -> string
 (**[name player] is the name of the player represented by state [player]*)
