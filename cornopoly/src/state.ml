@@ -1,19 +1,14 @@
-type t = {
-  name : string;
-  current_pos : int;
-  money : int;
-  owns : int list;
-}
-
 type property = {
   space : int;
   num_houses : int;
   num_hotels : int;
 }
 
-type combined_state = {
-  player1 : t;
-  player2 : t;
+type t = {
+  name : string;
+  current_pos : int;
+  money : int;
+  owns : property list;
 }
 
 exception InsufficientFunds
@@ -46,7 +41,7 @@ let rec owns (player : t) (space : int) (game : Board.t) =
   match player.owns with
   | [] -> false
   | h :: t ->
-      if h = space then true else owns { player with owns = t } space game
+      if fst h = space then true else owns { player with owns = t } space game
 
 let change_owns pos play1 =
   { play1 with owns = List.sort_uniq Int.compare (pos :: play1.owns) }
