@@ -153,4 +153,6 @@ let space_type mon property =
 let number_of_spaces game = game.num_spaces
 
 let between_spaces m sp1 sp2 =
-  if sp2 > sp1 then sp2 - sp1 else m.num_spaces - sp1 + sp2
+  if sp2 > sp1 then sp2 - sp1
+  else if sp1 = sp2 then 0
+  else m.num_spaces - sp1 + sp2

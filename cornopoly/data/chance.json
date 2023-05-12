@@ -8,7 +8,7 @@
     },
     {
       "card-id": 1,
-      "name": "Beautiful sunset",
+      "name": "Beautiful Sunset",
       "description": "The sunset is gorgeous tonight. Move to the slope!",
       "newspace": 14
     },
@@ -39,8 +39,7 @@
     {
       "card-id": 6,
       "name": "Business Club",
-      "description": "The new member educator for your business club wants you to sell a property to prove your marketing acumen. Choose a property and a player to sell it to!",
-      "newspace": "none"
+      "description": "The new member educator for your business club wants you to sell a property to prove your marketing acumen. Choose a property and a player to sell it to!"
     },
     {
       "card-id": 7,
@@ -69,8 +68,7 @@
     {
       "card-id": 11,
       "name": "Hotelie!",
-      "description": "Have a free hotel for one of your properties!",
-      "newspace": "none"
+      "description": "Have a free hotel for one of your properties!"
     },
     {
       "card-id": 12,
@@ -81,14 +79,12 @@
     {
       "card-id": 13,
       "name": "Double Chance",
-      "description": "Skip ahead to the next Chance space!",
-      "newspace": "other"
+      "description": "Skip ahead to the next Chance space!"
     },
     {
       "card-id": 14,
       "name": "I'm Feeling Lucky",
-      "description": "Skip ahead to the next Community Chest space!",
-      "newspace": "other"
+      "description": "Skip ahead to the next Community Chest space!"
     },
     {
       "card-id": 15,

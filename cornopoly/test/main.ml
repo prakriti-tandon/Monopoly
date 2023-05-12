@@ -6,51 +6,13 @@ open State
 open Yojson
 open Property
 open Bank
+open Deck
 
-(** [cmp_set_like_lists lst1 lst2] compares two lists to see whether they are
-    equivalent set-like lists. That means checking two things. First, they must
-    both be "set-like", meaning that they do not contain any duplicates. Second,
-    they must contain the same elements, though not necessarily in the same
-    order. *)
-let cmp_set_like_lists lst1 lst2 =
-  let uniq1 = List.sort_uniq compare lst1 in
-  let uniq2 = List.sort_uniq compare lst2 in
-  List.length lst1 = List.length uniq1
-  && List.length lst2 = List.length uniq2
-  && uniq1 = uniq2
+(*********************************************************************)
 
-(** [pp_string s] pretty-prints string [s]. *)
-let pp_string s = "\"" ^ s ^ "\""
+(* TESTING SUITE FOR BOARD.ML *)
 
-(** [pp_list pp_elt lst] pretty-prints list [lst], using [pp_elt] to
-    pretty-print each element of [lst]. *)
-let pp_list pp_elt lst =
-  let pp_elts lst =
-    let rec loop n acc = function
-      | [] -> acc
-      | [ h ] -> acc ^ pp_elt h
-      | h1 :: (h2 :: t as t') ->
-          if n = 100 then acc ^ "..." (* stop printing long list *)
-          else loop (n + 1) (acc ^ pp_elt h1 ^ "; ") t'
-    in
-    loop 0 "" lst
-  in
-  "[" ^ pp_elts lst ^ "]"
-
-(* These tests demonstrate how to use [cmp_set_like_lists] and [pp_list] to get
-   helpful output from OUnit. *)
-let cmp_demo =
-  [
-    ( "order is irrelevant" >:: fun _ ->
-      assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-        [ "foo"; "bar" ] [ "bar"; "foo" ] )
-    (* Uncomment this test to see what happens when a test case fails.
-       "duplicates not allowed" >:: (fun _ -> assert_equal
-       ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string) ["foo"; "foo"]
-       ["foo"]); *);
-  ]
-
-(**************************************************************)
+(*********************************************************************)
 let board = Board.from_json (Yojson.Basic.from_file "data/board.json")
 
 let test_maker funct name board space expected_output =
@@ -62,37 +24,124 @@ let test_maker_exception funct excep name board space =
 let name_test = test_maker Board.name
 let description_test = test_maker Board.description
 let price_test = test_maker Board.price
-let price_excep_test = test_maker_exception Board.price SpaceNotOwnable
+let price_excep_test = test_maker_exception Board.price Board.SpaceNotOwnable
 let rent_test = test_maker Board.rent
-let rent_excep_test = test_maker_exception Board.rent SpaceNotOwnable
+let rent_excep_test = test_maker_exception Board.rent Board.SpaceNotOwnable
 let salary_test = test_maker Board.salary
 let salary_excep_test = test_maker_exception Board.salary NoSalary
 let space_type_test = test_maker Board.space_type
 let pph_test = test_maker Board.price_per_house
 let rph_test = test_maker Board.rent_per_house
 
+let pph_excep_test =
+  test_maker_exception Board.price_per_house Board.SpaceNotOwnable
+
+let rph_excep_test =
+  test_maker_exception Board.rent_per_house Board.SpaceNotOwnable
+
+let pphot_test = test_maker Board.price_per_hotel
+let rphot_test = test_maker Board.rent_per_hotel
+
+let pphot_excep_test =
+  test_maker_exception Board.price_per_hotel Board.SpaceNotOwnable
+
+let rphot_excep_test =
+  test_maker_exception Board.rent_per_hotel Board.SpaceNotOwnable
+
 let num_spaces_test name board expected_output =
   name >:: fun _ -> assert_equal expected_output (Board.number_of_spaces board)
+
+let between_spaces_test name board sp1 sp2 expected_output =
+  name >:: fun _ ->
+  assert_equal expected_output (Board.between_spaces board sp1 sp2)
 
 let monopoly_tests =
   [
     name_test "Space 0 named 'Go'" board 0 "Go";
     name_test "Space 1 named 'Balch Hall" board 1 "Balch Hall";
-    description_test "Physical Sciences description" board 4
+    description_test "Physical Sciences description" board 5
       "Home of the Goldie's chicken panini.";
     description_test "Go description" board 0
       "You're back at the start of the board.";
-    price_test "Four seasons price 220" board 13 220;
+    price_test "Four seasons price 220" board 17 220;
     price_excep_test "Go has no price" board 0;
-    rent_test "Susp. bridge rent 26" board 19 26;
+    rent_test "Susp. bridge rent 26" board 25 26;
     rent_excep_test "Go has no rent" board 0;
     salary_test "Go has salary 200" board 0 200;
     salary_excep_test "Balch has no salary" board 1;
     space_type_test "Go has type go" board 0 "go";
     space_type_test "Balch has type property" board 1 "property";
-    num_spaces_test "board has 23 spaces" board 23;
+    space_type_test "23 is a Chance" board 23 "chance";
+    space_type_test "15 is jail" board 15 "jail";
+    space_type_test "3 is a community chest" board 3 "comm-chest";
+    num_spaces_test "board has 30 spaces" board 30;
     rph_test "rph of level b is 90" board 16 90;
     pph_test "pph of clock tower is 100" board 13 100;
+    rph_excep_test "Go has no rent per house" board 0;
+    pph_excep_test "Jail has no price per house" board 15;
+    rphot_test "rent per hotel of slope is 200" board 14 200;
+    pphot_test "price per hotel of Beebe lake is 400" board 24 400;
+    rphot_excep_test "Comm chest has no rent per hotel" board 19;
+    pphot_excep_test "Chance has no price per hotel" board 23;
+    between_spaces_test "4 spaces from 4 to 8" board 4 8 4;
+    between_spaces_test "14 spaces from 20 to 4" board 20 4 14;
+    between_spaces_test "0 spaces from 8 to 8" board 8 8 0;
+  ]
+
+(*********************************************************************)
+
+(* TESTING SUITE FOR DECK.ML *)
+
+(*********************************************************************)
+let chance_deck = Deck.from_json (Yojson.Basic.from_file "data/chance.json")
+let comm_deck = Deck.from_json (Yojson.Basic.from_file "data/comm-chest.json")
+
+(* creates basic tests for the deck module *)
+let deck_test_maker funct name deck card expected_output =
+  name >:: fun _ -> assert_equal expected_output (funct deck card)
+
+let deck_test_maker_exception funct excep name deck space =
+  name >:: fun _ -> assert_raises excep (fun () -> funct deck space)
+
+let deck_name_test = deck_test_maker Deck.name
+let deck_desc_test = deck_test_maker Deck.description
+
+let num_cards_test name deck expected_output =
+  name >:: fun _ -> assert_equal expected_output (Deck.number_cards deck)
+
+let new_space_test = deck_test_maker Deck.new_space
+
+let new_space_wrong_ctype =
+  deck_test_maker_exception Deck.new_space Deck.IncorrectCardType
+
+let new_space_nonewspace =
+  deck_test_maker_exception Deck.new_space Deck.NoNewSpace
+
+let comm_info_test = deck_test_maker Deck.comm_chest_info
+
+let comm_info_wrongtype =
+  deck_test_maker_exception Deck.comm_chest_info Deck.IncorrectCardType
+
+let deck_tests =
+  [
+    deck_name_test "Chance card 1 called 'Beautiful Sunset'" chance_deck 1
+      "Beautiful Sunset";
+    deck_name_test "Comm chest card 14 called 'Finance Bro'" comm_deck 14
+      "Finance Bro";
+    deck_desc_test "Chance card 8 desc office hours" chance_deck 8
+      "You need some help on your 3110 assignment. Go to office hours in \
+       Rhodes Hall.";
+    deck_desc_test "Comm chest card 4 desc fin. aid" comm_deck 4
+      "Financial aid packages are released today! Take $100.";
+    num_cards_test "17 cards in chance deck" chance_deck 17;
+    num_cards_test "17 cards in comm deck" comm_deck 17;
+    new_space_test "new space of chance 0 is 15" chance_deck 0 15;
+    new_space_wrong_ctype "comm chest card no new space" comm_deck 7;
+    new_space_nonewspace "chance card 11 has no new space" chance_deck 11;
+    comm_info_test "Card 16 type other" comm_deck 16 Other;
+    comm_info_test "Card 13 earn 10" comm_deck 13 (Earn (Some 10));
+    comm_info_test "Card 12 pay 10" comm_deck 12 (Pay (Some 10));
+    comm_info_wrongtype "chance deck wrong type" chance_deck 11;
   ]
 
 (* [print_command command] is a string representation of [command] of type
@@ -278,6 +327,12 @@ let property_tests =
 let suite =
   "test suite for final project"
   >::: List.flatten
-         [ monopoly_tests; command_tests; state_tests; property_tests ]
+         [
+           monopoly_tests;
+           deck_tests;
+           command_tests;
+           state_tests;
+           property_tests;
+         ]
 
 let _ = run_test_tt_main suite

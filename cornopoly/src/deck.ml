@@ -1,12 +1,15 @@
 open Yojson.Basic.Util
 
+exception IncorrectCardType
+exception NoNewSpace
+
 type comm_chest_type =
-  | Earn of int
-  | Pay of int
+  | Earn of int option
+  | Pay of int option
   | Other
 
 type card_info =
-  | Chance of { newspace : int }
+  | Chance of { newspace : int option }
   | Comm of { ctype : comm_chest_type }
 
 type card = {
@@ -24,9 +27,9 @@ type t = {
 let info_of_json json =
   let type_decider = json |> member "type" |> to_string_option in
   match type_decider with
-  | None -> Chance { newspace = json |> member "newspace" |> to_int }
+  | None -> Chance { newspace = json |> member "newspace" |> to_int_option }
   | Some s ->
-      let amt = json |> member "amt" |> to_int in
+      let amt = json |> member "amt" |> to_int_option in
       Comm
         {
           ctype =
@@ -58,5 +61,22 @@ let find_card deck i =
 
 let name deck i = (find_card deck i).name
 let description deck i = (find_card deck i).description
+
+let random_card deck =
+  let _ = Random.self_init () in
+  fun () -> Random.int (deck.num_cards + 1)
+
 let number_cards deck = deck.num_cards
-let random_card deck = failwith "Unimplemented"
+
+let new_space deck i =
+  match (find_card deck i).info with
+  | Comm _ -> raise IncorrectCardType
+  | Chance c -> (
+      match c.newspace with
+      | None -> raise NoNewSpace
+      | Some sp -> sp)
+
+let comm_chest_info deck i =
+  match (find_card deck i).info with
+  | Chance _ -> raise IncorrectCardType
+  | Comm c -> c.ctype

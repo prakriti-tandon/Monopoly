@@ -4,8 +4,7 @@
       "card-id": 0,
       "name": "Happy birthday!",
       "description": "Today is your birthday. You collect $10 from each player.",
-      "type": "other",
-      "amt": "na"
+      "type": "other"
     },
     {
       "card-id": 1,
@@ -39,8 +38,7 @@
       "card-id": 5,
       "name": "Generous Donor",
       "description": "You're in a good mood and decide to buy boba for everyone. Give $10 to each player.",
-      "type": "other",
-      "amt": "na"
+      "type": "other"
     },
     {
       "card-id": 6,
@@ -53,8 +51,7 @@
       "card-id": 7,
       "name": "Slope Day Pregame",
       "description": "Someone had the bright idea to drag everyone to a slope day pregame concert. All players pay $90.",
-      "type": "other",
-      "amt": "na"
+      "type": "other"
     },
     {
       "card-id": 8,
@@ -74,8 +71,7 @@
       "card-id": 10,
       "name": "First Apartment",
       "description": "You moved into your first apartment! The richest player is your roommate, and you each pay $15 for Ithaca trash tags.",
-      "type": "other",
-      "amt": "na"
+      "type": "other"
     },
     {
       "card-id": 11,
@@ -109,15 +105,13 @@
       "card-id": 15,
       "name": "Wheel of Fortune!",
       "description": "Spin the Wheel of Fortune to win a random sum of money!",
-      "type": "other",
-      "amt": "na"
+      "type": "other"
     },
     {
       "card-id": 16,
       "name": "The Socialist Agenda",
       "description": "The richest player will distribute their excess wealth evenly across all other players. Repent, scum!",
-      "type": "other",
-      "amt": "na"
+      "type": "other"
     }
   ],
   "num-cards": 17
