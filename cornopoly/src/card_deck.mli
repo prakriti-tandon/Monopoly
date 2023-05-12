@@ -1,21 +1,27 @@
-(** Representation of card deck data.
+(** Module that reads in the chance and community chest card decks.
 
-    This module represents the deck of chance cards and the deck of community
-    chest cards. The module reads in jsons for each deck of cards and provides
-    functions that give the name and description of each card. *)
+    This module translates a json card deck to a card deck type t and has
+    functions common to chance and community chest to get information from
+    individual cards. *)
 
 (**********************************************************************)
 
 type t
-(** The abstract type that represents a deck of cards in Monopoly.*)
+(** The card deck type. *)
 
-val from_json : Yojson.Basic.t -> t
-(** [from_json j] initializes a deck of cards represented by json string [j].
-    Requires: j must be a valid json representation of chance/community chest
-    cards.*)
+val from_json : Yojson.Basic.t -> bool -> t
+(** [from_json j chance] initializes a card deck from a json file [j].
+    Initializes a chance deck if [chance = true] and a community chest deck
+    otherwise.*)
 
-val name : int -> t -> string
-(** [name c deck] is the name of card [c] in deck [deck].*)
+val name : t -> int -> string
+(** [name deck i] is the name of card [i] in deck [deck]. *)
 
-val description : int -> t -> string
-(** [description c deck] is the description of card [c] in deck [deck]*)
+val description : t -> int -> string
+(** [description deck i] is the description of card [i] in deck [deck]. *)
+
+val random_card : t -> int
+(** [random_card deck] is the integer ID of a random card from deck [deck].*)
+
+val number_cards : t -> int
+(** [number_cards deck] is the number of cards in deck [deck].*)

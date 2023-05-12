@@ -71,6 +71,37 @@
       "name": "Hotelie!",
       "description": "Have a free hotel for one of your properties!",
       "newspace": "none"
+    },
+    {
+      "card-id": 12,
+      "name": "Swim Test",
+      "description": "You failed the swim test, so you can't graduate just yet. Go back to Go.",
+      "newspace": 0
+    },
+    {
+      "card-id": 13,
+      "name": "Double Chance",
+      "description": "Skip ahead to the next Chance space!",
+      "newspace": "other"
+    },
+    {
+      "card-id": 14,
+      "name": "I'm Feeling Lucky",
+      "description": "Skip ahead to the next Community Chest space!",
+      "newspace": "other"
+    },
+    {
+      "card-id": 15,
+      "name": "Secrets Unlocked",
+      "description": "Martha selected you for a private tour of her weather machine. Take $1000 and proceed to the weather machine.",
+      "newspace": 29
+    },
+    {
+      "card-id": 16,
+      "name": "Bad Finance Bro!",
+      "description": "You are accused of embezzeling funds from your business club. You're going to jail.",
+      "newspace": 15
     }
-  ]
+  ],
+  "num-cards": 17
 }
