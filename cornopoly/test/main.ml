@@ -385,13 +385,33 @@ let update_player_test (name : string) (pls : player_list) (old_pl : State.t)
     (pls.(find_index (State.name new_pl) pls) |> current_balance)
     expected_output
 
+(*checks that the player state has been updated by comparing the new owner*)
+let update_player_test_space (name : string) (pls : player_list)
+    (old_pl : State.t) (new_pl : State.t) (space : int) (board : Board.t)
+    (expected_output : bool) =
+  name >:: fun _ ->
+  update_player pls old_pl new_pl;
+  assert_equal
+    (owns pls.(find_index (State.name new_pl) pls) space board)
+    expected_output
+
 let property_tests =
   [
     (*----------------following test checks update_player-----------------*)
     update_player_test "old player had 500, new player has 505" pls player1
       (change_balance player1 5) 505;
+    update_player_test_space "old player had 500, new player has 500" pls
+      player1
+      (buy_property player1 1 board (Bank.init_bank 500))
+      1 board true;
     (*----------------following test checks property_status-----------------*)
-    property_status_test "owned by no one" pls player1 board NotOwned;
+    property_status_test "owned by no one"
+      [| player1; player2; player3 |]
+      player1 board NotOwned;
+    property_status_test "Owned by other player" pls (go 1 player2 board) board
+      (OwnedByOtherPlayer player1);
+    property_status_test "Owned by this player" pls (go 1 player1 board) board
+      OwnedByThisPlayer;
   ]
 
 let suite =
