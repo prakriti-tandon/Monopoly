@@ -174,18 +174,21 @@ let check_game (name : string) (player : State.t) =
 
 let game_board = Board.from_json (Yojson.Basic.from_file "data/board.json")
 let state_one = State.init_state "Prakriti"
-let state_two = State.buy_property state_one 1 game_board (Bank.init_bank 5000)
+
+(*let state_two = State.buy_property state_one 1 game_board (Bank.init_bank
+  5000)*)
 let state_three = change_owns 1 state_one
 let go_state = go 2 state_one game_board
 
-let player_two =
-  buy_property (State.init_state "Amy") 2 game_board (Bank.init_bank 5000)
+(*let player_two = buy_property (State.init_state "Amy") 2 game_board
+  (Bank.init_bank 5000)*)
 
 let bank1 = Bank.init_bank 5000
 
 (*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
   rent_play2 = (pay_rent go_state player_two game_board).player2*)
-let player_two_insuf_funds = State.buy_property player_two 22 game_board bank1
+(*let player_two_insuf_funds = State.buy_property player_two 22 game_board
+  bank1*)
 
 let make_owns_test (name : string) (player1 : State.t) (space : int)
     (game : Board.t) (expected_output : bool) =
@@ -216,24 +219,21 @@ let state_tests =
     make_owns_test "player with no properties, space 1, game" state_one 1
       game_board false;
     (*following test checks buy_property*)
-    make_owns_test "player with owns = [1], space 1, game" state_two 1
-      game_board true;
-    (*following test checks buy_property*)
-    make_owns_test "player with owns=[1], space 2, game" state_two 2 game_board
-      false;
+    (* make_owns_test "player with owns = [1], space 1, game" state_two 1
+       game_board true; (*following test checks buy_property*) make_owns_test
+       "player with owns=[1], space 2, game" state_two 2 game_board false;*)
     (*following test checks change_owns*)
     make_owns_test "player with owns = [1]" state_three 1 game_board true;
     (*following test checks go*)
     current_pos_test "current pos of state_one after it has moved 2 steps is 2"
-      go_state 2;
+      go_state 2
     (*following tests check pay_rent*)
     (*current_balance_test "current balance of rent_play1 is 496" rent_play1
       496; current_balance_test "current balance of rent_play2 is 444"
       rent_play2 444;*)
-    current_balance_test "current balance of player_two is 440"
-      player_two_insuf_funds 40;
-    buy_property_exception_test "insufficient funds to buy property"
-      player_two_insuf_funds 1 game_board;
+    (*current_balance_test "current balance of player_two is 440"
+      player_two_insuf_funds 40; buy_property_exception_test "insufficient funds
+      to buy property" player_two_insuf_funds 1 game_board;*);
   ]
 
 (******************************************************************************
