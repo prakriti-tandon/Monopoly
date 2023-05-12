@@ -23,6 +23,8 @@ exception ExceededHotelLimit
    hotels (>=2) or buying a num of hotels that will cause them to exceed the
    limit of 2 *)
 
+exception DoesntOwnProperty
+
 val init_state : string -> t
 (**[init_state str] is the initial state of the player with name [str]. In that
    state, the player's current position is the go position. They have 500
@@ -38,11 +40,12 @@ val owns_list : t -> property list
 (** [owns_list player] is a list of properties owned by the state [player].*)
 
 val num_houses : t -> int -> int
-(**[num_houses player s] is the number of houses the player owns at space [s].*)
+(**[num_houses player s] is the number of houses the player owns at space [s].
+    Raises [DoesntOwnProperty] if the player doesnt own the property at space [s].*)
 
 val num_hotels : t -> int -> int
 (**[num_hotels player s game] is the number of hotels the player owns at space
-   [s].*)
+   [s].Raises [DoesntOwnProperty] if the player doesnt own the property at space [s].*)
 
 val current_balance : t -> int
 (**[current_balance player] is the balance/amount of money in the player's bank

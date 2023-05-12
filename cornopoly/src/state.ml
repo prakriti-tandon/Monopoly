@@ -47,15 +47,15 @@ let change_balance (player : t) (amt : int) =
     owes_to_bank = player.owes_to_bank;
   }
 
-let compare_property (property1 : property) (property2 : property) : int =
-  let diff = property1.space - property2.space in
-  if diff > 0 then 1 else if diff = 0 then 0 else -1
-
 let rec owns (player : t) (space : int) (game : Board.t) =
   match player.owns with
   | [] -> false
   | h :: t ->
       if h.space = space then true else owns { player with owns = t } space game
+
+let compare_property (property1 : property) (property2 : property) : int =
+  let diff = property1.space - property2.space in
+  if diff > 0 then 1 else if diff = 0 then 0 else -1
 
 let change_owns pos play1 =
   {
