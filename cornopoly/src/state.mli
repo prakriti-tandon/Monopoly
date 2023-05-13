@@ -1,6 +1,6 @@
-(** This module represents the state of a player of Monopoly. It includes the
-    player's name, current position, the money they have and the properties they
-    own*)
+(** This module represents the state of a single player of Monopoly. It includes
+    the player's name, current position, the money they have and the properties
+    they own*)
 
 type t
 (** The abstract type of values representing the player state. *)
