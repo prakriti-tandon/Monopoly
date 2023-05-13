@@ -39,6 +39,8 @@ val current_pos : t -> int
 val owns_list : t -> property list
 (** [owns_list player] is a list of properties owned by the state [player].*)
 
+val make_property : int -> int -> int -> property 
+(** [make_property space num_houses num_hotels] is a property with a [space], [num_houses], and [num_hotels] *)
 val num_houses : t -> int -> int
 (**[num_houses player s] is the number of houses the player owns at space [s].
    Raises [DoesntOwnProperty] if the player doesnt own the property at space
