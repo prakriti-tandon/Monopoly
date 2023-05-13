@@ -10,6 +10,7 @@ type t = {
   money : int;
   owns : property list;
   owes_to_bank : int option * int;
+  jail : int option;
 }
 
 exception InsufficientFunds
@@ -24,6 +25,7 @@ let init_state str =
     money = 500;
     owns = [];
     owes_to_bank = (None, 0);
+    jail = None;
   }
 
 let name (player : t) = player.name
@@ -59,7 +61,7 @@ let change_owes (player : t) (amt : int) =
         (Some new_owes_to_bank, snd player.owes_to_bank)
     | None ->
         let new_owes_to_bank = amt in
-        (Some new_owes_to_bank, snd player.owes_to_bank)
+        (Some new_owes_to_bank, 2)
   in
   {
     name = player.name;
@@ -67,6 +69,7 @@ let change_owes (player : t) (amt : int) =
     money = player.money;
     owns = player.owns;
     owes_to_bank = new_owes (fst player.owes_to_bank);
+    jail = player.jail;
   }
 
 let jail (player : t) = failwith "unimplemented"
@@ -82,6 +85,7 @@ let change_balance (player : t) (amt : int) =
     money = new_amt;
     owns = player.owns;
     owes_to_bank = player.owes_to_bank;
+    jail = player.jail;
   }
 
 let rec owns (player : t) (space : int) (game : Board.t) =
@@ -115,6 +119,7 @@ let go (dice : int) (player : t) (game : Board.t) =
     money = player.money;
     owns = player.owns;
     owes_to_bank = player.owes_to_bank;
+    jail = player.jail;
   }
 
 let buy_property (player1 : t) (space : int) (game : Board.t) (bank : Bank.t) =

@@ -273,27 +273,36 @@ let make_num_hotels_exception_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_raises DoesntOwnProperty (fun () -> num_hotels player1 space)
 
+let custom_owes_to_bank_printer (input : int option * int) : string =
+  match input with
+  | Some x, y -> "(Some " ^ string_of_int x ^ ", " ^ string_of_int y ^ ")"
+  | None, z -> "(None, " ^ string_of_int z ^ ")"
+
 let make_owes_to_bank_test (name : string) (player1 : State.t)
     (expected_output : int option * int) =
-  name >:: fun _ -> assert_equal expected_output (State.owes_to_bank player1)
+  name >:: fun _ ->
+  assert_equal expected_output
+    (State.owes_to_bank player1)
+    ~printer:custom_owes_to_bank_printer
 
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
     current_pos_test "current position of state_one is 0" state_one 0;
+    make_owns_test "player with no properties, space 1, game" state_one 1
+      game_board false;
+    (*--------------------following test checks cur_balance & check_balance---*)
     current_balance_test "current_balance is 500" state_one 500;
     change_balance_test "deduct $200 from original balance: $500" state_one
       (-200) 300;
     current_balance_test "current_balance is 300"
       (State.change_balance state_one (-200))
       300;
-    check_name "deduct $200 from original balance: $500" state_one (-200) 300
-      "Prakriti";
     change_balance_test "add $200 to original balance: $500" state_one (-200)
       300;
     change_balance_test "add $0 to original balance: $500" state_one 0 500;
-    make_owns_test "player with no properties, space 1, game" state_one 1
-      game_board false;
+    check_name "deduct $200 from original balance: $500" state_one (-200) 300
+      "Prakriti";
     (*--------------------following test checks buy_property-----------------*)
     (* make_owns_test "player with owns = [1], space 1, game" state_two 1
        game_board true; (*following test checks buy_property*) make_owns_test
@@ -320,10 +329,11 @@ let state_tests =
     make_owes_to_bank_test "owes $500 to bank (500, 2)"
       (change_owes state_one 500)
       (Some 500, 2);
+    (*need to check that y value decremets each time go around go, need to
+      implement go module before can test this*)
     make_owes_to_bank_test "owes $500 to bank and went around go 1x (500, 1)"
       (go 31 (change_owes state_one 500) game_board)
-      (Some 500, 1)
-    (*need to check that y value decremets each time go around go*);
+      (Some 500, 1);
     make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
       (go 61 (change_owes state_one 500) game_board)
       (Some 500, 0);
