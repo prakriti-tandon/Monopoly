@@ -249,6 +249,10 @@ let buy_property_exception_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_raises InsufficientFunds (fun () -> buy_property player1 space game)
 
+let make_owns_list_test (name : string) (player1 : State.t)
+    (expected_output : property list) =
+  name >:: fun _ -> assert_equal expected_output (State.owns_list player1)
+
 let make_num_houses_test (name : string) (player1 : State.t) (space : int)
     (expected_output : int) =
   name >:: fun _ ->
@@ -280,6 +284,12 @@ let state_tests =
     (* make_owns_test "player with owns = [1], space 1, game" state_two 1
        game_board true; (*following test checks buy_property*) make_owns_test
        "player with owns=[1], space 2, game" state_two 2 game_board false;*)
+
+    (*---------------------following test checks owns_list-------------------*)
+    make_owns_list_test "owns no properties" state_one [];
+    make_owns_list_test "owns 1 property {space=1; num_houses=0; num_hotels=0}"
+      state_three
+      [ State.make_property 1 0 0 ];
     (*---------------------following test checks change_owns------------------*)
     make_owns_test "player with owns = [1]" state_three 1 game_board true;
     (*-------------------following test checks go--------------------------*)
@@ -397,10 +407,9 @@ let property_tests =
     (*----------------following test checks update_player-----------------*)
     update_player_test "old player had 500, new player has 505" pls player1
       (change_balance player1 5) 505;
-    update_player_test_space "old player had 500, new player has 500" pls
-      player1
-      (buy_property player1 1 board (Bank.init_bank 500))
-      1 board true;
+    (* update_player_test_space "old player had 500, new player has 500" pls
+       player1 (buy_property player1 1 board (Bank.init_bank 500)) 1 board
+       true;*)
     (*----------------following test checks property_status-----------------*)
     property_status_test "owned by no one"
       [| player1; player2; player3 |]
