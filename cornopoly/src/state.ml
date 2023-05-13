@@ -41,7 +41,14 @@ let num_houses (player : t) (space : int) =
   in
   num player.owns space
 
-let num_hotels (player : t) (space : int) = failwith "unimplemented"
+let num_hotels (player : t) (space : int) =
+  let rec num owns_list space =
+    match player.owns with
+    | [] -> raise DoesntOwnProperty
+    | h :: t -> if h.space = space then h.num_hotels else num t space
+  in
+  num player.owns space
+
 let owes_to_bank (player : t) = failwith "unimplemented"
 let change_owes (player : t) = failwith "unimplemneted"
 let jail (player : t) = failwith "unimplemented"
