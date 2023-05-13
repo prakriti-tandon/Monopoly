@@ -49,8 +49,26 @@ let num_hotels (player : t) (space : int) =
   in
   num player.owns space
 
-let owes_to_bank (player : t) = failwith "unimplemented"
-let change_owes (player : t) = failwith "unimplemneted"
+let owes_to_bank (player : t) = player.owes_to_bank
+
+let change_owes (player : t) (amt : int) =
+  let new_owes current_owes_to_bank =
+    match current_owes_to_bank with
+    | Some x ->
+        let new_owes_to_bank = x + amt in
+        (Some new_owes_to_bank, snd player.owes_to_bank)
+    | None ->
+        let new_owes_to_bank = amt in
+        (Some new_owes_to_bank, snd player.owes_to_bank)
+  in
+  {
+    name = player.name;
+    current_pos = player.current_pos;
+    money = player.money;
+    owns = player.owns;
+    owes_to_bank = new_owes (fst player.owes_to_bank);
+  }
+
 let jail (player : t) = failwith "unimplemented"
 let put_in_jail (player : t) = failwith "unimplemented"
 let get_out_of_jail (player : t) = failwith "unimplemented"
