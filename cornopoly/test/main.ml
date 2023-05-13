@@ -459,6 +459,50 @@ let property_tests =
       OwnedByThisPlayer;
   ]
 
+(*************************************************************************)
+
+(**** Tests for Community Chest and Chance cards! *)
+
+(*************************************************************************)
+
+(* re-initializing in case previous tests messed with the players. *)
+let pls = [| player1; player2; player3 |]
+
+(* needed a second after manipulating *)
+let pls2 = [| player1; player2; player3 |]
+let bank = Bank.init_bank 5000
+
+let comm_chest_earn_test name deck pls bank i player exp_balance_after =
+  name >:: fun _ ->
+  let plname = State.name player in
+  let plindex = Property.find_index plname pls in
+  Comm_chest.exec_card deck pls bank i player;
+  assert_equal (current_balance pls.(plindex)) exp_balance_after
+
+let all_bal_change_test name deck pls bank i player (bals : int array) =
+  name >:: fun _ ->
+  let plname = State.name player in
+  let plindex = Property.find_index plname pls in
+  Comm_chest.exec_card deck pls bank i player;
+  assert_equal ~msg:"current player"
+    (current_balance pls.(plindex))
+    bals.(plindex);
+  assert_equal ~msg:"player 1" (current_balance pls.(0)) bals.(0);
+  assert_equal ~msg:"player 2" (current_balance pls.(1)) bals.(1);
+  assert_equal ~msg:"player 3" (current_balance pls.(2)) bals.(2)
+
+let comm_chest_tests =
+  [
+    comm_chest_earn_test "finance bro - earn 1000" comm_deck pls bank 14 player1
+      1500;
+    (* tests Earn card *)
+    comm_chest_earn_test "ryan lombardi - pay 10" comm_deck pls bank 12 player2
+      490;
+    (* tests Pay card *)
+    all_bal_change_test "slope day pregame test" comm_deck pls2 bank 7 player1
+      [| 410; 410; 410 |];
+  ]
+
 let suite =
   "test suite for final project"
   >::: List.flatten
@@ -468,6 +512,7 @@ let suite =
            command_tests;
            state_tests;
            property_tests;
+           comm_chest_tests;
          ]
 
 let _ = run_test_tt_main suite

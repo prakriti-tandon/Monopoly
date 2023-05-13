@@ -18,4 +18,4 @@ val add_funds : t -> int -> unit
 val deduct_funds : t -> int -> unit
 (** [deduct_funds bank a] removes [a] amount of funds from [bank]. This function
     is called when taking a loan from the bank. It throws [InsufBankFunds] if
-    [a] is less than the money in bank*)
+    [a] is greater than the money in bank*)
