@@ -3,6 +3,12 @@ open Game
 open Command
 open State
 open Board
+open Property
+
+(*Global variable which is set at the time when we initialise the game*)
+let num_player = ref 0
+let game_end = ref false
+let active_player = ref 0
 
 (*ends the game and shows the name of the player that won*)
 let terminate str =
@@ -17,9 +23,9 @@ let rec roll_die =
     if n != 0 then n else roll_die ()
 
 (*both helpers need to return a tupple of s1 and st2 where the first *)
-let trans st1 st2 board = failwith "Commented out"
+let trans st1 st2 board = raise (Failure "Unimplemented")
 (*try let comb_state = State.pay_rent st1 st2 board in (comb_state.player1,
-  comb_state.player2) with InsufficientFunds -> terminate (State.name st2)*)
+  comb_state.player2) with InsufficientFunds -> terminate (State.name st2) *)
 
 (*recursive function that loops through and annoys the user till they return
   either y or n as a value*)
@@ -35,9 +41,7 @@ let rec get_command () =
 
 let prompt_buy st1 st2 board =
   try
-    let st_new =
-      State.buy_property st1 (current_pos st1) board (Bank.init_bank 5000)
-    in
+    let st_new = State.buy_property st1 (current_pos st1) board in
     (st_new, st2)
   with InsufficientFunds -> terminate (State.name st2)
 
@@ -101,45 +105,117 @@ let rec game_loop st1 st2 board =
       let state_after_2 = player_run y x board in
       game_loop (snd state_after_2) (fst state_after_2) board
 
-(*let st1_new = player_run st1 st2 board in let st2_new = player_run st2 st1
-  board in game_loop st1_new st2_new board*)
+(* name_helper and get_name are funtions used to get the list of player names
+   out*)
+let rec name_helper str =
+  print_endline
+    "Oops! The number of player names and actual players don't match -> try \
+     again! ";
+  print_string "> ";
+  get_name ()
 
-(*Gets the list of names and initialises the game and then calls start game*)
-let rec initialise_game lst =
-  let board_json = Yojson.Basic.from_file "data/board.json" in
-  match lst with
-  | x :: y :: t ->
-      let st1 = init_state x in
-      let st2 = init_state y in
-      game_loop st1 st2 (from_json board_json)
-  | _ -> (
-      print_endline
-        "Not enough names to start the game. Make sure the first player's name \
-         is followed by a single space followed by the second players name.";
-      print_string "> ";
-      match read_line () with
-      | exception End_of_file -> ()
-      | str -> get_name str)
+and get_name () =
+  print_endline
+    "Please enter the name of all the players: (name of first player, followed \
+     by space and then name of the second player and so on...) ";
+  print_string "> ";
+  match read_line () with
+  | str ->
+      let lst = String.split_on_char ' ' (str ^ " ") in
+      if List.length lst = !num_player then name_helper () else lst
+(* | exception End_of_file -> ()*)
 
-(*main() and initialise_game helper which parses through the string given by the
-  player and initialises the game *)
-and get_name str =
-  let lst = String.split_on_char ' ' str in
-  initialise_game lst
+let ask_buy () = ()
+let self_own_prompt () = ()
+
+let deal_property board arr int =
+  let active_p = arr.(int) in
+  let curr_pos = current_pos active_p in
+  match property_status arr curr_pos with
+  | OwnedByOtherPlayer st -> ()
+  | NotOwned -> ask_buy ()
+  | OwnedByThisPlayer -> self_own_prompt ()
+
+let deal_go board arr int = raise (Failure "unimp")
+let deal_jail board arr int = raise (Failure "unimp")
+let deal_chance board arr int = raise (Failure "unimp")
+let deal_commchest board arr int = raise (Failure "unimp")
+
+let rec multi_player_run board arr int =
+  let active_p = arr.(int) in
+  print_string "\n";
+  print_endline ("It is player " ^ State.name active_p ^ "'s turn.");
+  let n = roll_die () in
+  (*active_p_new is the updated state on moving the active player*)
+  let active_p_new = State.go n active_p board in
+  (*updating the state in the array*)
+  arr.(int) <- active_p_new;
+  print_endline ("You rolled a " ^ string_of_int n ^ "!");
+  (*check if current spot is a property*)
+  let curr_pos = current_pos active_p_new in
+  (*print description and name of the property and check for owner *)
+  print_endline (State.name active_p ^ " landed on " ^ name board curr_pos ^ ":");
+  print_endline (description board curr_pos);
+  ANSITerminal.print_string [ ANSITerminal.red ]
+    ("Your current balance is "
+    ^ string_of_int (State.current_balance active_p)
+    ^ ".");
+  print_endline " ";
+  match space_type board curr_pos with
+  | str ->
+      (*each one of these helper functions must update game end and active
+        player*)
+      if str = "property" then ()
+      else if str = "go" then ()
+      else if str = "jail" then ()
+      else if str = "chance" then ()
+      else if str = "comm-chest" then ()
+
+(*Suppose to handle the turn switching of players*)
+and run_multi board arr =
+  while !game_end != true do
+    multi_player_run board arr !active_player
+  done
+
+(*takes in lst of names and creates array of players and initialises the game
+  board *)
+let initialise lst =
+  let board_json = from_json (Yojson.Basic.from_file "data/board.json") in
+  let name_arr = Array.of_list lst in
+  (*for loop to initialise game state*)
+  (* TODO: CHANGE NAME AT THE TIME OF PLAYER INITIALIZATION*)
+  let arr = Array.make !num_player (init_state "") in
+  for i = 0 to !num_player - 1 do
+    arr.(i) <- init_state name_arr.(i)
+  done;
+  run_multi board_json arr
+
+(*init_array takes in the number of players and creates an array to keep track
+  of the players. It also passes the array and prompts for names of the
+  players *)
+let rec init_array str =
+  (*try*)
+  let x = int_of_string str in
+  num_player := x;
+  (*let arr = Array.make x None in*)
+  let lst = get_name () in
+  initialise lst
+(*with Failure y -> ( print_endline "Oops! thats not a valid number: Make
+  sure\n\ \ youare using integers like 1,2,3...and so on "; print_string "> ";
+  match read_line () with | str -> init_array str | exception End_of_file ->
+  ())*)
 
 (*[main ()] prompts for the game to play, then starts it. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] "\nWelcome to Cornopoly!\n";
   print_endline
-    "Please enter the name of first player followed by space and then the name \
-     of the second player";
+    "Please enter the number of players you are playing cornopoly with: ";
   print_string "> ";
   match read_line () with
-  | str -> get_name str
+  | str -> init_array str
   | exception End_of_file -> ()
 
 (* Execute the game engine. *)
 let () = main ()
 
 (*NOTES/COMMENTS/CONCERNS*)
-(*deal with the situation when player 1 owns it  *)

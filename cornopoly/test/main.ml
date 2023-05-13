@@ -263,6 +263,20 @@ let make_num_houses_exception_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_raises DoesntOwnProperty (fun () -> num_houses player1 space)
 
+let make_num_hotels_test (name : string) (player1 : State.t) (space : int)
+    (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal expected_output (State.num_hotels player1 space)
+
+let make_num_hotels_exception_test (name : string) (player1 : State.t)
+    (space : int) =
+  name >:: fun _ ->
+  assert_raises DoesntOwnProperty (fun () -> num_hotels player1 space)
+
+let make_owes_to_bank_test (name : string) (player1 : State.t)
+    (expected_output : int option * int) =
+  name >:: fun _ -> assert_equal expected_output (State.owes_to_bank player1)
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -298,6 +312,21 @@ let state_tests =
     (*----------following test checks num_houses-----------*)
     make_num_houses_exception_test "no properties" state_one 1;
     make_num_houses_test "owns prop at space 1, 0 houses" state_three 1 0;
+    (*----------following test checks num_hotels-----------*)
+    make_num_hotels_exception_test "no properties" state_one 1;
+    make_num_hotels_test "owns prop at space 1, 0 hotels" state_three 1 0
+    (*----------following test checks owes_to_bank-----------*);
+    make_owes_to_bank_test "owes nothing to bank (None, 0)" state_one (None, 0);
+    make_owes_to_bank_test "owes $500 to bank (500, 2)"
+      (change_owes state_one 500)
+      (Some 500, 2);
+    make_owes_to_bank_test "owes $500 to bank and went around go 1x (500, 1)"
+      (go 31 (change_owes state_one 500) game_board)
+      (Some 500, 1)
+    (*need to check that y value decremets each time go around go*);
+    make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
+      (go 61 (change_owes state_one 500) game_board)
+      (Some 500, 0);
   ]
 
 (******************************************************************************
