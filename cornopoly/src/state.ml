@@ -93,6 +93,13 @@ let buy_house (player1 : t) (space : int) (game : Board.t) (num_houses : int)
     (bank : Bank.t) : t =
   failwith "unimplemented"
 
+(* Lauren here - i need this function for one of the chance cards called
+   "hotelie" where i give away a hotel for free! I added it to the interface so
+   it can be visible on my end, but hopefully it will be a useful helper for you
+   when implemented buy hotel as well.*)
+let add_hotel (player : t) (space : int) (game : Board.t) =
+  failwith "Unimplemented"
+
 let buy_hotel (player1 : t) (space : int) (game : Board.t) (num_hotels : int)
     (bank : Bank.t) =
   failwith "unimplemented"
@@ -105,3 +112,5 @@ let sell_house (player : t) (space : int) (game : Board.t) =
 
 let sell_hotel (player : t) (space : int) (game : Board.t) =
   failwith "unimplemented"
+
+let space_of_property p = p.space

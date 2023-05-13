@@ -5,6 +5,8 @@
 
 (**********************************************************************)
 
-(* val exec_card: int -> player array *)
-(** [exec_card c] is the state of all players after executing community chest
-    card c. *)
+val exec_card :
+  Deck.t -> Property.player_list -> Bank.t -> int -> State.t -> unit
+(** [exec_card pls bank player c] mutates the state of all players in player
+    list [pls] after the current player [player] takes community chest card [c]
+    from deck [deck], with current bank state [bank]. *)

@@ -5,5 +5,8 @@
 
 (**********************************************************************)
 
-(* val exec_card: int -> player array *)
-(** [exec_card c] is the state of all players after executing chance card c. *)
+val exec_card :
+  Deck.t -> Property.player_list -> Bank.t -> Board.t -> int -> State.t -> unit
+(** [exec_card deck pls bank board i current_player] mutates all player states
+    [pls] and the bank [bank] after player [current_player] draws chance card
+    [i] from deck [deck]. *)

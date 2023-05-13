@@ -39,12 +39,12 @@
     {
       "card-id": 6,
       "name": "Business Club",
-      "description": "The new member educator for your business club wants you to sell a property to prove your marketing acumen. Choose a property and a player to sell it to!"
+      "description": "The new member educator for your business club wants you to sell a property to prove your marketing acumen. If you have any, your cheapest property will be sold to the bank."
     },
     {
       "card-id": 7,
       "name": "Physics Requirement",
-      "description": "Go to Rockefeller hall for your required physics lecture. And take a free $15 to pay for your iClicker!",
+      "description": "Go to Rockefeller Hall to visit Curious Cat for your required physics lecture.",
       "newspace": 6
     },
     {
@@ -68,7 +68,7 @@
     {
       "card-id": 11,
       "name": "Hotelie!",
-      "description": "Have a free hotel for one of your properties!"
+      "description": "Have a free hotel for your cheapest property! If you don't own any properties, you're out of luck."
     },
     {
       "card-id": 12,
@@ -89,7 +89,7 @@
     {
       "card-id": 15,
       "name": "Secrets Unlocked",
-      "description": "Martha selected you for a private tour of her weather machine. Take $1000 and proceed to the weather machine.",
+      "description": "Martha selected you for a private tour of her weather machine. Proceed to the all powerful weather machine.",
       "newspace": 29
     },
     {

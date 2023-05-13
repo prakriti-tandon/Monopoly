@@ -34,11 +34,10 @@ val random_card : t -> unit -> int
 val number_cards : t -> int
 (** [number_cards deck] is the number of cards in deck [deck].*)
 
-val new_space : t -> int -> int
-(** [new_space deck i] is the new space that card [i] tells the player to move
-    to in deck [deck]. Raises: [IncorrectCardType] if passed a community chest
-    card deck and [NoNewSpace] if this chance card does not direct the player to
-    move to a new space. *)
+val new_space : t -> int -> int option
+(** [new_space deck i] is Some new space that card [i] tells the player to move
+    to in deck [deck] or None if the card does not prompt the player to move
+    spaces. Raises: [IncorrectCardType] if passed a community chest card deck. *)
 
 val comm_chest_info : t -> int -> comm_chest_type
 (** [comm_chest_info deck i] gives the community chest type of card [i] in deck

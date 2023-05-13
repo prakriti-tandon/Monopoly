@@ -71,10 +71,7 @@ let number_cards deck = deck.num_cards
 let new_space deck i =
   match (find_card deck i).info with
   | Comm _ -> raise IncorrectCardType
-  | Chance c -> (
-      match c.newspace with
-      | None -> raise NoNewSpace
-      | Some sp -> sp)
+  | Chance c -> c.newspace
 
 let comm_chest_info deck i =
   match (find_card deck i).info with

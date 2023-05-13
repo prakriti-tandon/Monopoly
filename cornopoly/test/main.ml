@@ -114,9 +114,6 @@ let new_space_test = deck_test_maker Deck.new_space
 let new_space_wrong_ctype =
   deck_test_maker_exception Deck.new_space Deck.IncorrectCardType
 
-let new_space_nonewspace =
-  deck_test_maker_exception Deck.new_space Deck.NoNewSpace
-
 let comm_info_test = deck_test_maker Deck.comm_chest_info
 
 let comm_info_wrongtype =
@@ -135,9 +132,9 @@ let deck_tests =
       "Financial aid packages are released today! Take $100.";
     num_cards_test "17 cards in chance deck" chance_deck 17;
     num_cards_test "17 cards in comm deck" comm_deck 17;
-    new_space_test "new space of chance 0 is 15" chance_deck 0 15;
+    new_space_test "new space of chance 0 is 15" chance_deck 0 (Some 15);
+    new_space_test "new space of chance 6 is None" chance_deck 6 None;
     new_space_wrong_ctype "comm chest card no new space" comm_deck 7;
-    new_space_nonewspace "chance card 11 has no new space" chance_deck 11;
     comm_info_test "Card 16 type other" comm_deck 16 Other;
     comm_info_test "Card 13 earn 10" comm_deck 13 (Earn (Some 10));
     comm_info_test "Card 12 pay 10" comm_deck 12 (Pay (Some 10));
