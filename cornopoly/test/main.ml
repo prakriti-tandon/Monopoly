@@ -347,10 +347,13 @@ let state_tests =
     make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
       (go 61 (change_owes state_one 500) game_board)
       (Some 500, 0)
-    (*----------following test checks jail -----------*);
+    (*----------following test checks jail, put_in_jail,get_out_of_jail-----*);
     make_jail_test "not in jail" state_one None;
     make_jail_test "in jail, has 3 turns remaining in jail"
-      (put_in_jail state_one) (Some 3)
+      (put_in_jail state_one) (Some 3);
+    make_jail_test "get player who has 3 turns remaining in jail"
+      (get_out_of_jail (put_in_jail state_one))
+      None
     (*need to implement go module before can test this*)
     (* make_jail_test "in jail, has 2 turns remaining in jail" (put_in_jail (go
        31 state_one game_board)) (Some 2); make_jail_test "in jail, has 1 turns
@@ -494,14 +497,14 @@ let comm_chest_earn_test name deck pls bank i player exp_balance_after =
   name >:: fun _ ->
   let plname = State.name player in
   let plindex = Property.find_index plname pls in
-  Comm_chest.exec_card deck pls bank i player;
+  Comm_chest.exec_card deck pls bank board i player;
   assert_equal (current_balance pls.(plindex)) exp_balance_after
 
 let all_bal_change_test name deck pls bank i player (bals : int array) =
   name >:: fun _ ->
   let plname = State.name player in
   let plindex = Property.find_index plname pls in
-  Comm_chest.exec_card deck pls bank i player;
+  Comm_chest.exec_card deck pls bank board i player;
   assert_equal ~msg:"current player"
     (current_balance pls.(plindex))
     bals.(plindex);
