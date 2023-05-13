@@ -263,6 +263,16 @@ let make_num_houses_exception_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_raises DoesntOwnProperty (fun () -> num_houses player1 space)
 
+let make_num_hotels_test (name : string) (player1 : State.t) (space : int)
+    (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal expected_output (State.num_hotels player1 space)
+
+let make_num_hotels_exception_test (name : string) (player1 : State.t)
+    (space : int) =
+  name >:: fun _ ->
+  assert_raises DoesntOwnProperty (fun () -> num_hotels player1 space)
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -298,6 +308,9 @@ let state_tests =
     (*----------following test checks num_houses-----------*)
     make_num_houses_exception_test "no properties" state_one 1;
     make_num_houses_test "owns prop at space 1, 0 houses" state_three 1 0;
+    (*----------following test checks num_hotels-----------*)
+    make_num_hotels_exception_test "no properties" state_one 1;
+    make_num_hotels_test "owns prop at space 1, 0 hotels" state_three 1 0;
   ]
 
 (******************************************************************************
