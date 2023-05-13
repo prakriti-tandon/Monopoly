@@ -72,8 +72,19 @@ let change_owes (player : t) (amt : int) =
     jail = player.jail;
   }
 
-let jail (player : t) = failwith "unimplemented"
-let put_in_jail (player : t) = failwith "unimplemented"
+let jail (player : t) = player.jail
+
+let put_in_jail (player : t) =
+  let jail_ = Some 3 in
+  {
+    name = player.name;
+    current_pos = player.current_pos;
+    money = player.money;
+    owns = player.owns;
+    owes_to_bank = player.owes_to_bank;
+    jail = jail_;
+  }
+
 let get_out_of_jail (player : t) = failwith "unimplemented"
 let current_balance (player : t) = player.money
 
