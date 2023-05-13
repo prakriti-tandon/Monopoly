@@ -285,6 +285,16 @@ let make_owes_to_bank_test (name : string) (player1 : State.t)
     (State.owes_to_bank player1)
     ~printer:custom_owes_to_bank_printer
 
+let custom_jail_printer (input : int option) : string =
+  match input with
+  | Some x -> "Some " ^ string_of_int x
+  | None -> "None"
+
+let make_jail_test (name : string) (player1 : State.t)
+    (expected_output : int option) =
+  name >:: fun _ ->
+  assert_equal expected_output (State.jail player1) ~printer:custom_jail_printer
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -336,7 +346,15 @@ let state_tests =
       (Some 500, 1);
     make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
       (go 61 (change_owes state_one 500) game_board)
-      (Some 500, 0);
+      (Some 500, 0)
+    (*----------following test checks jail -----------*);
+    make_jail_test "not in jail" state_one None;
+    make_jail_test "in jail, has 3 turns remaining in jail"
+      (put_in_jail state_one) (Some 3)
+    (*need to implement go module before can test this*)
+    (* make_jail_test "in jail, has 2 turns remaining in jail" (put_in_jail (go
+       31 state_one game_board)) (Some 2); make_jail_test "in jail, has 1 turns
+       remaining in jail" (put_in_jail (go 61 state_one game_board)) (Some 1);*);
   ]
 
 (******************************************************************************
