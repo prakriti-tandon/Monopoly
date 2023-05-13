@@ -59,7 +59,7 @@ let change_owes (player : t) (amt : int) =
         (Some new_owes_to_bank, snd player.owes_to_bank)
     | None ->
         let new_owes_to_bank = amt in
-        (Some new_owes_to_bank, snd player.owes_to_bank)
+        (Some new_owes_to_bank, 2)
   in
   {
     name = player.name;
