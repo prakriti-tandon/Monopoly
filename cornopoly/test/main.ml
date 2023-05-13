@@ -297,7 +297,7 @@ let state_tests =
       go_state 2;
     (*----------following test checks num_houses-----------*)
     make_num_houses_exception_test "no properties" state_one 1;
-    make_num_houses_test "owns prop at space 1, 0 houses" state_one 1 0;
+    make_num_houses_test "owns prop at space 1, 0 houses" state_three 1 0;
   ]
 
 (******************************************************************************
