@@ -31,7 +31,7 @@ let exec_boba pls curr_player =
   done
 
 let exec_slopeday pls curr_player =
-  for i = 0 to Array.length pls do
+  for i = 0 to Array.length pls - 1 do
     update_pls_newamt pls pls.(i) ~-90
   done
 
