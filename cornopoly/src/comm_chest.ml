@@ -91,7 +91,7 @@ let exec_other pls bank i curr_player =
   | 16 -> exec_socialist pls
   | _ -> failwith "Unimplemented - comm chest other card"
 
-let exec_card deck pls bank i curr_player =
+let exec_card deck pls bank board i curr_player =
   match Deck.comm_chest_info deck i with
   | Earn (Some x) -> exec_earn pls bank x curr_player
   | Pay (Some x) -> exec_pay pls bank x curr_player

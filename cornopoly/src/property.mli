@@ -23,8 +23,8 @@ exception SpaceNotOwnable
    for a non-property space*)
 
 val property_status : player_list -> State.t -> Board.t -> status
-(**[propert_status pls curr_pl] determined the status of the property space
-   [curr_pl] is at with the players [pls]*)
+(**[property_status pls curr_pl board] determined the status of the property
+   space [curr_pl] is at with the players [pls]*)
 
 val determine_rent : State.t -> int -> Board.t -> int
 (**[determine_rent owner property board] determines the rent payable for

@@ -86,7 +86,7 @@ let player_run st1 st2 board =
           print_string ">";
           let str = get_command () in
           match str with
-          | "y" -> prompt_buy st1_go st2 board
+          | "y" -> (*prompt_buy st1_go st2 board*) (st1_go, st2)
           | "n" -> (st1_go, st2)
           | _ -> (st1_go, st2))
   else (st1_go, st2)
@@ -125,23 +125,43 @@ and get_name () =
       if List.length lst = !num_player then name_helper () else lst
 (* | exception End_of_file -> ()*)
 
+let update_active (arr : player_list) (cp : int) =
+  let np = (cp + 1) mod !num_player in
+  active_player := np
+
 let ask_buy () = ()
 let self_own_prompt () = ()
 
 let deal_property board arr int =
   let active_p = arr.(int) in
   let curr_pos = current_pos active_p in
-  match property_status arr curr_pos with
+  match property_status arr active_p board with
   | OwnedByOtherPlayer st -> ()
   | NotOwned -> ask_buy ()
   | OwnedByThisPlayer -> self_own_prompt ()
 
 let deal_go board arr int = raise (Failure "unimp")
 let deal_jail board arr int = raise (Failure "unimp")
-let deal_chance board arr int = raise (Failure "unimp")
-let deal_commchest board arr int = raise (Failure "unimp")
 
-let rec multi_player_run board arr int =
+(* This function chooses a chance card for the player, executes the chance card,
+   then updates who the active player is. This NEEDS TO BE UPDATED to handle the
+   case where a card bankrupts a player. *)
+let deal_card board arr deck bank exec_fn int =
+  let active_p = arr.(int) in
+  let chosen_card = Deck.random_card deck () in
+  print_endline ("You drew " ^ Deck.name deck chosen_card ^ "!");
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    (Deck.description deck chosen_card);
+  exec_fn deck arr bank board chosen_card active_p;
+  update_active arr int
+
+let deal_chance board arr chance_deck bank int =
+  deal_card board arr chance_deck bank Chance.exec_card int
+
+let deal_commchest board arr comm_deck bank int =
+  deal_card board arr comm_deck bank Comm_chest.exec_card int
+
+let rec multi_player_run board arr chance_deck comm_deck bank int =
   let active_p = arr.(int) in
   print_string "\n";
   print_endline ("It is player " ^ State.name active_p ^ "'s turn.");
@@ -172,23 +192,30 @@ let rec multi_player_run board arr int =
       else if str = "comm-chest" then ()
 
 (*Suppose to handle the turn switching of players*)
-and run_multi board arr =
+and run_multi board arr chance_deck comm_deck bank =
   while !game_end != true do
-    multi_player_run board arr !active_player
+    multi_player_run board arr chance_deck comm_deck bank !active_player
   done
 
 (*takes in lst of names and creates array of players and initialises the game
   board *)
 let initialise lst =
-  let board_json = from_json (Yojson.Basic.from_file "data/board.json") in
+  let board_json = Board.from_json (Yojson.Basic.from_file "data/board.json") in
+  let chance_deck =
+    Deck.from_json (Yojson.Basic.from_file "data/chance.json")
+  in
+  let comm_deck =
+    Deck.from_json (Yojson.Basic.from_file "data/comm-chest.json")
+  in
   let name_arr = Array.of_list lst in
+  let bank = Bank.init_bank 1000000 in
   (*for loop to initialise game state*)
   (* TODO: CHANGE NAME AT THE TIME OF PLAYER INITIALIZATION*)
   let arr = Array.make !num_player (init_state "") in
   for i = 0 to !num_player - 1 do
     arr.(i) <- init_state name_arr.(i)
   done;
-  run_multi board_json arr
+  run_multi board_json arr chance_deck comm_deck bank
 
 (*init_array takes in the number of players and creates an array to keep track
   of the players. It also passes the array and prompts for names of the
