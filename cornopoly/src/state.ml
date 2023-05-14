@@ -215,6 +215,7 @@ let buy_house (player : t) (space : int) (game : Board.t) (num_houses : int)
             if num_houses > 4 || h.num_houses - num_houses < 0 then
               raise ExceededHouseLimit
             else
+              let () = Bank.add_funds bank price in
               add_house { player with money = player.money - price } space game
           else num t space
     in
@@ -233,6 +234,7 @@ let buy_hotel (player : t) (space : int) (game : Board.t) (num_hotels : int)
             if num_hotels > 4 || h.num_hotels - num_hotels < 0 then
               raise ExceededHouseLimit
             else
+              let () = Bank.add_funds bank price in
               add_hotel { player with money = player.money - price } space game
           else num t space
     in
