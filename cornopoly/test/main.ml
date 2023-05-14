@@ -266,6 +266,9 @@ let state_one = State.init_state "Prakriti"
 let state_two =
   State.buy_property state_one 28 game_board bank1 (*adds $350 to bank*)
 
+let state_owns_prop_one =
+  State.buy_property state_one 1 game_board bank1 (*adds $60 to bank*)
+
 let state_three = change_owns 1 state_one
 let state_four = change_owns 5 state_three
 let go_state = go 2 state_one game_board
@@ -335,6 +338,10 @@ let custom_owes_to_bank_printer (input : int option * int) : string =
   | Some x, y -> "(Some " ^ string_of_int x ^ ", " ^ string_of_int y ^ ")"
   | None, z -> "(None, " ^ string_of_int z ^ ")"
 
+(*let custom_statet_printer (input : State.t) : string = match input with |
+  {name = State.name input; current_pos = pos; money = money; owns = owns;
+  owes_to_bank =owes_to_bank; jail = jail} -> "(Some " ^ string_of_int x ^ ", "
+  ^ string_of_int y ^ ")" | None, z -> "(None, " ^ string_of_int z ^ ")"*)
 let make_owes_to_bank_test (name : string) (player1 : State.t)
     (expected_output : int option * int) =
   name >:: fun _ ->
@@ -402,12 +409,14 @@ let state_tests =
     make_num_houses_exception_test "no properties" state_one 1;
     make_num_houses_test "owns prop at space 1, 0 houses" state_three 1 0;
     (*----------following test checks buy_house-----------*)
-    (*make_buy_house_test "buy 0 houses" make_buy_house_test "buy 1 house
-      price:$50" state_two 28 game_board 1 bank1*)
-
+    make_buy_house_test "buy 0 houses" state_two 28 game_board 0 bank1 state_two;
+    make_buy_house_test "buy 1 house, price:$50" state_owns_prop_one 1
+      game_board 1 bank1
+      (State.add_house state_owns_prop_one 1 game_board);
     (*----------following test checks num_hotels-----------*)
     make_num_hotels_exception_test "no properties" state_one 1;
     make_num_hotels_test "owns prop at space 1, 0 hotels" state_three 1 0
+    (*----------following test checks buy_hotels-----------*)
     (*----------following test checks owes_to_bank-----------*);
     make_owes_to_bank_test "owes nothing to bank (None, 0)" state_one (None, 0);
     make_owes_to_bank_test "owes $500 to bank (500, 2)"
