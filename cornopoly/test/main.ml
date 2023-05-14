@@ -306,6 +306,20 @@ let make_num_houses_exception_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_raises DoesntOwnProperty (fun () -> num_houses player1 space)
 
+let make_buy_house_test (name : string) (player1 : State.t) (space : int)
+    (game : Board.t) (num_houses : int) (bank : Bank.t)
+    (expected_output : State.t) =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (State.buy_house player1 space game num_houses bank)
+
+let make_buy_house_exception_test (name : string) (player1 : State.t)
+    (space : int) (game : Board.t) (num_houses : int) (bank : Bank.t)
+    (expected_output : State.t) =
+  name >:: fun _ ->
+  assert_raises ExceededHouseLimit (fun () ->
+      State.buy_house player1 space game num_houses bank)
+
 let make_num_hotels_test (name : string) (player1 : State.t) (space : int)
     (expected_output : int) =
   name >:: fun _ ->
@@ -388,6 +402,8 @@ let state_tests =
     make_num_houses_exception_test "no properties" state_one 1;
     make_num_houses_test "owns prop at space 1, 0 houses" state_three 1 0;
     (*----------following test checks buy_house-----------*)
+    (*make_buy_house_test "buy 0 houses" make_buy_house_test "buy 1 house
+      price:$50" state_two 28 game_board 1 bank1*)
 
     (*----------following test checks num_hotels-----------*)
     make_num_hotels_exception_test "no properties" state_one 1;
