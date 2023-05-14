@@ -258,17 +258,20 @@ let check_game (name : string) (player : State.t) =
   raise (Failure "Implement me")
 
 let game_board = Board.from_json (Yojson.Basic.from_file "data/board.json")
+let bank1 = Bank.init_bank 5000
+let prop1 = State.make_property 1 0 0
+let prop2 = State.make_property 2 0 0
 let state_one = State.init_state "Prakriti"
 
-(*let state_two = State.buy_property state_one 1 game_board (Bank.init_bank
-  5000)*)
+let state_two =
+  State.buy_property state_one 28 game_board bank1 (*adds $350 to bank*)
+
 let state_three = change_owns 1 state_one
+let state_four = change_owns 5 state_three
 let go_state = go 2 state_one game_board
 
 (*let player_two = buy_property (State.init_state "Amy") 2 game_board
   (Bank.init_bank 5000)*)
-
-let bank1 = Bank.init_bank 5000
 
 (*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
   rent_play2 = (pay_rent go_state player_two game_board).player2*)
@@ -283,6 +286,11 @@ let buy_property_exception_test (name : string) (player1 : State.t)
     (space : int) (game : Board.t) =
   name >:: fun _ ->
   assert_raises InsufficientFunds (fun () -> buy_property player1 space game)
+
+let make_compare_property_test (name : string) (prop1 : property)
+    (prop2 : property) (expected_output : int) =
+  name >:: fun _ ->
+  assert_equal expected_output (State.compare_property prop1 prop2)
 
 let make_owns_list_test (name : string) (player1 : State.t)
     (expected_output : property list) =
@@ -336,7 +344,8 @@ let state_tests =
     current_pos_test "current position of state_one is 0" state_one 0;
     make_owns_test "player with no properties, space 1, game" state_one 1
       game_board false;
-    (*--------------------following test checks cur_balance & check_balance---*)
+    (*--------------------following test checks cur_balance &
+      change_balance---*)
     current_balance_test "current_balance is 500" state_one 500;
     change_balance_test "deduct $200 from original balance: $500" state_one
       (-200) 300;
@@ -349,10 +358,21 @@ let state_tests =
     check_name "deduct $200 from original balance: $500" state_one (-200) 300
       "Prakriti";
     (*--------------------following test checks buy_property-----------------*)
-    (* make_owns_test "player with owns = [1], space 1, game" state_two 1
-       game_board true; (*following test checks buy_property*) make_owns_test
-       "player with owns=[1], space 2, game" state_two 2 game_board false;*)
-
+    make_owns_test "player with owns = [28], space 1, game" state_two 28
+      game_board true;
+    make_owns_test "player with owns=[1], space 2, game" state_two 2 game_board
+      false;
+    current_balance_test "$200 remaining"
+      (buy_property state_one 25 game_board bank1)
+      200;
+    buy_property_exception_test
+      "player with neg $ tries to buy property with price $400"
+      (buy_property state_one 25 game_board bank1)
+      29 game_board;
+    (*---------------------following test checks compare_property-------------*)
+    make_compare_property_test "prop1 = prop 1" prop1 prop1 0;
+    make_compare_property_test "prop1 < prop 2" prop1 prop2 (-1);
+    make_compare_property_test "prop1 > prop 2" prop2 prop1 1;
     (*---------------------following test checks owns_list-------------------*)
     make_owns_list_test "owns no properties" state_one [];
     make_owns_list_test "owns 1 property {space=1; num_houses=0; num_hotels=0}"
@@ -360,12 +380,15 @@ let state_tests =
       [ State.make_property 1 0 0 ];
     (*---------------------following test checks change_owns------------------*)
     make_owns_test "player with owns = [1]" state_three 1 game_board true;
+    make_owns_test "player with owns = [5]" state_four 5 game_board true;
     (*-------------------following test checks go--------------------------*)
     current_pos_test "current pos of state_one after it has moved 2 steps is 2"
       go_state 2;
     (*----------following test checks num_houses-----------*)
     make_num_houses_exception_test "no properties" state_one 1;
     make_num_houses_test "owns prop at space 1, 0 houses" state_three 1 0;
+    (*----------following test checks buy_house-----------*)
+
     (*----------following test checks num_hotels-----------*)
     make_num_hotels_exception_test "no properties" state_one 1;
     make_num_hotels_test "owns prop at space 1, 0 hotels" state_three 1 0
@@ -398,6 +421,20 @@ let state_tests =
 (******************************************************************************
   Bank.ml tests
   ******************************************************************************)
+let bank_init = Bank.init_bank 5000
+let bank_1 = Bank.init_bank 5000
+
+let test_bank_with_state =
+  State.buy_property state_one 2 game_board bank_1 (*adds $60 to bank_1*)
+
+let make_funds_test (name : string) (bank : Bank.t) (expected_output : int) =
+  name >:: fun _ -> assert_equal expected_output (Bank.funds bank)
+
+let bank_tests =
+  [
+    make_funds_test "Bank initially has $5000" bank_init 5000;
+    make_funds_test "+60 to bank, funds: $5060" bank_1 5060;
+  ]
 
 (******************************************************************************
   Property.ml tests
@@ -587,6 +624,7 @@ let suite =
            state_tests;
            property_tests;
            comm_chance_tests;
+           bank_tests;
          ]
 
 let _ = run_test_tt_main suite
