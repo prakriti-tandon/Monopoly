@@ -1,3 +1,38 @@
+(************************************************************************)
+
+(* TODO: Write a comment explaining our approach to testing. - What we tested -
+   which specific modules - did we use glass box or black box? how were test
+   cases developed? - What we ommited testing (and tested manually) - Why our
+   test suite demonstrates our system's correctness*)
+
+(* We wrote test cases for all functions in the .mli files corresponding to each
+   module. To create the unit tests, we utilized black box testing. To come up
+   with test cases, we utilized common or representative cases, and all branches
+   of if-statements or pattern matches. When we needed additional assistance
+   with debugging, we used glass box testing by adding print statements to the
+   functions themselves.
+
+   We chose to playtest the interface instead of writing OUnit tests because it
+   would be very difficult or even impossible to write OUnit tests for the
+   interface; the interface involves some randomness with the players rolling
+   dice.
+
+   An exception to the 'test everything in each module' rule were the card
+   decks: the random_card function cannot be tested because it returns a random
+   number (hopefully a different random number each time!) and there are too
+   many chance and community chest cards to test them all. Therefore, I choose
+   some representative cards to test from each, and intend to pay extra
+   attention to the others when playtesting.
+
+   We are confident that our testing demonstrates our system's correctness
+   because the OUnit tests provide initial evidence that the individual
+   functions that make up the system are correct, and playtesting the interface
+   allowed for many uncommon scenarios to arise which we were then able to
+   debug. After playing through many, many turns of the game, we can be sure
+   that it works correctly! *)
+
+(***********************************************************************)
+
 open OUnit2
 open Game
 open Board
@@ -486,11 +521,22 @@ let property_tests =
 
 (*************************************************************************)
 
+let player4 = State.go 7 (State.init_state "special") board
+let player5 = State.go 23 (State.init_state "comm_chest") board
+
 (* re-initializing in case previous tests messed with the players. *)
 let pls = [| player1; player2; player3 |]
 
 (* needed a second after manipulating *)
 let pls2 = [| player1; player2; player3 |]
+
+let pls3 =
+  [|
+    (player1;
+     player4;
+     player5);
+  |]
+
 let bank = Bank.init_bank 5000
 
 let comm_chest_earn_test name deck pls bank i player exp_balance_after =
@@ -512,7 +558,16 @@ let all_bal_change_test name deck pls bank i player (bals : int array) =
   assert_equal ~msg:"player 2" (current_balance pls.(1)) bals.(1);
   assert_equal ~msg:"player 3" (current_balance pls.(2)) bals.(2)
 
-let comm_chest_tests =
+let chance_move_test name deck pls bank i player exp_pos_after =
+  name >:: fun _ ->
+  let plname = State.name player in
+  let plindex = Property.find_index plname pls in
+  Chance.exec_card deck pls bank board i player;
+  assert_equal (current_pos pls.(plindex)) exp_pos_after
+
+(* It is not practical to test every single community chest card - these 3 cases
+   are representative of common card types and I will play test the rest.*)
+let comm_chance_tests =
   [
     comm_chest_earn_test "finance bro - earn 1000" comm_deck pls bank 14 player1
       1500;
@@ -522,6 +577,11 @@ let comm_chest_tests =
     (* tests Pay card *)
     all_bal_change_test "slope day pregame test" comm_deck pls2 bank 7 player1
       [| 410; 410; 410 |];
+    chance_move_test "quarantine card -> statler hotel" chance_deck pls bank 10
+      player1 22;
+    chance_move_test "double chance" chance_deck pls3 bank 13 player4 23;
+    chance_move_test "double community chest" chance_deck pls3 bank 14 player5
+      27;
   ]
 
 let suite =
@@ -533,7 +593,7 @@ let suite =
            command_tests;
            state_tests;
            property_tests;
-           comm_chest_tests;
+           comm_chance_tests;
          ]
 
 let _ = run_test_tt_main suite
