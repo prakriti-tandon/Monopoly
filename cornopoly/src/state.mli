@@ -53,6 +53,15 @@ val num_hotels : t -> int -> int
    [s].Raises [DoesntOwnProperty] if the player doesnt own the property at space
    [s].*)
 
+val add_hotel : t -> int -> Board.t -> t
+(** [add_hotel player space game] adds a house to the property at [space] in
+monopoly board [game] that is owned by [player]. This function does not
+involve any financial transactions and only manipulates the player state.*) 
+
+val add_hotel : t -> int -> Board.t -> t
+(** [add_hotel player space game] adds a hotel to the property at [space] in
+    monopoly board [game] that is owned by [player]. This function does not
+    involve any financial transactions and only manipulates the player state.*)  
 val current_balance : t -> int
 (**[current_balance player] is the balance/amount of money in the player's bank
    account in their current state [player] *)
@@ -130,11 +139,6 @@ val buy_house : t -> int -> Board.t -> int -> Bank.t -> t
    the [player1] is trying to buy too many houses (>=4) or buying a num of
    houses that will cause them to exceed the limit of 4, result is
    [ExceededHouseLimit] -Otherwise, the result is new player'*)
-
-val add_hotel : t -> int -> Board.t -> t
-(** [add_hotel player space game] adds a hotel to the property at [space] in
-    monopoly board [game] that is owned by [player]. This function does not
-    involve any financial transactions and only manipulates the player state.*)
 
 val buy_hotel : t -> int -> Board.t -> int -> Bank.t -> t
 (**[buy_hotel player space game x bank] is the result of [player1] buying [x]
