@@ -529,14 +529,7 @@ let pls = [| player1; player2; player3 |]
 
 (* needed a second after manipulating *)
 let pls2 = [| player1; player2; player3 |]
-
-let pls3 =
-  [|
-    (player1;
-     player4;
-     player5);
-  |]
-
+let pls3 = [| player1; player4; player5 |]
 let bank = Bank.init_bank 5000
 
 let comm_chest_earn_test name deck pls bank i player exp_balance_after =

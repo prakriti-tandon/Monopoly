@@ -4,6 +4,7 @@ open Command
 open State
 open Board
 open Property
+open Go
 
 (*Global variable which is set at the time when we initialise the game*)
 let num_player = ref 0
@@ -140,7 +141,13 @@ let deal_property board arr int =
   | NotOwned -> ask_buy ()
   | OwnedByThisPlayer -> self_own_prompt ()
 
-let deal_go board arr int = raise (Failure "unimp")
+(* Operations within multi_player_run handle the paying of salary, so when the
+   player lands on the Go space, we just print a friendly message saying that
+   they don't need to do anything and update who the active player is.*)
+let deal_go board arr int =
+  print_endline "No need to do anything here!";
+  update_active arr int
+
 let deal_jail board arr int = raise (Failure "unimp")
 
 (* This function chooses a chance card for the player, executes the chance card,
@@ -166,6 +173,7 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
   print_string "\n";
   print_endline ("It is player " ^ State.name active_p ^ "'s turn.");
   let n = roll_die () in
+  let old_pos = current_pos active_p in
   (*active_p_new is the updated state on moving the active player*)
   let active_p_new = State.go n active_p board in
   (*updating the state in the array*)
@@ -173,6 +181,12 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
   print_endline ("You rolled a " ^ string_of_int n ^ "!");
   (*check if current spot is a property*)
   let curr_pos = current_pos active_p_new in
+  (* Real quick, if player passed Go as they moved to this spot, pay them a
+     salary. *)
+  if old_pos > curr_pos then (
+    print_endline "You passed Go. Enjoy your salary!";
+    exec_go arr arr.(int) board)
+  else ();
   (*print description and name of the property and check for owner *)
   print_endline (State.name active_p ^ " landed on " ^ name board curr_pos ^ ":");
   print_endline (description board curr_pos);
