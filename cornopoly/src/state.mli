@@ -53,15 +53,16 @@ val num_hotels : t -> int -> int
    [s].Raises [DoesntOwnProperty] if the player doesnt own the property at space
    [s].*)
 
-val add_hotel : t -> int -> Board.t -> t
+val add_house : t -> int -> Board.t -> t
 (** [add_hotel player space game] adds a house to the property at [space] in
-monopoly board [game] that is owned by [player]. This function does not
-involve any financial transactions and only manipulates the player state.*) 
+    monopoly board [game] that is owned by [player]. This function does not
+    involve any financial transactions and only manipulates the player state.*)
 
 val add_hotel : t -> int -> Board.t -> t
 (** [add_hotel player space game] adds a hotel to the property at [space] in
     monopoly board [game] that is owned by [player]. This function does not
-    involve any financial transactions and only manipulates the player state.*)  
+    involve any financial transactions and only manipulates the player state.*)
+
 val current_balance : t -> int
 (**[current_balance player] is the balance/amount of money in the player's bank
    account in their current state [player] *)
