@@ -72,7 +72,7 @@ val owes_to_bank : t -> int option * int
    bank and y is the number of times they can pass go before they need to repay
    the loan. *)
 
-val new_owns_list : property list -> property -> 'a -> property list
+val new_owns_list : property list -> property -> property list -> property list
 (**[new_owns_list owns_list new_property acc] is a tail-recursive function that
    returns a list of owned properties with the updated version of a property
    replaced for the old version.*)
