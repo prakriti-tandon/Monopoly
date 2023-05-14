@@ -76,7 +76,18 @@ let add_house (player : t) (space : int) (game : Board.t) =
   num player.owns space
 
 let add_hotel (player : t) (space : int) (game : Board.t) =
-  failwith "unimplemented"
+  let rec num owns_list space =
+    match player.owns with
+    | [] -> raise DoesntOwnProperty
+    | h :: t ->
+        if h.space = space then
+          let new_property =
+            make_property space h.num_houses (h.num_hotels + 1)
+          in
+          { player with owns = new_owns_list player.owns new_property [] }
+        else num t space
+  in
+  num player.owns space
 
 let owes_to_bank (player : t) = player.owes_to_bank
 
