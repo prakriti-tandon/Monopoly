@@ -144,16 +144,31 @@ let go (dice : int) (player : t) (game : Board.t) =
   }
 
 let buy_property (player1 : t) (space : int) (game : Board.t) (bank : Bank.t) =
-  failwith "Unimplemented"
-(*let new_funds = player1.money - Board.price game space in if new_funds < 0
-  then raise InsufficientFunds else let new_owns = player1.owns @ [ space ] in
+  let price = Board.price game space in
+  let new_funds = player1.money - price in
+  if new_funds < 0 then raise InsufficientFunds
+  else
+    let () = Bank.add_funds bank price in
+    let new_owns = make_property space 0 0 :: player1.owns in
 
-  { name = player1.name; current_pos = player1.current_pos; money = new_funds;
-  owns = new_owns; }*)
+    {
+      name = player1.name;
+      current_pos = player1.current_pos;
+      money = new_funds;
+      owns = new_owns;
+      owes_to_bank = player1.owes_to_bank;
+      jail = player1.jail;
+    }
 
-let buy_house (player1 : t) (space : int) (game : Board.t) (num_houses : int)
+let buy_house (player : t) (space : int) (game : Board.t) (num_houses : int)
     (bank : Bank.t) : t =
-  failwith "unimplemented"
+  (*let rec num = fun owns_list space -> match player.owns with | [] -> raise
+    DoesntOwnProperty | h :: t -> if h.space = space then if num_houses > 4 ||
+    h.num_houses - num_houses <0 then raise ExceededHouseLimit else let price =
+    num_houses * (Board.price_per_house game space) in if price > player.money
+    then raise InsufficientFunds else add_house {player with money =
+    player.money - price} else num t space in num player.owns space*)
+  failwith "Unimplmented"
 
 (* Lauren here - i need this function for one of the chance cards called
    "hotelie" where i give away a hotel for free! I added it to the interface so
