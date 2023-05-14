@@ -116,7 +116,7 @@ val dice : int
 
 val buy_property : t -> int -> Board.t -> Bank.t -> t
 (**[buy_property player space game] is the result of [player1] buying a property
-   located at [space] in the current [game].
+   from the bank located at [space] in the current [game].
 
    -If the [player1] has insufficient funds, result is [InsufficientFunds]
    \-Otherwise, the result is new player'*)
