@@ -51,6 +51,33 @@ let num_hotels (player : t) (space : int) =
   in
   num player.owns space
 
+let rec new_owns_list owns_list new_property acc =
+  match owns_list with
+  | [] -> acc
+  | h :: t ->
+      if h.space = new_property.space then
+        new_owns_list t new_property (new_property :: acc)
+      else h :: new_owns_list t new_property acc
+
+(*this is basically a List.filter function which removes the old property and
+  inserts the new version of the property*)
+let add_house (player : t) (space : int) (game : Board.t) =
+  let rec num owns_list space =
+    match player.owns with
+    | [] -> raise DoesntOwnProperty
+    | h :: t ->
+        if h.space = space then
+          let new_property =
+            make_property space (h.num_houses + 1) h.num_hotels
+          in
+          { player with owns = new_owns_list player.owns new_property [] }
+        else num t space
+  in
+  num player.owns space
+
+let add_hotel (player : t) (space : int) (game : Board.t) =
+  failwith "unimplemented"
+
 let owes_to_bank (player : t) = player.owes_to_bank
 
 let change_owes (player : t) (amt : int) =
