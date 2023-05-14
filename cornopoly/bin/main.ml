@@ -5,6 +5,7 @@ open State
 open Board
 open Property
 open Go
+open Deck
 
 (*Global variable which is set at the time when we initialise the game*)
 let num_player = ref 0
@@ -47,64 +48,36 @@ let prompt_buy st1 st2 board =
   with InsufficientFunds -> terminate (State.name st2)
 
 (*runs through one player turn which involves changing states, paying rent etc*)
-let player_run st1 st2 board =
-  print_string "\n";
-  print_endline ("It is player " ^ State.name st1 ^ "'s turn.");
-  let n = roll_die () in
-  let st1_go = State.go n st1 board in
-  print_endline ("You rolled a " ^ string_of_int n ^ "!");
-  (*check if current spot is a property*)
-  let curr_pos = current_pos st1_go in
+(*let player_run st1 st2 board = print_string "\n"; print_endline ("It is player
+  " ^ State.name st1 ^ "'s turn."); let n = roll_die () in let st1_go = State.go
+  n st1 board in print_endline ("You rolled a " ^ string_of_int n ^ "!");
+  (*check if current spot is a property*) let curr_pos = current_pos st1_go in
   (*print description and name of the property and check for owner *)
   print_endline (State.name st1 ^ " landed on " ^ name board curr_pos ^ ":");
-  print_endline (description board curr_pos);
-  ANSITerminal.print_string [ ANSITerminal.red ]
-    ("Your current balance is "
-    ^ string_of_int (State.current_balance st1)
-    ^ ".");
-  print_endline " ";
-  (*do all the matching only if the state is property otherwise just return
-    (st1_go, st2)*)
-  if space_type board (State.current_pos st1_go) = "property" then
-    match State.owns st2 curr_pos board with
-    | true ->
-        (*here the first argument is the player who is paying and second arg is
-          the one who is receiving*)
-        print_endline
-          ("You paid rent of "
-          ^ string_of_int (rent board curr_pos)
-          ^ " to the property owner.");
-        trans st1_go st2 board
-    | false ->
-        (* if current player already owns the space, don't prompt them to buy *)
-        if owns st1_go curr_pos board then (
-          print_endline "You already own this space.";
-          (st1_go, st2))
-        else (
-          print_endline
-            ("The price to buy is " ^ string_of_int (price board curr_pos) ^ ".");
-          print_endline "Buy? [y/n]";
-          print_string ">";
-          let str = get_command () in
-          match str with
-          | "y" -> (*prompt_buy st1_go st2 board*) (st1_go, st2)
-          | "n" -> (st1_go, st2)
-          | _ -> (st1_go, st2))
-  else (st1_go, st2)
+  print_endline (description board curr_pos); ANSITerminal.print_string [
+  ANSITerminal.red ] ("Your current balance is " ^ string_of_int
+  (State.current_balance st1) ^ "."); print_endline " "; (*do all the matching
+  only if the state is property otherwise just return (st1_go, st2)*) if
+  space_type board (State.current_pos st1_go) = "property" then match State.owns
+  st2 curr_pos board with | true -> (*here the first argument is the player who
+  is paying and second arg is the one who is receiving*) print_endline ("You
+  paid rent of " ^ string_of_int (rent board curr_pos) ^ " to the property
+  owner."); trans st1_go st2 board | false -> (* if current player already owns
+  the space, don't prompt them to buy *) if owns st1_go curr_pos board then (
+  print_endline "You already own this space."; (st1_go, st2)) else (
+  print_endline ("The price to buy is " ^ string_of_int (price board curr_pos) ^
+  "."); print_endline "Buy? [y/n]"; print_string ">"; let str = get_command ()
+  in match str with | "y" -> (*prompt_buy st1_go st2 board*) (st1_go, st2) | "n"
+  -> (st1_go, st2) | _ -> (st1_go, st2)) else (st1_go, st2) *)
 
-(*main game loop*)
-let rec game_loop st1 st2 board =
-  (*note-to-self: termination is handled in the transaction functions not here
-    -> hard to deal with the exceptions in the main loop*)
-  (*the first argument put into player_run is the player whose turn it is right
-    now*)
-  let state_after1 = player_run st1 st2 board in
-  match state_after1 with
-  (*deals with player 2's turn and then recursively calls game_loop thereby
-    starting player 1's turn again*)
-  | x, y ->
-      let state_after_2 = player_run y x board in
-      game_loop (snd state_after_2) (fst state_after_2) board
+(*main game loop let rec game_loop st1 st2 board = (*note-to-self: termination
+  is handled in the transaction functions not here -> hard to deal with the
+  exceptions in the main loop*) (*the first argument put into player_run is the
+  player whose turn it is right now*) let state_after1 = player_run st1 st2
+  board in match state_after1 with (*deals with player 2's turn and then
+  recursively calls game_loop thereby starting player 1's turn again*) | x, y ->
+  let state_after_2 = player_run y x board in game_loop (snd state_after_2) (fst
+  state_after_2) board*)
 
 (* name_helper and get_name are funtions used to get the list of player names
    out*)
@@ -131,11 +104,21 @@ let update_active (arr : player_list) (cp : int) =
   active_player := np
 
 let ask_buy () = ()
-let self_own_prompt () = ()
+let buy_house () = ()
+
+let self_own_prompt () =
+  print_endline
+    "you already own this spot! Make house? [ type y for yes and anything else \
+     for no]";
+  match read_line () with
+  | str ->
+      (*build a house if the player says yes otherwise next member's turn*)
+      if str = "y" then buy_house ()
+      else active_player := (!active_player + 1) mod !num_player
+  | exception End_of_file -> ()
 
 let deal_property board arr int =
   let active_p = arr.(int) in
-  let curr_pos = current_pos active_p in
   match property_status arr active_p board with
   | OwnedByOtherPlayer st -> ()
   | NotOwned -> ask_buy ()
@@ -148,6 +131,7 @@ let deal_go board arr int =
   print_endline "No need to do anything here!";
   update_active arr int
 
+(*TODO*)
 let deal_jail board arr int = raise (Failure "unimp")
 
 (* This function chooses a chance card for the player, executes the chance card,
@@ -188,8 +172,9 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
     exec_go arr arr.(int) board)
   else ();
   (*print description and name of the property and check for owner *)
-  print_endline (State.name active_p ^ " landed on " ^ name board curr_pos ^ ":");
-  print_endline (description board curr_pos);
+  print_endline
+    (State.name active_p ^ " landed on " ^ Board.name board curr_pos ^ ":");
+  print_endline (Board.description board curr_pos);
   ANSITerminal.print_string [ ANSITerminal.red ]
     ("Your current balance is "
     ^ string_of_int (State.current_balance active_p)
@@ -199,11 +184,12 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
   | str ->
       (*each one of these helper functions must update game end and active
         player*)
-      if str = "property" then ()
-      else if str = "go" then ()
-      else if str = "jail" then ()
-      else if str = "chance" then ()
-      else if str = "comm-chest" then ()
+      if str = "property" then deal_property board arr int
+      else if str = "go" then deal_go board arr int
+      else if str = "jail" then deal_jail board arr int
+      else if str = "chance" then deal_chance board arr chance_deck bank int
+      else if str = "comm-chest" then
+        deal_commchest board arr comm_deck bank int
 
 (*Suppose to handle the turn switching of players*)
 and run_multi board arr chance_deck comm_deck bank =
@@ -235,16 +221,21 @@ let initialise lst =
   of the players. It also passes the array and prompts for names of the
   players *)
 let rec init_array str =
-  (*try*)
-  let x = int_of_string str in
-  num_player := x;
-  (*let arr = Array.make x None in*)
-  let lst = get_name () in
-  initialise lst
-(*with Failure y -> ( print_endline "Oops! thats not a valid number: Make
-  sure\n\ \ youare using integers like 1,2,3...and so on "; print_string "> ";
-  match read_line () with | str -> init_array str | exception End_of_file ->
-  ())*)
+  try
+    let x = int_of_string str in
+    num_player := x;
+    (*let arr = Array.make x None in*)
+    let lst = get_name () in
+    initialise lst
+  with Failure y -> (
+    print_endline
+      "Oops! thats not a valid number: Make\n\
+      \  sure\n\
+      \  youare using integers like 1,2,3...and so on ";
+    print_string "> ";
+    match read_line () with
+    | str -> init_array str
+    | exception End_of_file -> ())
 
 (*[main ()] prompts for the game to play, then starts it. *)
 let main () =
