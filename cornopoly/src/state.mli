@@ -123,8 +123,8 @@ val buy_property : t -> int -> Board.t -> Bank.t -> t
 
 val buy_house : t -> int -> Board.t -> int -> Bank.t -> t
 (**[buy_house player space game x bank] is the result of [player1] buying [x]
-   number of houses (<=4) located at [space] in the current [game]. The maximum
-   number of houses a given player can have is 4.
+   number of houses (<=4) from the bank located at [space] in the current
+   [game]. The maximum number of houses a given player can have is 4.
 
    -If the [player1] has insufficient funds, result is [InsufficientFunds] -If
    the [player1] is trying to buy too many houses (>=4) or buying a num of
@@ -138,8 +138,8 @@ val add_hotel : t -> int -> Board.t -> t
 
 val buy_hotel : t -> int -> Board.t -> int -> Bank.t -> t
 (**[buy_hotel player space game x bank] is the result of [player1] buying [x]
-   number of hotels (<=2) located at [space] in the current [game]. The maximum
-   number of houses a given player can have is 2.
+   number of hotels (<=2) from the bank located at [space] in the current
+   [game]. The maximum number of houses a given player can have is 2.
 
    -If the [player1] has insufficient funds, result is [InsufficientFunds] -If
    the [player1] is trying to buy too many hotels (>=2) or buying a num of
