@@ -311,6 +311,7 @@ let make_buy_house_test (name : string) (player1 : State.t) (space : int)
   name >:: fun _ ->
   assert_equal expected_output
     (State.buy_house player1 space game num_houses bank)
+    ~printer:State.to_string
 
 let make_buy_house_exception_test (name : string) (player1 : State.t)
     (space : int) (game : Board.t) (num_houses : int) (bank : Bank.t)
@@ -329,15 +330,26 @@ let make_num_hotels_exception_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_raises DoesntOwnProperty (fun () -> num_hotels player1 space)
 
+let make_buy_hotel_test (name : string) (player1 : State.t) (space : int)
+    (game : Board.t) (num_hotels : int) (bank : Bank.t)
+    (expected_output : State.t) =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (State.buy_hotel player1 space game num_hotels bank)
+    ~printer:State.to_string
+
+let make_buy_hotel_exception_test (name : string) (player1 : State.t)
+    (space : int) (game : Board.t) (num_hotels : int) (bank : Bank.t)
+    (expected_output : State.t) =
+  name >:: fun _ ->
+  assert_raises ExceededHouseLimit (fun () ->
+      State.buy_hotel player1 space game num_hotels bank)
+
 let custom_owes_to_bank_printer (input : int option * int) : string =
   match input with
   | Some x, y -> "(Some " ^ string_of_int x ^ ", " ^ string_of_int y ^ ")"
   | None, z -> "(None, " ^ string_of_int z ^ ")"
 
-(*let custom_statet_printer (input : State.t) : string = match input with |
-  {name = State.name input; current_pos = pos; money = money; owns = owns;
-  owes_to_bank =owes_to_bank; jail = jail} -> "(Some " ^ string_of_int x ^ ", "
-  ^ string_of_int y ^ ")" | None, z -> "(None, " ^ string_of_int z ^ ")"*)
 let make_owes_to_bank_test (name : string) (player1 : State.t)
     (expected_output : int option * int) =
   name >:: fun _ ->
@@ -408,7 +420,7 @@ let state_tests =
     make_buy_house_test "buy 0 houses" state_two 28 game_board 0 bank1 state_two;
     make_buy_house_test "buy 1 house, price:$50" state_owns_prop_one 1
       game_board 1 bank1
-      (State.add_house state_owns_prop_one 1 game_board);
+      (State.add_house (change_balance state_owns_prop_one (-50)) 1 game_board);
     (*----------following test checks num_hotels-----------*)
     make_num_hotels_exception_test "no properties" state_one 1;
     make_num_hotels_test "owns prop at space 1, 0 hotels" state_three 1 0
