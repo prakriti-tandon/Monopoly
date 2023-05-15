@@ -232,6 +232,10 @@ let deal_card board arr deck bank exec_fn int =
     ANSITerminal.print_string [ ANSITerminal.blue ]
       (Deck.description deck chosen_card);
     exec_fn deck arr bank board chosen_card active_p;
+    if current_balance arr.(int) <= 0 then (
+      print_endline "You went bankrupt!";
+      terminate (State.name arr.(int)))
+    else ();
     update_active arr int
   in
   let rec draw_card board arr deck bank exec_fn int =
@@ -244,9 +248,11 @@ let deal_card board arr deck bank exec_fn int =
     | Quit -> quit_game ()
     | _ ->
         print_endline "Oops, type \"go\" to draw a card!";
+        print_string "> ";
         draw_card board arr deck bank exec_fn int
   in
   print_endline "Type \"go\" to draw a card!";
+  print_string "> ";
   draw_card board arr deck bank exec_fn int;
   print_endline ""
 
@@ -383,7 +389,7 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
       (State.name active_p ^ " landed on " ^ Board.name board curr_pos ^ ":");
     ANSITerminal.print_string [ ANSITerminal.blue ]
       (Board.description board curr_pos ^ "\n");
-    let curr_bal = State.current_balance active_p in
+    let curr_bal = State.current_balance arr.(int) in
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("Your current balance is " ^ string_of_int curr_bal ^ ".");
     print_endline " ";

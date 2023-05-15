@@ -10,17 +10,15 @@ let move_player pls board curr_player newspace =
     Property.update_player pls newp (State.put_in_jail newp)
   else ()
 
-let sell_prop board bank curr_player pls prop =
-  let new_pstate =
-    State.sell_property curr_player (State.space_of_property prop) board bank
-  in
+let free_something board bank curr_player pls prop func =
+  let new_pstate = func curr_player (State.space_of_property prop) board 1 in
   Property.update_player pls curr_player new_pstate
 
 let free_hotel board bank curr_player pls prop =
-  let new_pstate =
-    State.add_hotel curr_player (State.space_of_property prop) board 1
-  in
-  Property.update_player pls curr_player new_pstate
+  free_something board bank curr_player pls prop State.add_hotel
+
+let free_house board bank curr_player pls prop =
+  free_something board bank curr_player pls prop State.add_house
 
 let cheapest_property pls bank board curr_player func =
   match List.sort State.compare_property (State.owns_list curr_player) with
@@ -29,7 +27,7 @@ let cheapest_property pls bank board curr_player func =
   | h :: t -> h |> func board bank curr_player pls
 
 let exec_sell_prop pls bank board curr_player =
-  cheapest_property pls bank board curr_player sell_prop
+  cheapest_property pls bank board curr_player free_house
 
 let exec_hotelie pls bank board curr_player =
   cheapest_property pls bank board curr_player free_hotel
