@@ -179,6 +179,7 @@ let print_command command =
   | Yes -> "yes"
   | No -> "no"
   | Quit -> "quit"
+  | Draw -> "draw"
   | Player_name t -> "player name" ^ t
   | Number_of_players t -> "number of players" ^ string_of_int t
 

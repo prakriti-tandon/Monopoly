@@ -240,18 +240,18 @@ let deal_card board arr deck bank exec_fn int =
   in
   let rec draw_card board arr deck bank exec_fn int =
     match get_command_2 () with
-    | Go -> (
+    | Draw -> (
         print_endline "";
         try do_card board arr deck bank exec_fn int
         with State.InsufficientFunds ->
           terminate (State.name arr.(!active_player)))
     | Quit -> quit_game ()
     | _ ->
-        print_endline "Oops, type \"go\" to draw a card!";
+        print_endline "Oops, type \"draw\" to draw a card!";
         print_string "> ";
         draw_card board arr deck bank exec_fn int
   in
-  print_endline "Type \"go\" to draw a card!";
+  print_endline "Type \"draw\" to draw a card!";
   print_string "> ";
   draw_card board arr deck bank exec_fn int;
   print_endline ""

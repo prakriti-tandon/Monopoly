@@ -6,6 +6,7 @@ type command =
   | Yes
   | No
   | Quit
+  | Draw
 
 exception Empty
 (** Raised when an empty command is parsed. *)
@@ -19,6 +20,7 @@ val parse : string -> command
     - [parse "Prakriti"] is [Player_name "Prakriti"]
     - [parse "2"] is [Number_of_players 2]
     - [parse "quit"] is [Quit]
+    - [parse "draw"] is [Draw]
 
     Requires: [str] contains only alphanumeric (A-Z, a-z, 0-9); no spaces, tabs
     or newlines, etc. Input value for player name can't be an integer).
