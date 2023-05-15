@@ -89,6 +89,10 @@ val jail : t -> int option
   in jail, will return None option. -If they are in jail and have zero turns
   left in jail, they can be released. Return Some 0*)
 
+val turn_in_jail : t -> t
+(**[turn_in_jail player] is the new state of player's state [player] after they
+   have been in jail for 1 turn.*)
+
 val put_in_jail : t -> t
 (**[put_in_jail player] is the new state of player's state [player] after they
    are put into jail. The number of turns they have to wait until they can get
