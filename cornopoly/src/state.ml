@@ -120,6 +120,7 @@ let change_owes (player : t) (amt : int) =
     jail = player.jail;
   }
 
+let turn_in_debt (player : t) (turns : int) : t = failwith "unimplemented"
 let jail (player : t) = player.jail
 
 let put_in_jail (player : t) =

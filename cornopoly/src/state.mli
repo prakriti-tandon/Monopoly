@@ -84,6 +84,10 @@ val change_owes : t -> int -> t
    bank. If [amt] = current amt player owes then player no longer has a loan to
    pay off. If (2), Requires: [amt] paid off <= current owes_to_bank (amt player
    owes) *)
+val turn_in_debt : t -> int -> t 
+(**[turn_in_debt player x] is the new state of player's state [player] after
+   they have been in debt for [x] turns. If the player has 0 remaining turns
+   left, they lose the game. Requires: player is in debt/owes the bank a loan.*)
 
 val jail : t -> int option
 (*[jail player] is the number of turns they have to be in jail. -If they are not

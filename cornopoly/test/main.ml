@@ -464,13 +464,11 @@ let state_tests =
       (None, 0);
     (*need to check that y value decremets each time go around go, need to
       implement go module before can test this*)
-    make_owes_to_bank_test "owes $500 to bank and went around go 1x (500, 1)"
-      (go 31 (change_owes state_one 500) game_board)
-      (Some 500, 1);
-    make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
-      (go 61 (change_owes state_one 500) game_board)
-      (Some 500, 0)
-    (*----------following test checks jail, put_in_jail,get_out_of_jail-----*);
+    (*make_owes_to_bank_test "owes $500 to bank and went around go 1x (500, 1)"
+      (go 31 (change_owes state_one 500) game_board) (Some 500, 1);
+      make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
+      (go 61 (change_owes state_one 500) game_board) (Some 500, 0);*)
+    (*----------following test checks jail, put_in_jail,get_out_of_jail-----*)
     make_jail_test "not in jail" state_one None;
     make_jail_test "in jail, has 3 turns remaining in jail"
       (put_in_jail state_one) (Some 3);
@@ -478,9 +476,9 @@ let state_tests =
       (get_out_of_jail (put_in_jail state_one))
       None;
     (*need to implement go module before can test this*)
-    (* make_jail_test "in jail, has 2 turns remaining in jail" (put_in_jail (go
-       31 state_one game_board)) (Some 2); make_jail_test "in jail, has 1 turns
-       remaining in jail" (put_in_jail (go 61 state_one game_board)) (Some 1);*)
+    (*make_jail_test "in jail, has 2 turns remaining in jail" (put_in_jail (go
+      31 state_one game_board)) (Some 2); make_jail_test "in jail, has 1 turns\n
+      remaining in jail" (put_in_jail (go 61 state_one game_board)) (Some 1);*)
     (*----------following test checks turn_in_jail-----*)
     make_jail_test "in jail, has 2 turns remaining in jail"
       (State.turn_in_jail (put_in_jail state_one) 1)
@@ -519,6 +517,7 @@ let make_funds_test (name : string) (bank : Bank.t) (expected_output : int) =
 
 let bank_tests =
   [
+    (*---------------------following test checks funds-------------*)
     make_funds_test "Bank initially has $5000" bank_init 5000;
     make_funds_test "+60 to bank, funds: $5060" bank_1 5060;
     (*---------------------following test checks add_funds-------------*)
