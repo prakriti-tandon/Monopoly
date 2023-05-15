@@ -14,11 +14,11 @@ let active_player = ref 0
 
 (*ends the game and shows the name of the player that won*)
 let terminate str =
-  print_endline (str ^ " has lost!");
+  ANSITerminal.print_string [ ANSITerminal.red ] ("\n" ^ str ^ " has lost!\n");
   exit 0
 
 let quit_game () =
-  print_endline "Thanks for playing!";
+  ANSITerminal.print_string [ ANSITerminal.green ] "Thanks for playing!\n";
   exit 0
 
 (*calls once and returns a function*)
@@ -102,10 +102,9 @@ let ask_buy active_p space board bank arr =
         print_string "> ";
         self_own_comm ()
   in
-  print_endline
-    ("The price to buy this property is "
-    ^ string_of_int (Board.price board space)
-    ^ ".");
+  print_string "The price to buy this property is ";
+  ANSITerminal.print_string [ ANSITerminal.green ]
+    (string_of_int (Board.price board space) ^ ".\n");
   print_endline "Buy property? [ type \"yes\" or \"no\"  ]";
   print_string "> ";
   self_own_comm
@@ -226,7 +225,7 @@ let deal_jail board arr int =
    then updates who the active player is. This NEEDS TO BE UPDATED to handle the
    case where a card bankrupts a player. *)
 let deal_card board arr deck bank exec_fn int =
-  let do_card =
+  let do_card board arr deck bank exec_fn int =
     let active_p = arr.(int) in
     let chosen_card = Deck.random_card deck () in
     print_endline ("You drew " ^ Deck.name deck chosen_card ^ "!");
@@ -235,8 +234,20 @@ let deal_card board arr deck bank exec_fn int =
     exec_fn deck arr bank board chosen_card active_p;
     update_active arr int
   in
-  (try do_card
-   with State.InsufficientFunds -> terminate (State.name arr.(!active_player)));
+  let rec draw_card board arr deck bank exec_fn int =
+    match get_command_2 () with
+    | Go -> (
+        print_endline "";
+        try do_card board arr deck bank exec_fn int
+        with State.InsufficientFunds ->
+          terminate (State.name arr.(!active_player)))
+    | Quit -> quit_game ()
+    | _ ->
+        print_endline "Oops, type \"go\" to draw a card!";
+        draw_card board arr deck bank exec_fn int
+  in
+  print_endline "Type \"go\" to draw a card!";
+  draw_card board arr deck bank exec_fn int;
   print_endline ""
 
 let deal_chance board arr chance_deck bank int =
@@ -322,9 +333,9 @@ let prompt_repay_loan arr bank active_p owes go_left =
   in
   print_endline "";
   print_endline "Would you like to repay some of your loan?";
-  print_endline
-    ("You may pass Go " ^ string_of_int go_left
-   ^ " more times before it must be paid.");
+  ANSITerminal.print_string [ ANSITerminal.red ]
+    ("\nYou may pass Go " ^ string_of_int go_left
+   ^ " more times before it must be paid.\n");
   print_endline
     ("You owe " ^ string_of_int owes ^ " and your balance is "
     ^ string_of_int (current_balance active_p)
@@ -363,13 +374,15 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
     (* Real quick, if player passed Go as they moved to this spot, pay them a
        salary. *)
     if old_pos > curr_pos then (
-      print_endline "You passed Go. Enjoy your salary!";
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        "\nYou passed Go. Enjoy your salary!\n";
       exec_go arr arr.(int) board)
     else ();
     (*print description and name of the property and check for owner *)
     print_endline
       (State.name active_p ^ " landed on " ^ Board.name board curr_pos ^ ":");
-    print_endline (Board.description board curr_pos);
+    ANSITerminal.print_string [ ANSITerminal.blue ]
+      (Board.description board curr_pos ^ "\n");
     let curr_bal = State.current_balance active_p in
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("Your current balance is " ^ string_of_int curr_bal ^ ".");
@@ -455,7 +468,7 @@ let rec init_array str =
     print_endline
       "Oops! thats not a valid number: Make\n\
       \  sure\n\
-      \  youare using integers like 1,2,3...and so on ";
+      \  you are using integers like 1,2,3...and so on ";
     print_string "> ";
     match read_line () with
     | str -> init_array str
@@ -465,7 +478,7 @@ let rec init_array str =
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] "\n\nWelcome to Cornopoly!\n";
   print_endline
-    "Please enter the number of players you are playing cornopoly with: ";
+    "Please enter the number of players you are playing Cornopoly with: ";
   print_string "> ";
   match read_line () with
   | str -> init_array str
