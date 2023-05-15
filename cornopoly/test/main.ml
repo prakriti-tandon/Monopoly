@@ -1,10 +1,5 @@
 (************************************************************************)
 
-(* TODO: Write a comment explaining our approach to testing. - What we tested -
-   which specific modules - did we use glass box or black box? how were test
-   cases developed? - What we ommited testing (and tested manually) - Why our
-   test suite demonstrates our system's correctness*)
-
 (* We wrote test cases for all functions in the .mli files corresponding to each
    module. To create the unit tests, we utilized black box testing. To come up
    with test cases, we utilized common or representative cases, and all branches
@@ -183,6 +178,7 @@ let print_command command =
   | Go -> "go"
   | Yes -> "yes"
   | No -> "no"
+  | Quit -> "quit"
   | Player_name t -> "player name" ^ t
   | Number_of_players t -> "number of players" ^ string_of_int t
 

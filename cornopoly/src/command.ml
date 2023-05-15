@@ -4,6 +4,7 @@ type command =
   | Player_name of string
   | Yes
   | No
+  | Quit
 
 exception Empty
 
@@ -13,6 +14,7 @@ let parse str =
   | "go" -> Go
   | "yes" -> Yes
   | "no" -> No
+  | "quit" -> Quit
   | t -> (
       match int_of_string_opt t with
       | Some i -> Number_of_players i
