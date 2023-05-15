@@ -72,8 +72,10 @@ and get_name () =
   print_string "> ";
   match read_line () with
   | str ->
-      let lst = String.split_on_char ' ' (str ^ " ") in
-      if List.length lst = !num_player then name_helper () else lst
+      if str = "quit" then quit_game ()
+      else
+        let lst = String.split_on_char ' ' (str ^ " ") in
+        if List.length lst = !num_player then name_helper () else lst
 (* | exception End_of_file -> ()*)
 
 let update_active (arr : player_list) (cp : int) =
@@ -498,13 +500,32 @@ let rec init_array str =
     | exception End_of_file -> ())
 
 (*[main ()] prompts for the game to play, then starts it. *)
+let rec num_checker () =
+  print_endline "(number must be greater than 1)";
+  print_string "> ";
+  match read_line () with
+  | str -> (
+      try
+        if str = "quit" then quit_game ()
+        else
+          let x = int_of_string str in
+          if x > 1 then init_array str else num_checker ()
+      with Failure _ -> num_checker ())
+  | exception End_of_file -> ()
+
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ] "\n\nWelcome to Cornopoly!\n";
   print_endline
     "Please enter the number of players you are playing Cornopoly with: ";
   print_string "> ";
   match read_line () with
-  | str -> init_array str
+  | str -> (
+      try
+        if str = "quit" then quit_game ()
+        else
+          let x = int_of_string str in
+          if x > 1 then init_array str else num_checker ()
+      with Failure _ -> num_checker ())
   | exception End_of_file -> ()
 
 (* Execute the game engine. *)
