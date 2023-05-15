@@ -473,11 +473,21 @@ let state_tests =
       (put_in_jail state_one) (Some 3);
     make_jail_test "get player who has 3 turns remaining in jail"
       (get_out_of_jail (put_in_jail state_one))
-      None
+      None;
     (*need to implement go module before can test this*)
     (* make_jail_test "in jail, has 2 turns remaining in jail" (put_in_jail (go
        31 state_one game_board)) (Some 2); make_jail_test "in jail, has 1 turns
-       remaining in jail" (put_in_jail (go 61 state_one game_board)) (Some 1);*);
+       remaining in jail" (put_in_jail (go 61 state_one game_board)) (Some 1);*)
+    (*----------following test checks turn_in_jail-----*)
+    make_jail_test "in jail, has 2 turns remaining in jail"
+      (State.turn_in_jail (put_in_jail state_one) 1)
+      (Some 2);
+    make_jail_test "in jail, has 1 turns remaining in jail"
+      (State.turn_in_jail (put_in_jail state_one) 2)
+      (Some 1);
+    make_jail_test "in jail, has 0 turns remaining in jail"
+      (State.turn_in_jail (put_in_jail state_one) 3)
+      None;
   ]
 
 (******************************************************************************

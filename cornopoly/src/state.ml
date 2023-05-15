@@ -143,6 +143,13 @@ let get_out_of_jail (player : t) =
     jail = jail_;
   }
 
+let turn_in_jail (player : t) (turns : int) =
+  match player.jail with
+  | Some x ->
+      if x - turns <= 0 then get_out_of_jail player
+      else { player with jail = Some (x - turns) }
+  | None -> player
+
 let current_balance (player : t) = player.money
 
 let change_balance (player : t) (amt : int) =
