@@ -14,7 +14,7 @@ let sell_prop board bank curr_player pls prop =
 
 let free_hotel board bank curr_player pls prop =
   let new_pstate =
-    State.add_hotel curr_player (State.space_of_property prop) board
+    State.add_hotel curr_player (State.space_of_property prop) board 1
   in
   Property.update_player pls curr_player new_pstate
 
