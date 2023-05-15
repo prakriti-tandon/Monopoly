@@ -170,11 +170,6 @@ val buy_hotel : t -> int -> Board.t -> int -> Bank.t -> t
 val space_of_property : property -> int
 (** [space_of_property p] is the integer space number of property [p].*)
 
-val remove_owns_helper : property list -> int -> property list -> property list
-(** [remove_owns_helper owns_list space acc] is a helper function for
-    remove_owns which filters [owns_list] to remove [space] from set of owned
-    properties.*)
-
 val remove_owns : int -> t -> t
 (* Prakriti - [remove_owns space p] removes [space] from the set of owned
    properties by player [p]*)
