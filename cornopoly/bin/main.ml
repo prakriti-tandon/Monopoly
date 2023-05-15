@@ -105,6 +105,7 @@ let ask_buy active_p space board bank arr =
     | _ ->
         print_endline
           "Invalid command. Type \"yes\" to buy a property or \"no\".";
+        print_string "> ";
         self_own_comm ()
   in
   print_endline
@@ -112,6 +113,7 @@ let ask_buy active_p space board bank arr =
     ^ string_of_int (Board.price board space)
     ^ ".");
   print_endline "Buy property? [ type \"yes\" or \"no\"  ]";
+  print_string "> ";
   self_own_comm
 
 let buy_house active_p space board bank arr =
@@ -150,6 +152,7 @@ let prompt_buy_house space board active_p bank arr =
     | Quit -> quit_game ()
     | _ ->
         print_endline "Invalid command. Type \"yes\" to buy a house or \"no\".";
+        print_string "> ";
         self_own_comm ()
   in
   print_endline
@@ -157,6 +160,7 @@ let prompt_buy_house space board active_p bank arr =
     ^ string_of_int (Board.price_per_house board space)
     ^ ".");
   print_endline "Build a house? [ type \"yes\" or \"no\"  ]";
+  print_string "> ";
   self_own_comm
 
 let prompt_buy_hotel space board active_p bank arr =
@@ -167,6 +171,7 @@ let prompt_buy_hotel space board active_p bank arr =
     | Quit -> quit_game ()
     | _ ->
         print_endline "Invalid command. Type \"yes\" to buy a hotel or \"no\".";
+        print_string "> ";
         self_own_comm ()
   in
   print_endline
@@ -174,6 +179,7 @@ let prompt_buy_hotel space board active_p bank arr =
     ^ string_of_int (Board.price_per_hotel board space)
     ^ ".");
   print_endline "Build a hotel? [ type \"yes\" or \"no\"  ]";
+  print_string "> ";
   self_own_comm
 
 let self_own_prompt space board active_p bank arr =
@@ -191,10 +197,22 @@ let self_own_prompt space board active_p bank arr =
   active_player := (!active_player + 1) mod !num_player | exception End_of_file
   -> ()*)
 
+let pay_rent active_p space_num board bank arr =
+  print_endline "This property is owned by another player.";
+  print_endline
+    ("You must pay a rent of "
+    ^ string_of_int (Board.rent board space_num)
+    ^ ".");
+  (try Property.pay_rent arr active_p board
+   with InsufficientFunds ->
+     print_endline "You went bankrupt!";
+     terminate (State.name active_p));
+  update_active arr (Property.find_index (State.name active_p) arr)
+
 let deal_property board arr int space_num bank =
   let active_p = arr.(int) in
   match property_status arr active_p board with
-  | OwnedByOtherPlayer st -> ()
+  | OwnedByOtherPlayer st -> pay_rent active_p space_num board bank arr
   | NotOwned -> ask_buy active_p space_num board bank arr ()
   | OwnedByThisPlayer -> self_own_prompt space_num board active_p bank arr ()
 
@@ -206,7 +224,9 @@ let deal_go board arr int =
   update_active arr int
 
 (*TODO*)
-let deal_jail board arr int = raise (Failure "unimp")
+let deal_jail board arr int =
+  print_endline "You are just visiting, nothing to worry about!";
+  update_active arr int
 
 (* This function chooses a chance card for the player, executes the chance card,
    then updates who the active player is. This NEEDS TO BE UPDATED to handle the
@@ -221,8 +241,9 @@ let deal_card board arr deck bank exec_fn int =
     exec_fn deck arr bank board chosen_card active_p;
     update_active arr int
   in
-  try do_card
-  with InsufficientFunds -> terminate (State.name arr.(!active_player))
+  (try do_card
+   with InsufficientFunds -> terminate (State.name arr.(!active_player)));
+  print_endline ""
 
 let deal_chance board arr chance_deck bank int =
   deal_card board arr chance_deck bank Chance.exec_card int
@@ -230,44 +251,157 @@ let deal_chance board arr chance_deck bank int =
 let deal_commchest board arr comm_deck bank int =
   deal_card board arr comm_deck bank Comm_chest.exec_card int
 
+let init_loan arr bank curr_player =
+  Bank.deduct_funds bank 100;
+  let new_p = State.change_owes curr_player 100 in
+  let new_p2 = State.change_balance new_p 100 in
+  Property.update_player arr curr_player new_p2;
+  print_endline
+    "You now owe the bank $100, and $100 has been added to your balance.";
+  print_endline "You can pass Go twice before you must fully repay your loan."
+
+let offer_loan arr bank curr_player =
+  print_endline "";
+  print_endline
+    "Your balance is running low... would you like to take out a loan for $100?";
+  print_endline "Enter \"yes\" or \"no\".";
+  print_string "> ";
+  let rec loan_comm arr bank curr_player =
+    match get_command_2 () with
+    | Quit -> quit_game ()
+    | Yes -> init_loan arr bank curr_player
+    | No -> ()
+    | _ ->
+        print_endline
+          "Invalid command. Type \"yes\" to take out a loan, or \"no\"";
+        print_string "> ";
+        loan_comm arr bank curr_player
+  in
+  loan_comm arr bank curr_player
+
+let loan_transaction arr bank active_player i =
+  Bank.add_funds bank i;
+  let new_p = State.change_owes active_player ~-i in
+  Property.update_player arr active_player new_p
+
+let repay_loan arr bank active_p owes =
+  let curr_bal = State.current_balance active_p in
+  print_endline "How much would you like to pay?";
+  print_string "> ";
+  let rec repay_loan_comm arr bank curr_player curr_bal =
+    match get_command_2 () with
+    | Quit -> quit_game ()
+    | Number_of_players i ->
+        if i > curr_bal then (
+          print_endline
+            ("You do not have enough balance to pay $" ^ string_of_int i ^ ".");
+          print_endline "Maybe try a lower number?";
+          print_string "> ";
+          repay_loan_comm arr bank curr_player curr_bal)
+        else loan_transaction arr bank curr_player i
+    | _ ->
+        print_endline
+          "Invalid command. Type \"yes\" to repay some of your loan, or \"no\"";
+        print_string "> ";
+        repay_loan_comm arr bank curr_player curr_bal
+  in
+  repay_loan_comm arr bank active_p curr_bal;
+  print_endline ""
+
+let prompt_repay_loan arr bank active_p owes go_left =
+  let rec repay_loan_yncomm arr bank curr_player =
+    match get_command_2 () with
+    | Quit -> quit_game ()
+    | Yes -> repay_loan arr bank curr_player
+    | No -> fun () -> ()
+    | _ ->
+        print_endline
+          "Invalid command. Type \"yes\" to repay some of your loan, or \"no\"";
+        print_string "> ";
+        repay_loan_yncomm arr bank curr_player
+  in
+  print_endline "";
+  print_endline "Would you like to repay some of your loan?";
+  print_endline
+    ("You may pass Go " ^ string_of_int go_left
+   ^ " more times before it must be paid.");
+  print_endline
+    ("You owe " ^ string_of_int owes ^ "and your balance is "
+    ^ string_of_int (current_balance active_p)
+    ^ ".");
+  print_endline "Type \"yes\" to repay some of your loan, or \"no\".";
+  repay_loan_yncomm arr bank active_p ();
+  print_endline ""
+
 let rec multi_player_run board arr chance_deck comm_deck bank int =
+  let player_turn board arr chance_deck comm_deck bank int =
+    let active_p = arr.(int) in
+    (* Check if player has a loan before they potentially pass Go! *)
+    (match owes_to_bank active_p with
+    | Some x, y ->
+        if y = 0 then (
+          print_endline "You failed to repay your loan!";
+          terminate (State.name active_p))
+        else prompt_repay_loan arr bank active_p x y
+    | None, _ -> ());
+    let n = roll_die () in
+    let old_pos = current_pos active_p in
+    (*active_p_new is the updated state on moving the active player*)
+    let active_p_new = State.go n active_p board in
+    (*updating the state in the array*)
+    arr.(int) <- active_p_new;
+    print_endline ("You rolled a " ^ string_of_int n ^ "!");
+    (*check if current spot is a property*)
+    let curr_pos = current_pos active_p_new in
+    (* Real quick, if player passed Go as they moved to this spot, pay them a
+       salary. *)
+    if old_pos > curr_pos then (
+      print_endline "You passed Go. Enjoy your salary!";
+      exec_go arr arr.(int) board)
+    else ();
+    (*print description and name of the property and check for owner *)
+    print_endline
+      (State.name active_p ^ " landed on " ^ Board.name board curr_pos ^ ":");
+    print_endline (Board.description board curr_pos);
+    let curr_bal = State.current_balance active_p in
+    ANSITerminal.print_string [ ANSITerminal.red ]
+      ("Your current balance is " ^ string_of_int curr_bal ^ ".");
+    print_endline " ";
+    if curr_bal < 50 then offer_loan arr bank active_p else ();
+    (match space_type board curr_pos with
+    | str ->
+        (*each one of these helper functions must update game end and active
+          player*)
+        if str = "property" then deal_property board arr int curr_pos bank
+        else if str = "go" then deal_go board arr int
+        else if str = "jail" then deal_jail board arr int
+        else if str = "chance" then deal_chance board arr chance_deck bank int
+        else if str = "comm-chest" then
+          deal_commchest board arr comm_deck bank int);
+    ANSITerminal.print_string [ ANSITerminal.red ]
+      ("Your balance is now "
+      ^ string_of_int (State.current_balance arr.(int))
+      ^ ".");
+    print_endline ""
+  in
+  let rec start_turn_comm board arr chance_deck comm_deck bank int =
+    match get_command_2 () with
+    | Quit -> quit_game ()
+    | Go -> player_turn board arr chance_deck comm_deck bank int
+    | _ ->
+        print_endline
+          "Invalid command. Type \"go\" to start your turn, or \"quit\" to \
+           quit the game.";
+        print_string "> ";
+        start_turn_comm board arr chance_deck comm_deck bank int
+  in
   let active_p = arr.(int) in
   print_string "\n";
-  print_endline ("It is player " ^ State.name active_p ^ "'s turn.");
-  let n = roll_die () in
-  let old_pos = current_pos active_p in
-  (*active_p_new is the updated state on moving the active player*)
-  let active_p_new = State.go n active_p board in
-  (*updating the state in the array*)
-  arr.(int) <- active_p_new;
-  print_endline ("You rolled a " ^ string_of_int n ^ "!");
-  (*check if current spot is a property*)
-  let curr_pos = current_pos active_p_new in
-  (* Real quick, if player passed Go as they moved to this spot, pay them a
-     salary. *)
-  if old_pos > curr_pos then (
-    print_endline "You passed Go. Enjoy your salary!";
-    exec_go arr arr.(int) board)
-  else ();
-  (*print description and name of the property and check for owner *)
   print_endline
-    (State.name active_p ^ " landed on " ^ Board.name board curr_pos ^ ":");
-  print_endline (Board.description board curr_pos);
-  ANSITerminal.print_string [ ANSITerminal.red ]
-    ("Your current balance is "
-    ^ string_of_int (State.current_balance active_p)
-    ^ ".");
-  print_endline " ";
-  match space_type board curr_pos with
-  | str ->
-      (*each one of these helper functions must update game end and active
-        player*)
-      if str = "property" then deal_property board arr int curr_pos bank
-      else if str = "go" then deal_go board arr int
-      else if str = "jail" then deal_jail board arr int
-      else if str = "chance" then deal_chance board arr chance_deck bank int
-      else if str = "comm-chest" then
-        deal_commchest board arr comm_deck bank int
+    ("It is player " ^ State.name active_p
+   ^ "'s turn. Type \"go\" to start your turn, or \"quit\" to quit.");
+  print_string "> ";
+  start_turn_comm board arr chance_deck comm_deck bank int
 
 (*Suppose to handle the turn switching of players*)
 and run_multi board arr chance_deck comm_deck bank =

@@ -17,14 +17,14 @@ let exec_pay pls bank x curr_player =
   update_pls_newamt pls curr_player ~-x
 
 let exec_happy_birthday pls curr_player =
-  for i = 0 to Array.length pls do
+  for i = 0 to Array.length pls - 1 do
     if pls.(i) = curr_player then
       update_pls_newamt pls curr_player (10 * (Array.length pls - 1))
     else update_pls_newamt pls pls.(i) ~-10
   done
 
 let exec_boba pls curr_player =
-  for i = 0 to Array.length pls do
+  for i = 0 to Array.length pls - 1 do
     if pls.(i) = curr_player then
       update_pls_newamt pls curr_player ~-(10 * (Array.length pls - 1))
     else update_pls_newamt pls pls.(i) 10
@@ -65,7 +65,9 @@ let exec_fortune pls curr_player =
     let _ = Random.self_init () in
     fun () -> Random.int 100
   in
-  update_pls_newamt pls curr_player (amt ())
+  let newamt = amt () in
+  print_endline ("You won " ^ string_of_int newamt ^ "!");
+  update_pls_newamt pls curr_player newamt
 
 let exec_socialist pls =
   let richest = find_richest pls in
