@@ -53,14 +53,14 @@ val num_hotels : t -> int -> int
    [s].Raises [DoesntOwnProperty] if the player doesnt own the property at space
    [s].*)
 
-val add_house : t -> int -> Board.t -> t
-(** [add_hotel player space game] adds a house to the property at [space] in
-    monopoly board [game] that is owned by [player]. This function does not
+val add_house : t -> int -> Board.t -> int -> t
+(** [add_hotel player space x game] adds [x] houses to the property at [space]
+    in monopoly board [game] that is owned by [player]. This function does not
     involve any financial transactions and only manipulates the player state.*)
 
-val add_hotel : t -> int -> Board.t -> t
-(** [add_hotel player space game] adds a hotel to the property at [space] in
-    monopoly board [game] that is owned by [player]. This function does not
+val add_hotel : t -> int -> Board.t -> int -> t
+(** [add_hotel player space x game] adds [x] hotels to the property at [space]
+    in monopoly board [game] that is owned by [player]. This function does not
     involve any financial transactions and only manipulates the player state.*)
 
 val current_balance : t -> int
@@ -174,3 +174,6 @@ val space_of_property : property -> int
 val remove_owns : int -> t -> t
 (* Prakriti - [remove_owns space p] removes [space] from the set of owned
    properties by player [p]*)
+
+val to_string : t -> string
+(*[to_string player] outputs the string representation of a player. *)

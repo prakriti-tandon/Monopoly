@@ -65,14 +65,15 @@ let rec new_owns_list owns_list new_property acc =
 
 (*this is basically a List.filter function which removes the old property and
   inserts the new version of the property*)
-let add_house (player : t) (space : int) (game : Board.t) =
+
+let add_house (player : t) (space : int) (game : Board.t) (x : int) =
   let rec num owns_list space =
     match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t ->
         if h.space = space then
           let new_property =
-            make_property space (h.num_houses + 1) h.num_hotels
+            make_property space (h.num_houses + x) h.num_hotels
           in
           { player with owns = new_owns_list player.owns new_property [] }
         else num t space
@@ -83,14 +84,14 @@ let add_house (player : t) (space : int) (game : Board.t) =
    "hotelie" where i give away a hotel for free! I added it to the interface so
    it can be visible on my end, but hopefully it will be a useful helper for you
    when implemented buy hotel as well.*)
-let add_hotel (player : t) (space : int) (game : Board.t) =
+let add_hotel (player : t) (space : int) (game : Board.t) (x : int) =
   let rec num owns_list space =
     match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t ->
         if h.space = space then
           let new_property =
-            make_property space h.num_houses (h.num_hotels + 1)
+            make_property space h.num_houses (h.num_hotels + x)
           in
           { player with owns = new_owns_list player.owns new_property [] }
         else num t space
@@ -218,13 +219,13 @@ let buy_house (player : t) (space : int) (game : Board.t) (num_houses : int)
         | [] -> raise DoesntOwnProperty
         | h :: t ->
             if h.space = space then
-              if num_houses > 4 || h.num_houses - num_houses < 0 then
+              if num_houses > 4 || h.num_houses + num_houses > 4 then
                 raise ExceededHouseLimit
               else
                 let () = Bank.add_funds bank price in
                 add_house
                   { player with money = player.money - price }
-                  space game
+                  space game num_houses
             else num t space
       in
       num player.owns space
@@ -241,13 +242,13 @@ let buy_hotel (player : t) (space : int) (game : Board.t) (num_hotels : int)
         | [] -> raise DoesntOwnProperty
         | h :: t ->
             if h.space = space then
-              if num_hotels > 4 || h.num_hotels - num_hotels < 0 then
+              if num_hotels > 4 || h.num_hotels + num_hotels > 4 then
                 raise ExceededHouseLimit
               else
                 let () = Bank.add_funds bank price in
                 add_hotel
                   { player with money = player.money - price }
-                  space game
+                  space game num_hotels
             else num t space
       in
       num player.owns space
@@ -262,4 +263,44 @@ let sell_hotel (player : t) (space : int) (game : Board.t) =
   failwith "unimplemented"
 
 let space_of_property p = p.space
-let remove_owns (space : int) (player : t) = failwith "Unimplemented"
+
+let rec remove_owns_helper owns_list space acc =
+  match owns_list with
+  | [] -> acc
+  | h :: t ->
+      if h.space = space then remove_owns_helper t space acc
+      else h :: remove_owns_helper t space acc
+
+let remove_owns (space : int) (player : t) =
+  { player with owns = remove_owns_helper player.owns space [] }
+
+let property_to_string (input : property) : string =
+  match input with
+  | { space; num_houses; num_hotels } ->
+      "{space =" ^ string_of_int space ^ "; num_houses ="
+      ^ string_of_int num_houses ^ "; num_hotels = " ^ string_of_int num_hotels
+      ^ "}"
+
+let jail_to_string (input : int option) : string =
+  match input with
+  | Some x -> "(Some " ^ string_of_int x ^ ")"
+  | None -> "None"
+
+let owes_to_bank_to_string (input : int option * int) : string =
+  match input with
+  | Some x, y -> "(Some " ^ string_of_int x ^ ", " ^ string_of_int y ^ ")"
+  | None, z -> "(None, " ^ string_of_int z ^ ")"
+
+let to_string (player : t) : string =
+  match player with
+  | { name; current_pos; money; owns; owes_to_bank; jail } ->
+      let rec owns_list_to_string owns_list =
+        match owns_list with
+        | [] -> "]"
+        | h :: t -> "[" ^ property_to_string h ^ ";" ^ owns_list_to_string t
+      in
+      "{name = " ^ name ^ "; current_pos = " ^ string_of_int current_pos
+      ^ "; money = " ^ string_of_int money ^ "; owns = "
+      ^ owns_list_to_string owns ^ "; owes_to_bank = "
+      ^ owes_to_bank_to_string owes_to_bank
+      ^ "; jail = " ^ jail_to_string jail ^ "}"
