@@ -1,0 +1,136 @@
+(lang dune 3.7)
+(name Game)
+(sections (lib .) (libexec .) (doc ../../doc/Game))
+(files
+ (lib
+  (Bank.ml
+   Bank.mli
+   META
+   board.ml
+   board.mli
+   chance.ml
+   chance.mli
+   comm_chest.ml
+   comm_chest.mli
+   command.ml
+   command.mli
+   deck.ml
+   deck.mli
+   dune-package
+   game.a
+   game.cma
+   game.cmi
+   game.cmt
+   game.cmx
+   game.cmxa
+   game.ml
+   game__Bank.cmi
+   game__Bank.cmt
+   game__Bank.cmti
+   game__Bank.cmx
+   game__Board.cmi
+   game__Board.cmt
+   game__Board.cmti
+   game__Board.cmx
+   game__Chance.cmi
+   game__Chance.cmt
+   game__Chance.cmti
+   game__Chance.cmx
+   game__Comm_chest.cmi
+   game__Comm_chest.cmt
+   game__Comm_chest.cmti
+   game__Comm_chest.cmx
+   game__Command.cmi
+   game__Command.cmt
+   game__Command.cmti
+   game__Command.cmx
+   game__Deck.cmi
+   game__Deck.cmt
+   game__Deck.cmti
+   game__Deck.cmx
+   game__Go.cmi
+   game__Go.cmt
+   game__Go.cmti
+   game__Go.cmx
+   game__Multiplayer.cmi
+   game__Multiplayer.cmt
+   game__Multiplayer.cmti
+   game__Multiplayer.cmx
+   game__State.cmi
+   game__State.cmt
+   game__State.cmti
+   game__State.cmx
+   go.ml
+   go.mli
+   multiplayer.ml
+   multiplayer.mli
+   opam
+   state.ml
+   state.mli))
+ (libexec (game.cmxs))
+ (doc (LICENSE)))
+(library
+ (name Game)
+ (kind normal)
+ (archives (byte game.cma) (native game.cmxa))
+ (plugins (byte game.cma) (native game.cmxs))
+ (native_archives game.a)
+ (requires yojson ANSITerminal)
+ (main_module_name Game)
+ (modes byte native)
+ (modules
+  (wrapped
+   (group
+    (alias
+     (obj_name game)
+     (visibility public)
+     (kind alias)
+     (source (path Game) (impl (path game.ml-gen))))
+    (name Game)
+    (modules
+     (module
+      (obj_name game__Bank)
+      (visibility public)
+      (source (path Bank) (intf (path Bank.mli)) (impl (path Bank.ml))))
+     (module
+      (obj_name game__Board)
+      (visibility public)
+      (source (path Board) (intf (path board.mli)) (impl (path board.ml))))
+     (module
+      (obj_name game__Chance)
+      (visibility public)
+      (source (path Chance) (intf (path chance.mli)) (impl (path chance.ml))))
+     (module
+      (obj_name game__Comm_chest)
+      (visibility public)
+      (source
+       (path Comm_chest)
+       (intf (path comm_chest.mli))
+       (impl (path comm_chest.ml))))
+     (module
+      (obj_name game__Command)
+      (visibility public)
+      (source
+       (path Command)
+       (intf (path command.mli))
+       (impl (path command.ml))))
+     (module
+      (obj_name game__Deck)
+      (visibility public)
+      (source (path Deck) (intf (path deck.mli)) (impl (path deck.ml))))
+     (module
+      (obj_name game__Go)
+      (visibility public)
+      (source (path Go) (intf (path go.mli)) (impl (path go.ml))))
+     (module
+      (obj_name game__Multiplayer)
+      (visibility public)
+      (source
+       (path Multiplayer)
+       (intf (path multiplayer.mli))
+       (impl (path multiplayer.ml))))
+     (module
+      (obj_name game__State)
+      (visibility public)
+      (source (path State) (intf (path state.mli)) (impl (path state.ml))))))
+   (wrapped true))))

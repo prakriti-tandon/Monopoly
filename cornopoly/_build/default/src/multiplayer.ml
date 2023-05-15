@@ -96,6 +96,28 @@ let pay_rent (pls : player_list) (curr_pl : State.t) (board : Board.t) : unit =
         pls.(curr_pl_index) <- new_pl;
         pls.(owner_index) <- new_owner
 
+(* let new_player property price n_houses n_hotels curr_pl board = let temp =
+   State.change_balance curr_pl (-price) |> State.change_owns property in let
+   price_adjust = State.change_balance temp ((n_houses * Board.price_per_house
+   board property) + (n_hotels * Board.price_per_hotel board property)) in let
+   house_state = State.buy_house price_adjust property board n_houses
+   (Bank.init_bank 0) in State.buy_hotel house_state property board n_hotels
+   (Bank.init_bank 0) *)
+
+(* let buy_property_from_player (pls : player_list) (curr_pl : State.t) (board :
+   Board.t) = match property_status pls curr_pl board with | NotOwned -> () |
+   OwnedByThisPlayer -> () | OwnedByOtherPlayer owner -> let property =
+   State.current_pos curr_pl in let price = determine_price owner property board
+   in let n_houses = State.num_houses owner property in let n_hotels =
+   State.num_hotels owner property in if price > State.current_balance curr_pl
+   then raise InsufficientFunds else let new_pl = new_player property price
+   n_houses n_hotels curr_pl board in
+
+   let new_owner = State.change_balance owner price |> State.remove_owns
+   property in let curr_pl_index = find_index (State.name curr_pl) pls in let
+   owner_index = find_index (State.name owner) pls in pls.(curr_pl_index) <-
+   new_pl; pls.(owner_index) <- new_owner *)
+
 let update_player pls old_pl new_pl =
   let i = find_index (State.name old_pl) pls in
   pls.(i) <- new_pl
