@@ -47,12 +47,6 @@ let rec get_command () =
       print_string "> ";
       get_command ()
 
-let prompt_buy st1 st2 board =
-  try
-    let st_new = State.buy_property st1 (current_pos st1) board in
-    (st_new, st2)
-  with InsufficientFunds -> terminate (State.name st2)
-
 (*main game loop let rec game_loop st1 st2 board = (*note-to-self: termination
   is handled in the transaction functions not here -> hard to deal with the
   exceptions in the main loop*) (*the first argument put into player_run is the
@@ -279,10 +273,16 @@ let offer_loan arr bank curr_player =
   in
   loan_comm arr bank curr_player
 
+let reset_owes () = failwith "unimplemented - reset owes"
+
 let loan_transaction arr bank active_player i =
   Bank.add_funds bank i;
   let new_p = State.change_owes active_player ~-i in
-  Property.update_player arr active_player new_p
+  Property.update_player arr active_player new_p;
+  match owes_to_bank new_p with
+  | Some 0, _ -> reset_owes ()
+  | Some x, _ -> ()
+  | None, _ -> ()
 
 let repay_loan arr bank active_p owes =
   let curr_bal = State.current_balance active_p in
@@ -344,6 +344,12 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
           terminate (State.name active_p))
         else prompt_repay_loan arr bank active_p x y
     | None, _ -> ());
+    let curr_bal = State.current_balance active_p in
+    if curr_bal < 50 && fst (owes_to_bank active_p) = None then
+      offer_loan arr bank active_p
+    else ();
+    (* refind active player because balance may have changed due to loan! *)
+    let active_p = arr.(int) in
     let n = roll_die () in
     let old_pos = current_pos active_p in
     (*active_p_new is the updated state on moving the active player*)
@@ -367,7 +373,6 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("Your current balance is " ^ string_of_int curr_bal ^ ".");
     print_endline " ";
-    if curr_bal < 50 then offer_loan arr bank active_p else ();
     (match space_type board curr_pos with
     | str ->
         (*each one of these helper functions must update game end and active

@@ -64,7 +64,7 @@ let description deck i = (find_card deck i).description
 
 let random_card deck =
   let _ = Random.self_init () in
-  fun () -> Random.int (deck.num_cards + 1)
+  fun () -> Random.int deck.num_cards
 
 let number_cards deck = deck.num_cards
 
