@@ -37,7 +37,7 @@ let exec_slopeday pls curr_player =
 
 let find_richest (pls : Property.player_list) =
   let x = ref pls.(0) in
-  for i = 0 to Array.length pls do
+  for i = 0 to Array.length pls - 1 do
     if State.current_balance pls.(i) > State.current_balance !x then
       x := pls.(i)
   done;
@@ -46,7 +46,7 @@ let find_richest (pls : Property.player_list) =
 let find_second_richest (pls : Property.player_list) =
   let richest = find_richest pls in
   let x = if pls.(0) = richest then ref pls.(1) else ref pls.(0) in
-  for i = 0 to Array.length pls do
+  for i = 0 to Array.length pls - 1 do
     if
       State.current_balance pls.(i) > State.current_balance !x
       && pls.(i) <> richest
@@ -66,7 +66,7 @@ let exec_fortune pls curr_player =
     fun () -> Random.int 100
   in
   let newamt = amt () in
-  print_endline ("You won " ^ string_of_int newamt ^ "!");
+  print_endline (" You won " ^ string_of_int newamt ^ "!");
   update_pls_newamt pls curr_player newamt
 
 let exec_socialist pls =
