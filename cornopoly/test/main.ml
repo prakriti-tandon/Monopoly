@@ -420,11 +420,24 @@ let state_tests =
     make_buy_house_test "buy 0 houses" state_two 28 game_board 0 bank1 state_two;
     make_buy_house_test "buy 1 house, price:$50" state_owns_prop_one 1
       game_board 1 bank1
-      (State.add_house (change_balance state_owns_prop_one (-50)) 1 game_board);
+      (State.add_house
+         (change_balance state_owns_prop_one (-50))
+         1 game_board 1);
+    make_buy_house_test "buy 2 houses, price:$100" state_owns_prop_one 1
+      game_board 2 bank1
+      (State.add_house
+         (change_balance state_owns_prop_one (-100))
+         1 game_board 2);
     (*----------following test checks num_hotels-----------*)
     make_num_hotels_exception_test "no properties" state_one 1;
-    make_num_hotels_test "owns prop at space 1, 0 hotels" state_three 1 0
+    make_num_hotels_test "owns prop at space 1, 0 hotels" state_three 1 0;
     (*----------following test checks buy_hotels-----------*)
+    make_buy_hotel_test "buy 0 hotels" state_two 28 game_board 0 bank1 state_two;
+    make_buy_hotel_test "buy 1 hotel, price:$100" state_owns_prop_one 1
+      game_board 1 bank1
+      (State.add_hotel
+         (change_balance state_owns_prop_one (-100))
+         1 game_board 1)
     (*----------following test checks owes_to_bank-----------*);
     make_owes_to_bank_test "owes nothing to bank (None, 0)" state_one (None, 0);
     make_owes_to_bank_test "owes $500 to bank (500, 2)"
