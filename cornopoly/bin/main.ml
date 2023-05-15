@@ -215,9 +215,23 @@ let deal_go board arr int =
   print_endline "No need to do anything here!";
   update_active arr int
 
+let turns_in_jail_to_string (player : State.t) : string =
+  match State.jail player with
+  | Some x ->
+      let num = string_of_int x in
+      if x + 1 >= 2 then num ^ " turns left." else num ^ " turn left."
+  | None ->
+      "0 turns left. This is your last day in jail! \n\
+      \ Your mom is coming to pick you up tomorrow from the station. Get ready \
+       to face her wrath."
+
 (*TODO*)
 let deal_jail board arr int =
+  Property.update_player arr arr.(int) (put_in_jail arr.(int));
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    ("You have " ^ turns_in_jail_to_string arr.(int) ^ "\n");
   print_endline "You are just visiting, nothing to worry about!";
+
   update_active arr int
 
 (* This function chooses a chance card for the player, executes the chance card,
@@ -415,7 +429,15 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
         match jail arr.(int) with
         | None -> player_turn board arr chance_deck comm_deck bank int
         | Some x ->
-            print_endline "You're in jail, so you can't take a turn :(";
+            ANSITerminal.print_string [ ANSITerminal.blue ]
+              ("You're in jail, so you can't take a turn :( \n" ^ "You have "
+              ^ turns_in_jail_to_string (turn_in_jail arr.(int) 1)
+              ^ " \n");
+            ANSITerminal.print_string [ ANSITerminal.red ]
+              ("Your balance is now "
+              ^ string_of_int (State.current_balance arr.(int))
+              ^ ".");
+            print_endline "";
             Property.update_player arr arr.(int) (turn_in_jail arr.(int) 1);
             update_active arr int)
     | _ ->
