@@ -84,7 +84,7 @@ let buy_property active_p space board bank arr =
   (try
      let new_pl = State.buy_property active_p space board bank in
      Property.update_player arr active_p new_pl
-   with InsufficientFunds ->
+   with State.InsufficientFunds ->
      print_endline
        "You didn't have enough money to buy that property... you went bankrupt!";
      terminate (State.name active_p));
@@ -115,7 +115,7 @@ let buy_house active_p space board bank arr =
      let new_pl = State.buy_house active_p space board 1 bank in
      Property.update_player arr active_p new_pl
    with
-  | InsufficientFunds ->
+  | State.InsufficientFunds ->
       print_endline
         "You didn't have enough money to buy that house... you went bankrupt!";
       terminate (State.name active_p)
@@ -129,7 +129,7 @@ let buy_hotel active_p space board bank arr =
      let new_pl = State.buy_hotel active_p space board 1 bank in
      Property.update_player arr active_p new_pl
    with
-  | InsufficientFunds ->
+  | State.InsufficientFunds ->
       print_endline
         "You didn't have enough money to buy that hotel... you went bankrupt!";
       terminate (State.name active_p)
@@ -198,7 +198,7 @@ let pay_rent active_p space_num board bank arr =
     ^ string_of_int (Board.rent board space_num)
     ^ ".");
   (try Property.pay_rent arr active_p board
-   with InsufficientFunds ->
+   with Property.InsufficientFunds ->
      print_endline "You went bankrupt!";
      terminate (State.name active_p));
   update_active arr (Property.find_index (State.name active_p) arr)
@@ -236,7 +236,7 @@ let deal_card board arr deck bank exec_fn int =
     update_active arr int
   in
   (try do_card
-   with InsufficientFunds -> terminate (State.name arr.(!active_player)));
+   with State.InsufficientFunds -> terminate (State.name arr.(!active_player)));
   print_endline ""
 
 let deal_chance board arr chance_deck bank int =
@@ -326,7 +326,7 @@ let prompt_repay_loan arr bank active_p owes go_left =
     ("You may pass Go " ^ string_of_int go_left
    ^ " more times before it must be paid.");
   print_endline
-    ("You owe " ^ string_of_int owes ^ "and your balance is "
+    ("You owe " ^ string_of_int owes ^ " and your balance is "
     ^ string_of_int (current_balance active_p)
     ^ ".");
   print_endline "Type \"yes\" to repay some of your loan, or \"no\".";
@@ -356,6 +356,7 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
     let active_p_new = State.go n active_p board in
     (*updating the state in the array*)
     arr.(int) <- active_p_new;
+    print_endline "";
     print_endline ("You rolled a " ^ string_of_int n ^ "!");
     (*check if current spot is a property*)
     let curr_pos = current_pos active_p_new in
@@ -397,8 +398,7 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
         | None -> player_turn board arr chance_deck comm_deck bank int
         | Some x ->
             print_endline "You're in jail, so you can't take a turn :(";
-            Property.update_player arr arr.(int)
-              (turn_in_jail arr.(int) (3 - x));
+            Property.update_player arr arr.(int) (turn_in_jail arr.(int) 1);
             update_active arr int)
     | _ ->
         print_endline
@@ -463,7 +463,7 @@ let rec init_array str =
 
 (*[main ()] prompts for the game to play, then starts it. *)
 let main () =
-  ANSITerminal.print_string [ ANSITerminal.red ] "\nWelcome to Cornopoly!\n";
+  ANSITerminal.print_string [ ANSITerminal.red ] "\n\nWelcome to Cornopoly!\n";
   print_endline
     "Please enter the number of players you are playing cornopoly with: ";
   print_string "> ";
