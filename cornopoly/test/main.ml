@@ -225,18 +225,8 @@ let print_player_state (player : State.t) : string =
   ^ "; owns = [] }"
 
 let change_balance_test (name : string) (t : State.t) (amt : int)
-    (expected_balance_output : int)
-      (*(expected_name : string) (expected_cur_pos : int) (expected_owns : int
-        list)*) =
+    (expected_balance_output : int) =
   name >:: fun _ ->
-  (*assert_bool "The name field was accidentally changed and doesn't match what
-    it was \ before" (State.name (State.change_balance t amt) = expected_name);
-    assert_bool "The cur_pos field was accidentally changed and doesn't match
-    what it was \ before" State.current_pos (State.change_balance t amt) =
-    expected_cur_pos; (*TODO: implement owns function and write this assert_bool
-    statement: assert_bool "The owns field was accidentally changed and doesn't
-    match what it was \ before" (State.owns (State.change_balance t amt) =
-    expected_owns);*)*)
   assert_equal expected_balance_output
     (State.current_balance (State.change_balance t amt))
     ~printer:string_of_int
@@ -270,14 +260,6 @@ let state_owns_prop_five = State.change_owns 5 (State.init_state "Prakriti")
 let state_three = change_owns 1 state_one
 let state_four = change_owns 5 state_three
 let go_state = go 2 state_one game_board
-
-(*let player_two = buy_property (State.init_state "Amy") 2 game_board
-  (Bank.init_bank 5000)*)
-
-(*let rent_play1 = (pay_rent go_state player_two game_board).player1 let
-  rent_play2 = (pay_rent go_state player_two game_board).player2*)
-(*let player_two_insuf_funds = State.buy_property player_two 22 game_board
-  bank1*)
 
 let make_owns_test (name : string) (player1 : State.t) (space : int)
     (game : Board.t) (expected_output : bool) =
@@ -480,21 +462,11 @@ let state_tests =
     make_owes_to_bank_test "owes $500 to bank (500, 2), but pays it all off"
       (change_owes (change_owes state_one 500) (-500))
       (None, 0);
-    (*need to check that y value decremets each time go around go, need to
-      implement go module before can test this*)
-    (*make_owes_to_bank_test "owes $500 to bank and went around go 1x (500, 1)"
-      (go 31 (change_owes state_one 500) game_board) (Some 500, 1);
-      make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
-      (go 61 (change_owes state_one 500) game_board) (Some 500, 0);*)
     (*----------following test checks turn_in_debt-----------*)
     make_turn_in_debt_test "have 2 remaining turns left to pay loan"
       (change_owes state_one 500)
       0
       (change_owes state_one 500);
-    (*make_turn_in_debt_test "have 1 remaining turns left to pay loan"
-      (change_owes state_one 500) 1 (change_owes state_one 500);
-      make_turn_in_debt_test "have 0 remaining turns left to pay loan"
-      (change_owes state_one 500) 2 (change_owes state_one 500);*)
     (*----------following test checks jail, put_in_jail,get_out_of_jail-----*)
     make_jail_test "not in jail" state_one None;
     make_jail_test "in jail, has 3 turns remaining in jail"
@@ -502,10 +474,6 @@ let state_tests =
     make_jail_test "get player who has 3 turns remaining in jail"
       (get_out_of_jail (put_in_jail state_one))
       None;
-    (*need to implement go module before can test this*)
-    (*make_jail_test "in jail, has 2 turns remaining in jail" (put_in_jail (go
-      31 state_one game_board)) (Some 2); make_jail_test "in jail, has 1 turns\n
-      remaining in jail" (put_in_jail (go 61 state_one game_board)) (Some 1);*)
     (*----------following test checks turn_in_jail-----*)
     make_jail_test "in jail, has 2 turns remaining in jail"
       (State.turn_in_jail (put_in_jail state_one) 1)
@@ -568,12 +536,6 @@ let print_property_status (st : Multiplayer.status) =
   | OwnedByOtherPlayer a -> "OwnedByOtherPlayer" ^ State.name a
   | OwnedByThisPlayer -> "OwnedByThisPlayer"
 
-(* let status_equal (st1 : Property.status) (st2 : Property.status) = match st1
-   with | NotOwned -> begin match st2 with | NotOwned -> true | _ -> false end |
-   OwnedByThisPlayer -> begin match st2 with | OwnedByThisPlayer -> true | _ ->
-   false end | OwnedByOtherPlayer a -> begin match st2 with | OwnedByOtherPlayer
-   b -> State.name a = State.name b | _ -> false end *)
-
 let property_status_test (name : string) (pls : player_list) (curr_pl : State.t)
     (board : Board.t) (expected_ouptut : string) =
   name >:: fun _ ->
@@ -585,8 +547,6 @@ let property_status_test (name : string) (pls : player_list) (curr_pl : State.t)
 let determine_rent_test (name : string) (owner : State.t) (property : int)
     (board : Board.t) (expected_output : int) =
   name >:: fun _ ->
-  (* print_string (string_of_bool (State.owns owner property board));
-     print_string (string_of_int (State.num_houses owner)) *)
   assert_equal
     (determine_rent owner property board)
     expected_output ~printer:string_of_int
@@ -630,28 +590,6 @@ let pay_rent_test_owner (name : string) (pls : player_list) (curr_pl : State.t)
   assert_equal
     (get_owner pls curr_pl board |> current_balance)
     expected_output ~printer:string_of_int
-
-(*checks the account balance of the original owner of property who gained
-  money*)
-(* let buy_property_from_player_test_owner (name : string) (pls : player_list)
-   (curr_pl : State.t) (board : Board.t) (expected_output : int) = name >:: fun
-   _ -> let original_owner_ind = find_index (State.name (get_owner pls curr_pl
-   board)) pls in buy_property_from_player pls curr_pl board; assert_equal
-   (pls.(original_owner_ind) |> current_balance) expected_output
-   ~printer:string_of_int *)
-
-(*checks the new ownership of the player who bought the property*)
-(* let buy_property_from_player_test_payer (name : string) (pls : player_list)
-   (curr_pl : State.t) (board : Board.t) (expected_output : string) = name >::
-   fun _ -> buy_property_from_player pls curr_pl board; assert_equal
-   (get_same_owner pls curr_pl board) expected_output ~printer:(fun x -> x) *)
-
-(* checks the new balance of the player who bought the property*)
-(* let buy_property_from_player_test_balance (name : string) (pls : player_list)
-   (curr_pl : State.t) (board : Board.t) (expected_output : int) = name >:: fun
-   _ -> buy_property_from_player pls curr_pl board; assert_equal
-   (pls.(find_index (State.name curr_pl) pls) |> current_balance)
-   expected_output ~printer:string_of_int *)
 
 (*checks that the player state has been updated by comparing the current
   balance*)
@@ -705,11 +643,7 @@ let property_tests =
     determine_price_test "price of 1 is 60" player1_owner1 1 board 60;
     (*----------------following test checks pay_rent-----------------*)
     pay_rent_test_owner "player1 gains 2" pls1 player2 board 442;
-    pay_rent_test_payer "player2 loses 2" pls1 player2 board 498
-    (*----------------following test checks buy_property-----------------*)
-    (* buy_property_from_player_test_balance "player2 bought 1 from player1"
-       pls1 player2 board 440; buy_property_from_player_test_payer "player2
-       bought 1 from player1 - check ownership" pls1 player2 board "B"; *);
+    pay_rent_test_payer "player2 loses 2" pls1 player2 board 498;
   ]
 
 (*************************************************************************)
