@@ -77,7 +77,7 @@ let exec_socialist pls =
   in
   let num_other_players = Array.length pls - 1 in
   let redistribution = excess / num_other_players in
-  for i = 0 to Array.length pls do
+  for i = 0 to Array.length pls - 1 do
     if pls.(i) = richest then
       update_pls_newamt pls richest ~-(redistribution * num_other_players)
     else update_pls_newamt pls pls.(i) redistribution
