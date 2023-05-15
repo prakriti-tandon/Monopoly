@@ -49,7 +49,7 @@ val num_houses : t -> int -> int
    [s].*)
 
 val num_hotels : t -> int -> int
-(**[num_hotels player s game] is the number of hotels the player owns at space
+(**[num_hotels player s] is the number of hotels the player owns at space
    [s].Raises [DoesntOwnProperty] if the player doesnt own the property at space
    [s].*)
 
@@ -84,7 +84,8 @@ val change_owes : t -> int -> t
    bank. If [amt] = current amt player owes then player no longer has a loan to
    pay off. If (2), Requires: [amt] paid off <= current owes_to_bank (amt player
    owes) *)
-val turn_in_debt : t -> int -> t 
+
+val turn_in_debt : t -> int -> t
 (**[turn_in_debt player x] is the new state of player's state [player] after
    they have been in debt for [x] turns. If the player has 0 remaining turns
    left, they lose the game. Requires: player is in debt/owes the bank a loan.*)
