@@ -120,7 +120,16 @@ let change_owes (player : t) (amt : int) =
     jail = player.jail;
   }
 
-let turn_in_debt (player : t) (turns : int) : t = failwith "unimplemented"
+let turn_in_debt (player : t) (turns : int) : t =
+  match player.owes_to_bank with
+  | Some x, y ->
+      let turns_remaining = turns - y in
+      let new_owes =
+        if turns_remaining >= 0 then (Some x, 0) else (Some x, turns_remaining)
+      in
+      { player with owes_to_bank = new_owes }
+  | None, _ -> player
+
 let jail (player : t) = player.jail
 
 let put_in_jail (player : t) =

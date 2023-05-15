@@ -282,10 +282,18 @@ let make_owns_test (name : string) (player1 : State.t) (space : int)
     (game : Board.t) (expected_output : bool) =
   name >:: fun _ -> assert_equal expected_output (State.owns player1 space game)
 
-let buy_property_exception_test (name : string) (player1 : State.t)
-    (space : int) (game : Board.t) =
+let buy_property_test (name : string) (player1 : State.t) (space : int)
+    (game : Board.t) (bank : Bank.t) (expected_output : State.t) =
   name >:: fun _ ->
-  assert_raises InsufficientFunds (fun () -> buy_property player1 space game)
+  assert_equal expected_output
+    (buy_property player1 space game bank)
+    ~printer:State.to_string
+
+let buy_property_exception_test (name : string) (player1 : State.t)
+    (space : int) (game : Board.t) (bank : Bank.t) =
+  name >:: fun _ ->
+  assert_raises State.InsufficientFunds (fun () ->
+      buy_property player1 space game bank)
 
 let make_compare_property_test (name : string) (prop1 : property)
     (prop2 : property) (expected_output : int) =
@@ -402,10 +410,12 @@ let state_tests =
     current_balance_test "$200 remaining"
       (buy_property state_one 25 game_board bank1)
       200;
+    buy_property_test "owns 1 prop at space 1" state_one 1 game_board bank1
+      state_owns_prop_one;
     buy_property_exception_test
-      "player with neg $ tries to buy property with price $400"
+      "player with $200 tries to buy property with price $400"
       (buy_property state_one 25 game_board bank1)
-      29 game_board;
+      29 game_board bank1;
     (*---------------------following test checks compare_property-------------*)
     make_compare_property_test "prop1 = prop 1" prop1 prop1 0;
     make_compare_property_test "prop1 < prop 2" prop1 prop2 (-1);
