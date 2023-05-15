@@ -65,6 +65,7 @@ let rec new_owns_list owns_list new_property acc =
 
 (*this is basically a List.filter function which removes the old property and
   inserts the new version of the property*)
+
 let add_house (player : t) (space : int) (game : Board.t) (x : int) =
   let rec num owns_list space =
     match owns_list with
@@ -262,7 +263,16 @@ let sell_hotel (player : t) (space : int) (game : Board.t) =
   failwith "unimplemented"
 
 let space_of_property p = p.space
-let remove_owns (space : int) (player : t) = failwith "Unimplemented"
+
+let rec remove_owns_helper owns_list space acc =
+  match owns_list with
+  | [] -> acc
+  | h :: t ->
+      if h.space = space then remove_owns_helper t space acc
+      else h :: remove_owns_helper t space acc
+
+let remove_owns (space : int) (player : t) =
+  { player with owns = remove_owns_helper player.owns space [] }
 
 let property_to_string (input : property) : string =
   match input with
