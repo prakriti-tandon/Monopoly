@@ -49,12 +49,12 @@ val pay_rent : player_list -> State.t -> Board.t -> unit
    the property, [pls] remains the same.Throws [InsufficientFunds] if the player
    does not have money.*)
 
-val buy_property_from_player : player_list -> State.t -> Board.t -> unit
-(**[buy_property_from_player pls curr_pl board] finds out the current position
-   of [curr_pl], checks if a player in [pls] owns it, conducts the transaction
-   between the two players, and mutates the list of players with updated player
-   states. If nobody owns the property [pls] remains the same. Throws
-   [InsuffcientFunds] if the player does have money to buy it *)
+(* val buy_property_from_player : player_list -> State.t -> Board.t -> unit
+   (**[buy_property_from_player pls curr_pl board] finds out the current
+   position of [curr_pl], checks if a player in [pls] owns it, conducts the
+   transaction between the two players, and mutates the list of players with
+   updated player states. If nobody owns the property [pls] remains the same.
+   Throws [InsuffcientFunds] if the player does have money to buy it *) *)
 
 val update_player : player_list -> State.t -> State.t -> unit
 (** [update_player pls old new] updates the state of the old player [old] with
