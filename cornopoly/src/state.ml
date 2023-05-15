@@ -271,15 +271,6 @@ let buy_hotel (player : t) (space : int) (game : Board.t) (num_hotels : int)
       in
       num player.owns space
 
-let sell_property (player : t) (space : int) (game : Board.t) =
-  failwith "unimplemented"
-
-let sell_house (player : t) (space : int) (game : Board.t) =
-  failwith "unimplemented"
-
-let sell_hotel (player : t) (space : int) (game : Board.t) =
-  failwith "unimplemented"
-
 let space_of_property p = p.space
 
 let rec remove_owns_helper owns_list space acc =
