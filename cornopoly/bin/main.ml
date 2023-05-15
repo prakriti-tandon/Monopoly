@@ -86,7 +86,8 @@ let buy_property active_p space board bank arr =
      Property.update_player arr active_p new_pl
    with State.InsufficientFunds ->
      print_endline
-       "You didn't have enough money to buy that property... you went bankrupt!";
+       "\n\
+        You didn't have enough money to buy that property... you went bankrupt!";
      terminate (State.name active_p));
   update_active arr (Property.find_index (State.name active_p) arr)
 
@@ -109,71 +110,54 @@ let ask_buy active_p space board bank arr =
   print_string "> ";
   self_own_comm
 
-let buy_house active_p space board bank arr =
+let buy_addon active_p space board bank arr buy_func str_desc =
   (try
-     let new_pl = State.buy_house active_p space board 1 bank in
+     let new_pl = buy_func active_p space board 1 bank in
      Property.update_player arr active_p new_pl
    with
   | State.InsufficientFunds ->
       print_endline
-        "You didn't have enough money to buy that house... you went bankrupt!";
+        ("\nYou didn't have enough money to buy that " ^ str_desc
+       ^ "... you went bankrupt!");
       terminate (State.name active_p)
   | ExceededHouseLimit ->
       print_endline
-        "Cannot complete transaction, too many houses on this property.");
+        ("Cannot complete transaction, too many " ^ str_desc
+       ^ "s on this property."));
   update_active arr (Property.find_index (State.name active_p) arr)
 
 let buy_hotel active_p space board bank arr =
-  (try
-     let new_pl = State.buy_hotel active_p space board 1 bank in
-     Property.update_player arr active_p new_pl
-   with
-  | State.InsufficientFunds ->
-      print_endline
-        "You didn't have enough money to buy that hotel... you went bankrupt!";
-      terminate (State.name active_p)
-  | ExceededHouseLimit ->
-      print_endline
-        "Cannot complete transaction, too many hotels on this property.");
-  update_active arr (Property.find_index (State.name active_p) arr)
+  buy_addon active_p space board bank arr State.buy_hotel "hotel"
 
-let prompt_buy_house space board active_p bank arr =
+let buy_house active_p space board bank arr =
+  buy_addon active_p space board bank arr State.buy_house "house"
+
+let prompt_buy_addon space board active_p bank arr buy_fn price_fn str_desc =
   let rec self_own_comm () =
     match get_command_2 () with
-    | Yes -> buy_house active_p space board bank arr
+    | Yes -> buy_fn active_p space board bank arr
     | No -> update_active arr (Property.find_index (State.name active_p) arr)
     | Quit -> quit_game ()
     | _ ->
-        print_endline "Invalid command. Type \"yes\" to buy a house or \"no\".";
+        print_endline
+          ("Invalid command. Type \"yes\" to buy a " ^ str_desc ^ " or \"no\".");
         print_string "> ";
         self_own_comm ()
   in
-  print_endline
-    ("The price to build a house is "
-    ^ string_of_int (Board.price_per_house board space)
-    ^ ".");
-  print_endline "Build a house? [ type \"yes\" or \"no\"  ]";
+  print_string ("The price to build a " ^ str_desc ^ " is ");
+  ANSITerminal.print_string [ ANSITerminal.green ]
+    (string_of_int (price_fn board space) ^ ".\n");
+  print_endline ("Build a " ^ str_desc ^ "? [ type \"yes\" or \"no\"  ]");
   print_string "> ";
   self_own_comm
 
 let prompt_buy_hotel space board active_p bank arr =
-  let rec self_own_comm () =
-    match get_command_2 () with
-    | Yes -> buy_hotel active_p space board bank arr
-    | No -> update_active arr (Property.find_index (State.name active_p) arr)
-    | Quit -> quit_game ()
-    | _ ->
-        print_endline "Invalid command. Type \"yes\" to buy a hotel or \"no\".";
-        print_string "> ";
-        self_own_comm ()
-  in
-  print_endline
-    ("The price to build a hotel is "
-    ^ string_of_int (Board.price_per_hotel board space)
-    ^ ".");
-  print_endline "Build a hotel? [ type \"yes\" or \"no\"  ]";
-  print_string "> ";
-  self_own_comm
+  prompt_buy_addon space board active_p bank arr buy_hotel Board.price_per_hotel
+    "hotel"
+
+let prompt_buy_house space board active_p bank arr =
+  prompt_buy_addon space board active_p bank arr buy_house Board.price_per_house
+    "house"
 
 let self_own_prompt space board active_p bank arr =
   print_endline "You already own this property!";
@@ -190,11 +174,21 @@ let self_own_prompt space board active_p bank arr =
   active_player := (!active_player + 1) mod !num_player | exception End_of_file
   -> ()*)
 
+let find_other_player (pls : player_list) (curr_pl : State.t) (board : Board.t)
+    =
+  match Property.property_status pls curr_pl board with
+  | OwnedByOtherPlayer y -> y
+  | _ -> failwith "impossible"
+
 let pay_rent active_p space_num board bank arr =
   print_endline "This property is owned by another player.";
   print_string "You must pay a rent of ";
   ANSITerminal.print_string [ ANSITerminal.green ]
-    (string_of_int (Board.rent board space_num) ^ ".\n");
+    (string_of_int
+       (Property.determine_rent
+          (find_other_player arr active_p board)
+          space_num board)
+    ^ ".\n");
   (try Property.pay_rent arr active_p board
    with Property.InsufficientFunds ->
      print_endline "You went bankrupt!";
@@ -215,7 +209,6 @@ let deal_go board arr int =
   print_endline "No need to do anything here!";
   update_active arr int
 
-(*TODO*)
 let deal_jail board arr int =
   print_endline "You are just visiting, nothing to worry about!";
   update_active arr int
@@ -229,7 +222,7 @@ let deal_card board arr deck bank exec_fn int =
     let chosen_card = Deck.random_card deck () in
     print_endline ("You drew " ^ Deck.name deck chosen_card ^ "!");
     ANSITerminal.print_string [ ANSITerminal.blue ]
-      (Deck.description deck chosen_card);
+      (Deck.description deck chosen_card ^ "\n");
     exec_fn deck arr bank board chosen_card active_p;
     if current_balance arr.(int) <= 0 then (
       print_endline "You went bankrupt!";
@@ -267,7 +260,7 @@ let init_loan arr bank curr_player =
   let new_p2 = State.change_balance new_p 100 in
   Property.update_player arr curr_player new_p2;
   print_endline
-    "You now owe the bank $100, and $100 has been added to your balance.";
+    "\nYou now owe the bank $100, and $100 has been added to your balance.";
   print_endline "You can pass Go twice before you must fully repay your loan."
 
 let offer_loan arr bank curr_player =
@@ -346,6 +339,7 @@ let prompt_repay_loan arr bank active_p owes go_left =
     ^ string_of_int (current_balance active_p)
     ^ ".");
   print_endline "Type \"yes\" to repay some of your loan, or \"no\".";
+  print_string "> ";
   repay_loan_yncomm arr bank active_p ();
   print_endline ""
 
@@ -380,7 +374,7 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
        salary. *)
     if old_pos > curr_pos then (
       ANSITerminal.print_string [ ANSITerminal.green ]
-        "\nYou passed Go. Enjoy your salary!\n";
+        "You passed Go. Enjoy your salary!\n";
       exec_go arr arr.(int) board)
     else ();
     (*print description and name of the property and check for owner *)

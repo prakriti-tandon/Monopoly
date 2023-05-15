@@ -57,8 +57,9 @@ let find_second_richest (pls : Property.player_list) =
 let exec_first_apt pls curr_player =
   let richest = find_richest pls in
   if richest = curr_player then update_pls_newamt pls curr_player ~-30
-  else update_pls_newamt pls curr_player ~-15;
-  update_pls_newamt pls richest ~-15
+  else (
+    update_pls_newamt pls curr_player ~-15;
+    update_pls_newamt pls richest ~-15)
 
 let exec_fortune pls curr_player =
   let amt =
@@ -66,7 +67,7 @@ let exec_fortune pls curr_player =
     fun () -> Random.int 100
   in
   let newamt = amt () in
-  print_endline (" You won " ^ string_of_int newamt ^ "!");
+  print_endline ("You won " ^ string_of_int newamt ^ "!");
   update_pls_newamt pls curr_player newamt
 
 let exec_socialist pls =
