@@ -65,14 +65,14 @@ let rec new_owns_list owns_list new_property acc =
 
 (*this is basically a List.filter function which removes the old property and
   inserts the new version of the property*)
-let add_house (player : t) (space : int) (game : Board.t) =
+let add_house (player : t) (space : int) (game : Board.t) (x : int) =
   let rec num owns_list space =
     match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t ->
         if h.space = space then
           let new_property =
-            make_property space (h.num_houses + 1) h.num_hotels
+            make_property space (h.num_houses + x) h.num_hotels
           in
           { player with owns = new_owns_list player.owns new_property [] }
         else num t space
@@ -83,14 +83,14 @@ let add_house (player : t) (space : int) (game : Board.t) =
    "hotelie" where i give away a hotel for free! I added it to the interface so
    it can be visible on my end, but hopefully it will be a useful helper for you
    when implemented buy hotel as well.*)
-let add_hotel (player : t) (space : int) (game : Board.t) =
+let add_hotel (player : t) (space : int) (game : Board.t) (x : int) =
   let rec num owns_list space =
     match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t ->
         if h.space = space then
           let new_property =
-            make_property space h.num_houses (h.num_hotels + 1)
+            make_property space h.num_houses (h.num_hotels + x)
           in
           { player with owns = new_owns_list player.owns new_property [] }
         else num t space
@@ -224,7 +224,7 @@ let buy_house (player : t) (space : int) (game : Board.t) (num_houses : int)
                 let () = Bank.add_funds bank price in
                 add_house
                   { player with money = player.money - price }
-                  space game
+                  space game num_houses
             else num t space
       in
       num player.owns space
@@ -247,7 +247,7 @@ let buy_hotel (player : t) (space : int) (game : Board.t) (num_hotels : int)
                 let () = Bank.add_funds bank price in
                 add_hotel
                   { player with money = player.money - price }
-                  space game
+                  space game num_hotels
             else num t space
       in
       num player.owns space
