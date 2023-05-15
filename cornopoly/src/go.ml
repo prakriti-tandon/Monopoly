@@ -9,7 +9,7 @@ let exec_go pls curr_player board =
       match State.owes_to_bank x with
       | Some x, y ->
           Property.update_player pls curr_player
-            (State.turn_in_jail curr_player 1)
+            (State.turn_in_debt curr_player 1)
       | None, _ -> ()
     in
     check_owes curr_player
