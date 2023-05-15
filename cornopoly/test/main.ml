@@ -444,17 +444,33 @@ let state_tests =
   ******************************************************************************)
 let bank_init = Bank.init_bank 5000
 let bank_1 = Bank.init_bank 5000
+let bank_2 = Bank.init_bank 5000
+
+let bank_b =
+  Bank.add_funds bank_2 50;
+  bank_2
+
+let bank_3 = Bank.init_bank 5000
+
+let bank_r =
+  Bank.deduct_funds bank_3 2;
+  bank_3
 
 let test_bank_with_state =
   State.buy_property state_one 2 game_board bank_1 (*adds $60 to bank_1*)
 
 let make_funds_test (name : string) (bank : Bank.t) (expected_output : int) =
-  name >:: fun _ -> assert_equal expected_output (Bank.funds bank)
+  name >:: fun _ ->
+  assert_equal expected_output (Bank.funds bank) ~printer:string_of_int
 
 let bank_tests =
   [
     make_funds_test "Bank initially has $5000" bank_init 5000;
     make_funds_test "+60 to bank, funds: $5060" bank_1 5060;
+    (*---------------------following test checks add_funds-------------*)
+    make_funds_test "Bank_2 add 5" bank_b 5050;
+    (*---------------------following test checks deduct_funds-------------*)
+    make_funds_test "Bank_1 remove 10" bank_r 4998;
   ]
 
 (******************************************************************************
@@ -466,24 +482,46 @@ let player2 = State.go 1 (State.init_state "B") board
 let player3 = State.go 1 (State.init_state "C") board
 let pls = [| player1; player2; player3 |]
 
+let print_property_status (st : Property.status) =
+  match st with
+  | NotOwned -> "NotOwned"
+  | OwnedByOtherPlayer a -> "OwnedByOtherPlayer" ^ State.name a
+  | OwnedByThisPlayer -> "OwnedByThisPlayer"
+
+(* let status_equal (st1 : Property.status) (st2 : Property.status) = match st1
+   with | NotOwned -> begin match st2 with | NotOwned -> true | _ -> false end |
+   OwnedByThisPlayer -> begin match st2 with | OwnedByThisPlayer -> true | _ ->
+   false end | OwnedByOtherPlayer a -> begin match st2 with | OwnedByOtherPlayer
+   b -> State.name a = State.name b | _ -> false end *)
+
 let property_status_test (name : string) (pls : Property.player_list)
-    (curr_pl : State.t) (board : Board.t) (expected_ouptut : Property.status) =
+    (curr_pl : State.t) (board : Board.t) (expected_ouptut : string) =
   name >:: fun _ ->
-  assert_equal (property_status pls curr_pl board) expected_ouptut
+  assert_equal
+    (print_property_status (property_status pls curr_pl board))
+    expected_ouptut
+    ~printer:(fun x -> x)
 
 let determine_rent_test (name : string) (owner : State.t) (property : int)
     (board : Board.t) (expected_output : int) =
   name >:: fun _ ->
-  assert_equal (determine_rent owner property board) expected_output
+  (* print_string (string_of_bool (State.owns owner property board));
+     print_string (string_of_int (State.num_houses owner)) *)
+  assert_equal
+    (determine_rent owner property board)
+    expected_output ~printer:string_of_int
 
 let find_index_test (name : string) (pls : player_list) (pl_name : string)
     (expected_output : int) =
-  name >:: fun _ -> assert_equal (find_index pl_name pls) expected_output
+  name >:: fun _ ->
+  assert_equal (find_index pl_name pls) expected_output ~printer:string_of_int
 
 let determine_price_test (name : string) (owner : State.t) (property : int)
     (board : Board.t) (expected_output : int) =
   name >:: fun _ ->
-  assert_equal (determine_price owner property board) expected_output
+  assert_equal
+    (determine_price owner property board)
+    expected_output ~printer:string_of_int
 
 (*checks the balance of the player who pays the rent*)
 let pay_rent_test_payer (name : string) (pls : player_list) (curr_pl : State.t)
@@ -492,7 +530,7 @@ let pay_rent_test_payer (name : string) (pls : player_list) (curr_pl : State.t)
   pay_rent pls curr_pl board;
   assert_equal
     (pls.(find_index (State.name curr_pl) pls) |> current_balance)
-    expected_output
+    expected_output ~printer:string_of_int
 
 let get_owner pls curr_pl board =
   match property_status pls curr_pl board with
@@ -509,7 +547,9 @@ let pay_rent_test_owner (name : string) (pls : player_list) (curr_pl : State.t)
     (board : Board.t) (expected_output : int) =
   name >:: fun _ ->
   pay_rent pls curr_pl board;
-  assert_equal (get_owner pls curr_pl board |> current_balance) expected_output
+  assert_equal
+    (get_owner pls curr_pl board |> current_balance)
+    expected_output ~printer:string_of_int
 
 (*checks the account balance of the original owner of property who gained
   money*)
@@ -517,7 +557,9 @@ let buy_property_from_player_test_owner (name : string) (pls : player_list)
     (curr_pl : State.t) (board : Board.t) (expected_output : int) =
   name >:: fun _ ->
   buy_property_from_player pls curr_pl board;
-  assert_equal (get_owner pls curr_pl board |> current_balance) expected_output
+  assert_equal
+    (get_owner pls curr_pl board |> current_balance)
+    expected_output ~printer:string_of_int
 
 (*checks the new ownership of the player who bought the property*)
 let buy_property_from_player_test_payer (name : string) (pls : player_list)
@@ -525,6 +567,7 @@ let buy_property_from_player_test_payer (name : string) (pls : player_list)
   name >:: fun _ ->
   buy_property_from_player pls curr_pl board;
   assert_equal (get_same_owner pls curr_pl board) expected_output
+    ~printer:(fun x -> x)
 
 (* checks the new balance of the player who bought the property*)
 let buy_property_from_player_test_balance (name : string) (pls : player_list)
@@ -533,7 +576,7 @@ let buy_property_from_player_test_balance (name : string) (pls : player_list)
   buy_property_from_player pls curr_pl board;
   assert_equal
     (pls.(find_index (State.name curr_pl) pls) |> current_balance)
-    expected_output
+    expected_output ~printer:string_of_int
 
 (*checks that the player state has been updated by comparing the current
   balance*)
@@ -543,7 +586,7 @@ let update_player_test (name : string) (pls : player_list) (old_pl : State.t)
   update_player pls old_pl new_pl;
   assert_equal
     (pls.(find_index (State.name new_pl) pls) |> current_balance)
-    expected_output
+    expected_output ~printer:string_of_int
 
 (*checks that the player state has been updated by comparing the new owner*)
 let update_player_test_space (name : string) (pls : player_list)
@@ -553,24 +596,48 @@ let update_player_test_space (name : string) (pls : player_list)
   update_player pls old_pl new_pl;
   assert_equal
     (owns pls.(find_index (State.name new_pl) pls) space board)
-    expected_output
+    expected_output ~printer:string_of_bool
+
+let pls1 = [| player1; player2; player3 |]
+
+let () =
+  update_player pls1 player1 (buy_property player1 1 board (Bank.init_bank 500))
+
+let player1_owner1 = buy_property player1 1 board (Bank.init_bank 500)
 
 let property_tests =
   [
     (*----------------following test checks update_player-----------------*)
     update_player_test "old player had 500, new player has 505" pls player1
       (change_balance player1 5) 505;
-    (* update_player_test_space "old player had 500, new player has 500" pls
-       player1 (buy_property player1 1 board (Bank.init_bank 500)) 1 board
-       true;*)
+    update_player_test_space "old player had 500, new player has 500" pls
+      player1
+      (buy_property player1 1 board (Bank.init_bank 500))
+      1 board true;
     (*----------------following test checks property_status-----------------*)
     property_status_test "owned by no one"
       [| player1; player2; player3 |]
-      player1 board NotOwned;
-    property_status_test "Owned by other player" pls (go 1 player2 board) board
-      (OwnedByOtherPlayer player1);
-    property_status_test "Owned by this player" pls (go 1 player1 board) board
-      OwnedByThisPlayer;
+      player1 board "NotOwned";
+    property_status_test "Owned by other player" pls1 player2 board
+      ("OwnedByOtherPlayer" ^ State.name player1);
+    property_status_test "Owned by this player" pls1 player1 board
+      "OwnedByThisPlayer"
+    (*----------------following test checks determine_rent-----------------*);
+    determine_rent_test "rent of 1 is 2" player1_owner1 1 board 2;
+    (*----------------following test checks find_index-----------------*)
+    find_index_test "index of player2 is 1" pls "B" 1;
+    (*----------------following test checks determine_price-----------------*)
+    determine_price_test "price of 1 is 60" player1_owner1 1 board 60;
+    (*----------------following test checks pay_rent-----------------*)
+    pay_rent_test_owner "player1 gains 2" pls1 player2 board 442;
+    pay_rent_test_payer "player2 loses 2" pls1 player2 board 498;
+    (*----------------following test checks buy_property-----------------*)
+    buy_property_from_player_test_balance "player2 bought 1 from player1" pls1
+      player2 board 440;
+    buy_property_from_player_test_payer
+      "player2 bought 1 from player1 - check ownership" pls1 player2 board "B";
+    buy_property_from_player_test_owner "check balance of player1" pls1 player2
+      board 500;
   ]
 
 (*************************************************************************)
