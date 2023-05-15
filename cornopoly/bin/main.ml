@@ -14,7 +14,11 @@ let active_player = ref 0
 
 (*ends the game and shows the name of the player that won*)
 let terminate str =
-  print_endline (str ^ " has won!");
+  print_endline (str ^ " has lost!");
+  exit 0
+
+let quit_game () =
+  print_endline "Thanks for playing!";
   exit 0
 
 (*calls once and returns a function*)
@@ -25,12 +29,14 @@ let rec roll_die =
     if n != 0 then n else roll_die ()
 
 (*both helpers need to return a tupple of s1 and st2 where the first *)
-let trans st1 st2 board = raise (Failure "Unimplemented")
-(*try let comb_state = State.pay_rent st1 st2 board in (comb_state.player1,
-  comb_state.player2) with InsufficientFunds -> terminate (State.name st2) *)
 
-(*recursive function that loops through and annoys the user till they return
-  either y or n as a value*)
+let rec get_command_2 () =
+  try Command.parse (read_line ())
+  with Empty ->
+    print_endline "No input received, type something again!";
+    print_string "> ";
+    get_command_2 ()
+
 let rec get_command () =
   match read_line () with
   | "y" -> "y"
@@ -46,29 +52,6 @@ let prompt_buy st1 st2 board =
     let st_new = State.buy_property st1 (current_pos st1) board in
     (st_new, st2)
   with InsufficientFunds -> terminate (State.name st2)
-
-(*runs through one player turn which involves changing states, paying rent etc*)
-(*let player_run st1 st2 board = print_string "\n"; print_endline ("It is player
-  " ^ State.name st1 ^ "'s turn."); let n = roll_die () in let st1_go = State.go
-  n st1 board in print_endline ("You rolled a " ^ string_of_int n ^ "!");
-  (*check if current spot is a property*) let curr_pos = current_pos st1_go in
-  (*print description and name of the property and check for owner *)
-  print_endline (State.name st1 ^ " landed on " ^ name board curr_pos ^ ":");
-  print_endline (description board curr_pos); ANSITerminal.print_string [
-  ANSITerminal.red ] ("Your current balance is " ^ string_of_int
-  (State.current_balance st1) ^ "."); print_endline " "; (*do all the matching
-  only if the state is property otherwise just return (st1_go, st2)*) if
-  space_type board (State.current_pos st1_go) = "property" then match State.owns
-  st2 curr_pos board with | true -> (*here the first argument is the player who
-  is paying and second arg is the one who is receiving*) print_endline ("You
-  paid rent of " ^ string_of_int (rent board curr_pos) ^ " to the property
-  owner."); trans st1_go st2 board | false -> (* if current player already owns
-  the space, don't prompt them to buy *) if owns st1_go curr_pos board then (
-  print_endline "You already own this space."; (st1_go, st2)) else (
-  print_endline ("The price to buy is " ^ string_of_int (price board curr_pos) ^
-  "."); print_endline "Buy? [y/n]"; print_string ">"; let str = get_command ()
-  in match str with | "y" -> (*prompt_buy st1_go st2 board*) (st1_go, st2) | "n"
-  -> (st1_go, st2) | _ -> (st1_go, st2)) else (st1_go, st2) *)
 
 (*main game loop let rec game_loop st1 st2 board = (*note-to-self: termination
   is handled in the transaction functions not here -> hard to deal with the
@@ -103,26 +86,117 @@ let update_active (arr : player_list) (cp : int) =
   let np = (cp + 1) mod !num_player in
   active_player := np
 
-let ask_buy () = ()
-let buy_house () = ()
+let buy_property active_p space board bank arr =
+  (try
+     let new_pl = State.buy_property active_p space board bank in
+     Property.update_player arr active_p new_pl
+   with InsufficientFunds ->
+     print_endline
+       "You didn't have enough money to buy that property... you went bankrupt!";
+     terminate (State.name active_p));
+  update_active arr (Property.find_index (State.name active_p) arr)
 
-let self_own_prompt () =
+let ask_buy active_p space board bank arr =
+  let rec self_own_comm () =
+    match get_command_2 () with
+    | Yes -> buy_property active_p space board bank arr
+    | No -> update_active arr (Property.find_index (State.name active_p) arr)
+    | Quit -> quit_game ()
+    | _ ->
+        print_endline
+          "Invalid command. Type \"yes\" to buy a property or \"no\".";
+        self_own_comm ()
+  in
   print_endline
-    "you already own this spot! Make house? [ type y for yes and anything else \
-     for no]";
-  match read_line () with
-  | str ->
-      (*build a house if the player says yes otherwise next member's turn*)
-      if str = "y" then buy_house ()
-      else active_player := (!active_player + 1) mod !num_player
-  | exception End_of_file -> ()
+    ("The price to buy this property is "
+    ^ string_of_int (Board.price board space)
+    ^ ".");
+  print_endline "Buy property? [ type \"yes\" or \"no\"  ]";
+  self_own_comm
 
-let deal_property board arr int =
+let buy_house active_p space board bank arr =
+  (try
+     let new_pl = State.buy_house active_p space board 1 bank in
+     Property.update_player arr active_p new_pl
+   with
+  | InsufficientFunds ->
+      print_endline
+        "You didn't have enough money to buy that house... you went bankrupt!";
+      terminate (State.name active_p)
+  | ExceededHouseLimit ->
+      print_endline
+        "Cannot complete transaction, too many houses on this property.");
+  update_active arr (Property.find_index (State.name active_p) arr)
+
+let buy_hotel active_p space board bank arr =
+  (try
+     let new_pl = State.buy_hotel active_p space board 1 bank in
+     Property.update_player arr active_p new_pl
+   with
+  | InsufficientFunds ->
+      print_endline
+        "You didn't have enough money to buy that hotel... you went bankrupt!";
+      terminate (State.name active_p)
+  | ExceededHouseLimit ->
+      print_endline
+        "Cannot complete transaction, too many hotels on this property.");
+  update_active arr (Property.find_index (State.name active_p) arr)
+
+let prompt_buy_house space board active_p bank arr =
+  let rec self_own_comm () =
+    match get_command_2 () with
+    | Yes -> buy_house active_p space board bank arr
+    | No -> update_active arr (Property.find_index (State.name active_p) arr)
+    | Quit -> quit_game ()
+    | _ ->
+        print_endline "Invalid command. Type \"yes\" to buy a house or \"no\".";
+        self_own_comm ()
+  in
+  print_endline
+    ("The price to build a house is "
+    ^ string_of_int (Board.price_per_house board space)
+    ^ ".");
+  print_endline "Build a house? [ type \"yes\" or \"no\"  ]";
+  self_own_comm
+
+let prompt_buy_hotel space board active_p bank arr =
+  let rec self_own_comm () =
+    match get_command_2 () with
+    | Yes -> buy_hotel active_p space board bank arr
+    | No -> update_active arr (Property.find_index (State.name active_p) arr)
+    | Quit -> quit_game ()
+    | _ ->
+        print_endline "Invalid command. Type \"yes\" to buy a hotel or \"no\".";
+        self_own_comm ()
+  in
+  print_endline
+    ("The price to build a hotel is "
+    ^ string_of_int (Board.price_per_hotel board space)
+    ^ ".");
+  print_endline "Build a hotel? [ type \"yes\" or \"no\"  ]";
+  self_own_comm
+
+let self_own_prompt space board active_p bank arr =
+  print_endline "You already own this property!";
+  if num_houses active_p space < 5 then
+    prompt_buy_house space board active_p bank arr
+  else if num_hotels active_p space < 3 then
+    prompt_buy_hotel space board active_p bank arr
+  else (
+    print_endline
+      "You've maxed out on houses and hotels! That's very impressive.";
+    fun () -> update_active arr (Property.find_index (State.name active_p) arr))
+(*match read_line () with | str -> (*build a house if the player says yes
+  otherwise next member's turn*) if str = "y" then buy_house () else
+  active_player := (!active_player + 1) mod !num_player | exception End_of_file
+  -> ()*)
+
+let deal_property board arr int space_num bank =
   let active_p = arr.(int) in
   match property_status arr active_p board with
   | OwnedByOtherPlayer st -> ()
-  | NotOwned -> ask_buy ()
-  | OwnedByThisPlayer -> self_own_prompt ()
+  | NotOwned -> ask_buy active_p space_num board bank arr ()
+  | OwnedByThisPlayer -> self_own_prompt space_num board active_p bank arr ()
 
 (* Operations within multi_player_run handle the paying of salary, so when the
    player lands on the Go space, we just print a friendly message saying that
@@ -138,13 +212,17 @@ let deal_jail board arr int = raise (Failure "unimp")
    then updates who the active player is. This NEEDS TO BE UPDATED to handle the
    case where a card bankrupts a player. *)
 let deal_card board arr deck bank exec_fn int =
-  let active_p = arr.(int) in
-  let chosen_card = Deck.random_card deck () in
-  print_endline ("You drew " ^ Deck.name deck chosen_card ^ "!");
-  ANSITerminal.print_string [ ANSITerminal.blue ]
-    (Deck.description deck chosen_card);
-  exec_fn deck arr bank board chosen_card active_p;
-  update_active arr int
+  let do_card =
+    let active_p = arr.(int) in
+    let chosen_card = Deck.random_card deck () in
+    print_endline ("You drew " ^ Deck.name deck chosen_card ^ "!");
+    ANSITerminal.print_string [ ANSITerminal.blue ]
+      (Deck.description deck chosen_card);
+    exec_fn deck arr bank board chosen_card active_p;
+    update_active arr int
+  in
+  try do_card
+  with InsufficientFunds -> terminate (State.name arr.(!active_player))
 
 let deal_chance board arr chance_deck bank int =
   deal_card board arr chance_deck bank Chance.exec_card int
@@ -184,7 +262,7 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
   | str ->
       (*each one of these helper functions must update game end and active
         player*)
-      if str = "property" then deal_property board arr int
+      if str = "property" then deal_property board arr int curr_pos bank
       else if str = "go" then deal_go board arr int
       else if str = "jail" then deal_jail board arr int
       else if str = "chance" then deal_chance board arr chance_deck bank int
