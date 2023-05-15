@@ -37,7 +37,9 @@ let make_property (space : int) (num_houses : int) (num_hotels : int) =
 
 let num_houses (player : t) (space : int) =
   let rec num owns_list space =
-    match player.owns with
+    (* match player.owns with | [] -> raise DoesntOwnProperty | h :: t -> if
+       h.space = space then h.num_houses else num t space *)
+    match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t -> if h.space = space then h.num_houses else num t space
   in
@@ -45,7 +47,9 @@ let num_houses (player : t) (space : int) =
 
 let num_hotels (player : t) (space : int) =
   let rec num owns_list space =
-    match player.owns with
+    (* match player.owns with | [] -> raise DoesntOwnProperty | h :: t -> if
+       h.space = space then h.num_hotels else num t space *)
+    match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t -> if h.space = space then h.num_hotels else num t space
   in
