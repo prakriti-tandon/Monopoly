@@ -192,10 +192,9 @@ let self_own_prompt space board active_p bank arr =
 
 let pay_rent active_p space_num board bank arr =
   print_endline "This property is owned by another player.";
-  print_endline
-    ("You must pay a rent of "
-    ^ string_of_int (Board.rent board space_num)
-    ^ ".");
+  print_string "You must pay a rent of ";
+  ANSITerminal.print_string [ ANSITerminal.green ]
+    (string_of_int (Board.rent board space_num) ^ ".\n");
   (try Property.pay_rent arr active_p board
    with Property.InsufficientFunds ->
      print_endline "You went bankrupt!";
