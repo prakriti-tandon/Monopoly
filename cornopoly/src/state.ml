@@ -67,7 +67,7 @@ let rec new_owns_list owns_list new_property acc =
   inserts the new version of the property*)
 let add_house (player : t) (space : int) (game : Board.t) =
   let rec num owns_list space =
-    match player.owns with
+    match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t ->
         if h.space = space then
@@ -85,7 +85,7 @@ let add_house (player : t) (space : int) (game : Board.t) =
    when implemented buy hotel as well.*)
 let add_hotel (player : t) (space : int) (game : Board.t) =
   let rec num owns_list space =
-    match player.owns with
+    match owns_list with
     | [] -> raise DoesntOwnProperty
     | h :: t ->
         if h.space = space then
@@ -191,9 +191,9 @@ let go (dice : int) (player : t) (game : Board.t) =
 
 let buy_property (player1 : t) (space : int) (game : Board.t) (bank : Bank.t) =
   let price = Board.price game space in
-  let new_funds = player1.money - price in
-  if new_funds < 0 then raise InsufficientFunds
+  if price > player1.money then raise InsufficientFunds
   else
+    let new_funds = player1.money - price in
     let () = Bank.add_funds bank price in
     let new_owns = make_property space 0 0 :: player1.owns in
 
@@ -208,41 +208,49 @@ let buy_property (player1 : t) (space : int) (game : Board.t) (bank : Bank.t) =
 
 let buy_house (player : t) (space : int) (game : Board.t) (num_houses : int)
     (bank : Bank.t) : t =
-  let price = num_houses * Board.price_per_house game space in
-  if price > player.money then raise InsufficientFunds
+  if num_houses = 0 then player
   else
-    let rec num owns_list space =
-      match player.owns with
-      | [] -> raise DoesntOwnProperty
-      | h :: t ->
-          if h.space = space then
-            if num_houses > 4 || h.num_houses - num_houses < 0 then
-              raise ExceededHouseLimit
-            else
-              let () = Bank.add_funds bank price in
-              add_house { player with money = player.money - price } space game
-          else num t space
-    in
-    num player.owns space
+    let price = num_houses * Board.price_per_house game space in
+    if price > player.money then raise InsufficientFunds
+    else
+      let rec num owns_list space =
+        match owns_list with
+        | [] -> raise DoesntOwnProperty
+        | h :: t ->
+            if h.space = space then
+              if num_houses > 4 || h.num_houses - num_houses < 0 then
+                raise ExceededHouseLimit
+              else
+                let () = Bank.add_funds bank price in
+                add_house
+                  { player with money = player.money - price }
+                  space game
+            else num t space
+      in
+      num player.owns space
 
 let buy_hotel (player : t) (space : int) (game : Board.t) (num_hotels : int)
     (bank : Bank.t) =
-  let price = num_hotels * Board.price_per_hotel game space in
-  if price > player.money then raise InsufficientFunds
+  if num_hotels = 0 then player
   else
-    let rec num owns_list space =
-      match player.owns with
-      | [] -> raise DoesntOwnProperty
-      | h :: t ->
-          if h.space = space then
-            if num_hotels > 4 || h.num_hotels - num_hotels < 0 then
-              raise ExceededHouseLimit
-            else
-              let () = Bank.add_funds bank price in
-              add_hotel { player with money = player.money - price } space game
-          else num t space
-    in
-    num player.owns space
+    let price = num_hotels * Board.price_per_hotel game space in
+    if price > player.money then raise InsufficientFunds
+    else
+      let rec num owns_list space =
+        match owns_list with
+        | [] -> raise DoesntOwnProperty
+        | h :: t ->
+            if h.space = space then
+              if num_hotels > 4 || h.num_hotels - num_hotels < 0 then
+                raise ExceededHouseLimit
+              else
+                let () = Bank.add_funds bank price in
+                add_hotel
+                  { player with money = player.money - price }
+                  space game
+            else num t space
+      in
+      num player.owns space
 
 let sell_property (player : t) (space : int) (game : Board.t) =
   failwith "unimplemented"
