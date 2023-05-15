@@ -265,6 +265,7 @@ let state_two =
 let state_owns_prop_one =
   State.buy_property state_one 1 game_board bank1 (*adds $60 to bank*)
 
+let state_owns_prop_five = State.change_owns 5 (State.init_state "Prakriti")
 let state_three = change_owns 1 state_one
 let state_four = change_owns 5 state_three
 let go_state = go 2 state_one game_board
@@ -367,6 +368,13 @@ let make_jail_test (name : string) (player1 : State.t)
   name >:: fun _ ->
   assert_equal expected_output (State.jail player1) ~printer:custom_jail_printer
 
+let make_remove_owns_test (name : string) (space : int) (player1 : State.t)
+    (expected_output : State.t) =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (State.remove_owns space player1)
+    ~printer:State.to_string
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -410,6 +418,14 @@ let state_tests =
     (*---------------------following test checks change_owns------------------*)
     make_owns_test "player with owns = [1]" state_three 1 game_board true;
     make_owns_test "player with owns = [5]" state_four 5 game_board true;
+    (*---------------------following test checks remove_owns--------------*)
+    make_remove_owns_test
+      "removes prop at space 1 -> player has no properties remaining" 1
+      state_owns_prop_one
+      (State.change_balance state_one (-60));
+    make_remove_owns_test
+      "removes prop at space 1 -> player has 1 property remaining" 1 state_four
+      state_owns_prop_five;
     (*-------------------following test checks go--------------------------*)
     current_pos_test "current pos of state_one after it has moved 2 steps is 2"
       go_state 2;
