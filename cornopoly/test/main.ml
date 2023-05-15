@@ -383,6 +383,13 @@ let make_remove_owns_test (name : string) (space : int) (player1 : State.t)
     (State.remove_owns space player1)
     ~printer:State.to_string
 
+let make_turn_in_debt_test (name : string) (player1 : State.t) (turns : int)
+    (expected_output : State.t) =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (State.turn_in_debt player1 turns)
+    ~printer:State.to_string
+
 let state_tests =
   [
     name_test "name of state_one is Prakriti" state_one "Prakriti";
@@ -478,6 +485,15 @@ let state_tests =
       (go 31 (change_owes state_one 500) game_board) (Some 500, 1);
       make_owes_to_bank_test "owes $500 to bank and went around go 2x (500, 0)"
       (go 61 (change_owes state_one 500) game_board) (Some 500, 0);*)
+    (*----------following test checks turn_in_debt-----------*)
+    make_turn_in_debt_test "have 2 remaining turns left to pay loan"
+      (change_owes state_one 500)
+      0
+      (change_owes state_one 500);
+    (*make_turn_in_debt_test "have 1 remaining turns left to pay loan"
+      (change_owes state_one 500) 1 (change_owes state_one 500);
+      make_turn_in_debt_test "have 0 remaining turns left to pay loan"
+      (change_owes state_one 500) 2 (change_owes state_one 500);*)
     (*----------following test checks jail, put_in_jail,get_out_of_jail-----*)
     make_jail_test "not in jail" state_one None;
     make_jail_test "in jail, has 3 turns remaining in jail"

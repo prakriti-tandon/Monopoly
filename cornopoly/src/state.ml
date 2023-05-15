@@ -123,9 +123,9 @@ let change_owes (player : t) (amt : int) =
 let turn_in_debt (player : t) (turns : int) : t =
   match player.owes_to_bank with
   | Some x, y ->
-      let turns_remaining = turns - y in
+      let turns_remaining = y - turns in
       let new_owes =
-        if turns_remaining >= 0 then (Some x, 0) else (Some x, turns_remaining)
+        if turns_remaining <= 0 then (Some x, 0) else (Some x, turns_remaining)
       in
       { player with owes_to_bank = new_owes }
   | None, _ -> player
