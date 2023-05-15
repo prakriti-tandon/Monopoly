@@ -105,7 +105,8 @@ let change_owes (player : t) (amt : int) =
     match current_owes_to_bank with
     | Some x ->
         let new_owes_to_bank = x + amt in
-        (Some new_owes_to_bank, snd player.owes_to_bank)
+        if new_owes_to_bank <= 0 then (None, 0)
+        else (Some new_owes_to_bank, snd player.owes_to_bank)
     | None ->
         let new_owes_to_bank = amt in
         (Some new_owes_to_bank, 2)

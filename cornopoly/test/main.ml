@@ -459,6 +459,9 @@ let state_tests =
     make_owes_to_bank_test "owes $500 to bank (500, 2)"
       (change_owes state_one 500)
       (Some 500, 2);
+    make_owes_to_bank_test "owes $500 to bank (500, 2), but pays it all off"
+      (change_owes (change_owes state_one 500) (-500))
+      (None, 0);
     (*need to check that y value decremets each time go around go, need to
       implement go module before can test this*)
     make_owes_to_bank_test "owes $500 to bank and went around go 1x (500, 1)"
