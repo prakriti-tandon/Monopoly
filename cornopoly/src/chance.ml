@@ -4,7 +4,11 @@ let move_player pls board curr_player newspace =
   let dice_roll =
     Board.between_spaces board (State.current_pos curr_player) newspace
   in
-  Property.update_player pls curr_player (State.go dice_roll curr_player board)
+  Property.update_player pls curr_player (State.go dice_roll curr_player board);
+  if newspace = 15 then
+    let newp = pls.(Property.find_index (State.name curr_player) pls) in
+    Property.update_player pls newp (State.put_in_jail newp)
+  else ()
 
 let sell_prop board bank curr_player pls prop =
   let new_pstate =

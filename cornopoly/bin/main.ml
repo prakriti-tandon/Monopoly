@@ -392,7 +392,14 @@ let rec multi_player_run board arr chance_deck comm_deck bank int =
   let rec start_turn_comm board arr chance_deck comm_deck bank int =
     match get_command_2 () with
     | Quit -> quit_game ()
-    | Go -> player_turn board arr chance_deck comm_deck bank int
+    | Go -> (
+        match jail arr.(int) with
+        | None -> player_turn board arr chance_deck comm_deck bank int
+        | Some x ->
+            print_endline "You're in jail, so you can't take a turn :(";
+            Property.update_player arr arr.(int)
+              (turn_in_jail arr.(int) (3 - x));
+            update_active arr int)
     | _ ->
         print_endline
           "Invalid command. Type \"go\" to start your turn, or \"quit\" to \
