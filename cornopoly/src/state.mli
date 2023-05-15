@@ -167,18 +167,6 @@ val buy_hotel : t -> int -> Board.t -> int -> Bank.t -> t
    hotels that will cause them to exceed the limit of 2, result is
    [ExceededHotelLimit] -Otherwise, the result is new player'*)
 
-val sell_property : t -> int -> Board.t -> Bank.t -> t
-(**[sell_property player space game x bank] is the result of [player1] selling a
-   property located at [space] in the current [game]. *)
-
-val sell_house : t -> int -> Board.t -> Bank.t -> t
-(**[sell_house player space game x bank] is the result of [player1] selling a
-   house located at [space] in the current [game]. *)
-
-val sell_hotel : t -> int -> Board.t -> Bank.t -> t
-(**[sell_hotel player space game x bank] is the result of [player1] selling a
-   hotel located at [space] in the current [game]. *)
-
 val space_of_property : property -> int
 (** [space_of_property p] is the integer space number of property [p].*)
 
