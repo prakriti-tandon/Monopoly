@@ -218,7 +218,7 @@ let buy_house (player : t) (space : int) (game : Board.t) (num_houses : int)
         | [] -> raise DoesntOwnProperty
         | h :: t ->
             if h.space = space then
-              if num_houses > 4 || h.num_houses - num_houses < 0 then
+              if num_houses > 4 || h.num_houses + num_houses > 4 then
                 raise ExceededHouseLimit
               else
                 let () = Bank.add_funds bank price in
@@ -241,7 +241,7 @@ let buy_hotel (player : t) (space : int) (game : Board.t) (num_hotels : int)
         | [] -> raise DoesntOwnProperty
         | h :: t ->
             if h.space = space then
-              if num_hotels > 4 || h.num_hotels - num_hotels < 0 then
+              if num_hotels > 4 || h.num_hotels + num_hotels > 4 then
                 raise ExceededHouseLimit
               else
                 let () = Bank.add_funds bank price in
@@ -263,3 +263,34 @@ let sell_hotel (player : t) (space : int) (game : Board.t) =
 
 let space_of_property p = p.space
 let remove_owns (space : int) (player : t) = failwith "Unimplemented"
+
+let property_to_string (input : property) : string =
+  match input with
+  | { space; num_houses; num_hotels } ->
+      "{space =" ^ string_of_int space ^ "; num_houses ="
+      ^ string_of_int num_houses ^ "; num_hotels = " ^ string_of_int num_hotels
+      ^ "}"
+
+let jail_to_string (input : int option) : string =
+  match input with
+  | Some x -> "(Some " ^ string_of_int x ^ ")"
+  | None -> "None"
+
+let owes_to_bank_to_string (input : int option * int) : string =
+  match input with
+  | Some x, y -> "(Some " ^ string_of_int x ^ ", " ^ string_of_int y ^ ")"
+  | None, z -> "(None, " ^ string_of_int z ^ ")"
+
+let to_string (player : t) : string =
+  match player with
+  | { name; current_pos; money; owns; owes_to_bank; jail } ->
+      let rec owns_list_to_string owns_list =
+        match owns_list with
+        | [] -> "]"
+        | h :: t -> "[" ^ property_to_string h ^ ";" ^ owns_list_to_string t
+      in
+      "{name = " ^ name ^ "; current_pos = " ^ string_of_int current_pos
+      ^ "; money = " ^ string_of_int money ^ "; owns = "
+      ^ owns_list_to_string owns ^ "; owes_to_bank = "
+      ^ owes_to_bank_to_string owes_to_bank
+      ^ "; jail = " ^ jail_to_string jail ^ "}"
