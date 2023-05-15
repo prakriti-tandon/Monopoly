@@ -6,16 +6,17 @@ let current_player (pls : Multiplayer.player_list) : State.t =
 let update_pls_newamt pls player amt =
   Multiplayer.update_player pls player (State.change_balance player amt)
 
-(* TODO: do y'all want me to be messing with the bank? if yes, we need to update
-   the bank .mli *)
+(* Executes card where you earn new money *)
 let exec_earn pls bank x curr_player =
   Bank.deduct_funds bank x;
   update_pls_newamt pls curr_player x
 
+(* Executes card where you pay the bank *)
 let exec_pay pls bank x curr_player =
   Bank.add_funds bank x;
   update_pls_newamt pls curr_player ~-x
 
+(* Executes happy birthday card *)
 let exec_happy_birthday pls curr_player =
   for i = 0 to Array.length pls - 1 do
     if pls.(i) = curr_player then
@@ -23,6 +24,7 @@ let exec_happy_birthday pls curr_player =
     else update_pls_newamt pls pls.(i) ~-10
   done
 
+(* Executes boba card *)
 let exec_boba pls curr_player =
   for i = 0 to Array.length pls - 1 do
     if pls.(i) = curr_player then
@@ -30,6 +32,7 @@ let exec_boba pls curr_player =
     else update_pls_newamt pls pls.(i) 10
   done
 
+(* Executes slope day card *)
 let exec_slopeday pls curr_player =
   for i = 0 to Array.length pls - 1 do
     update_pls_newamt pls pls.(i) ~-90
@@ -54,6 +57,7 @@ let find_second_richest (pls : Multiplayer.player_list) =
   done;
   !x
 
+(* Executes first apartment card *)
 let exec_first_apt pls curr_player =
   let richest = find_richest pls in
   if richest = curr_player then update_pls_newamt pls curr_player ~-30
@@ -61,6 +65,7 @@ let exec_first_apt pls curr_player =
     update_pls_newamt pls curr_player ~-15;
     update_pls_newamt pls richest ~-15)
 
+(* Executes wheel of fortune card *)
 let exec_fortune pls curr_player =
   let amt =
     let _ = Random.self_init () in
@@ -70,6 +75,7 @@ let exec_fortune pls curr_player =
   print_endline ("You won " ^ string_of_int newamt ^ "!");
   update_pls_newamt pls curr_player newamt
 
+(* Executes socialist card *)
 let exec_socialist pls =
   let richest = find_richest pls in
   let second_richest = find_second_richest pls in
@@ -84,6 +90,7 @@ let exec_socialist pls =
     else update_pls_newamt pls pls.(i) redistribution
   done
 
+(* Executes nonstandard cards *)
 let exec_other pls bank i curr_player =
   match i with
   | 0 -> exec_happy_birthday pls curr_player

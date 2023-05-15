@@ -7,8 +7,8 @@ $ opam update (this command ensures that OPAM is up to date)
 $ opam upgrade (you may be prompted to run this after updating OPAM)
 $ opam install ANSITerminal
 
-2. To launch the game, in your terminal, cd to the directory "cornopoly". Next, run "make play". 
-You should see a message that says "Welcome to Cornopoly!"
+2. To launch the game, in your terminal, cd to the directory "cornopoly". Next, 
+run "make play". You should see a message that says "Welcome to Cornopoly!"
 
 
 

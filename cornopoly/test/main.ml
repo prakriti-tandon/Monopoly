@@ -1,30 +1,57 @@
 (************************************************************************)
 
-(* We wrote test cases for all functions in the .mli files corresponding to each
-   module. To create the unit tests, we utilized black box testing. To come up
-   with test cases, we utilized common or representative cases, and all branches
-   of if-statements or pattern matches. When we needed additional assistance
-   with debugging, we used glass box testing by adding print statements to the
-   functions themselves.
+(* * We wrote test cases for all functions in the .mli files corresponding to
+   each module. We worked according to Test Driven Development (TDD) where we
+   first made failing test cases, next implemented the function, and adjusted
+   our implementation until they passed the test cases. To avoid code
+   duplication, we made test maker functions that construct OUnit test cases for
+   functions inside .mli files. To come up with test cases, we utilized black
+   box testing and glass box testing. For black box testing, we referred to our
+   specifications in the mli files and utilized common or representative cases.
+   For glass box testing, we looked at our implementation in the ml files and
+   made test cases for all branches of if-statements or pattern matches.
+
+   Additionally, to enforce preconditions and check that postconditions were
+   satisfied, we made test maker functions that assert an exception was raised.
+   For example, when the player does not have enough money to buy a property but
+   they try to buy it anyway, we raise InsufficientFunds as an exception. And in
+   our testing, we made test cases that make sure InsuffificentFunds is raised
+   in that situation.
+
+   To assist with debugging functions that return an abstract type t (such as
+   State.t and State.property), we created custom to_string functions. When we
+   needed additional assistance with debugging, we used glass box testing by
+   adding print statements to the functions themselves.
+
+   One exception to this was we could not create OUnit test cases for functions
+   turn_in_jail and turn_in_debt inside state.ml and exec_go function inside
+   go.ml. This was because they required information from the interface. Thus,
+   we tested this functionality (paying salary and decreasing the number of days
+   a player has to repay loan each time a player passes go) by playing with the
+   interface. In other words, we “tested by play”. Another exception to the
+   'test everything in each module' rule were the card decks: the random_card
+   function cannot be tested because it returns a random number, and there are
+   too many chance and community chest cards to test them all. Therefore, I
+   choose some representative cards to test from each, and engaged in
+   significant playtesting in order to ensure that all other cards work
+   properly.
+
+   For debugging types like property_status, we created a function that pattern
+   matched the variant to various string values and printed the string for
+   debugging. We also used tracing in the form of print statements to detect
+   what code sections were being visited.
 
    We chose to playtest the interface instead of writing OUnit tests because it
    would be very difficult or even impossible to write OUnit tests for the
    interface; the interface involves some randomness with the players rolling
-   dice.
-
-   An exception to the 'test everything in each module' rule were the card
-   decks: the random_card function cannot be tested because it returns a random
-   number (hopefully a different random number each time!) and there are too
-   many chance and community chest cards to test them all. Therefore, I choose
-   some representative cards to test from each, and intend to pay extra
-   attention to the others when playtesting.
+   Dice.
 
    We are confident that our testing demonstrates our system's correctness
    because the OUnit tests provide initial evidence that the individual
    functions that make up the system are correct, and playtesting the interface
    allowed for many uncommon scenarios to arise which we were then able to
-   debug. After playing through many, many turns of the game, we can be sure
-   that it works correctly! *)
+   debug. After playing through many, many turns of the game and testing various
+   scenarios, we can be sure that it works correctly! *)
 
 (***********************************************************************)
 
